@@ -6,6 +6,37 @@ function App() {
 
   return (
     <>
+    <nav className="backdrop1">
+      <div>
+        <p>Logo</p>
+      </div>
+      <div>
+        <p>Home</p>
+      </div>
+      <div>
+        <p>About EXSA</p>
+      </div>
+      <div>
+        <p>Our Members</p>
+      </div>
+      </nav>
+      <div className="backdrop2">
+        <h1>Welcome to EXSA</h1>
+      </div>
+      <footer className="backdrop1">
+      <p>Address</p>
+      <p>Email</p>
+      <p>© 2025 EXSA. All rights reserved.</p>
+      <div>
+        <p>Facebook Button</p>
+      </div>
+      <div>
+        <p>Instgram Button</p>
+      </div>
+      </footer>
+    </>
+    /*
+    <>
       <div>
         <a href="https://vite.dev" target="_blank">
           <p>testing 1</p>
@@ -27,6 +58,7 @@ function App() {
         Click on the Vite and React logos to learn more
       </p>
     </>
+    */
   )
 }
 
