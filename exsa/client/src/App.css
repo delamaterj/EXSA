@@ -28,6 +28,11 @@ footer {
   text-align: center;
 }
 
+button {
+  background-color: black;
+  color: white;
+  opacity: 0.8;
+}
 /*#root {
   max-width: 1280px;
   margin: 0 auto;
