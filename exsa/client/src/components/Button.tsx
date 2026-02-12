@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 
 interface ButtonProp {
 
@@ -10,7 +11,7 @@ interface ButtonProp {
 
 function Button({title, disabled, url}: ButtonProp){
 
-    //const navigate = useNavigate();
+    const navigate = useNavigate();
     function handleClickBack() {
 
         //navigate(-1);
@@ -18,7 +19,7 @@ function Button({title, disabled, url}: ButtonProp){
     }
 
     function handleClickNav() {
-        //navigate(url);
+        navigate(url);
     }
 
     function handleClick() {
@@ -27,12 +28,12 @@ function Button({title, disabled, url}: ButtonProp){
 
     if (title === "Go Back") {
         return (
-            <button disabled={disabled} className="btn-primary" onClick={handleClickBack}>{title}</button>
+            <button disabled={disabled} onClick={handleClickBack}>{title}</button>
         );
     }
     else if (url !== "") {
         return (
-            <button disabled={disabled} className="btn-primary" onClick={handleClickNav}>{title}</button>
+            <button disabled={disabled} onClick={handleClickNav}>{title}</button>
         );
     }
     else {
