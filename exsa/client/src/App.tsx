@@ -35,8 +35,8 @@ function App() {
               <p>Address</p>
               <p>Email</p>
               <p>© 2025 EXSA. All rights reserved.</p>
-              <Button title="Facebook" disabled={false} url="/Facebook"/>
-              <Button title="Instagram" disabled={false} url="/Instagram"/>
+              <Button title="Facebook" disabled={false} url="https://www.facebook.com"/>
+              <Button title="Instagram" disabled={false} url="https://www.instagram.com"/>
             </footer>
           </div>
           }/>

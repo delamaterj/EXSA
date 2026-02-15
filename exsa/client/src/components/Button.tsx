@@ -12,11 +12,6 @@ interface ButtonProp {
 function Button({title, disabled, url}: ButtonProp){
 
     const navigate = useNavigate();
-    function handleClickBack() {
-
-        //navigate(-1);
-
-    }
 
     function handleClickNav() {
         navigate(url);
@@ -26,9 +21,9 @@ function Button({title, disabled, url}: ButtonProp){
 
     }
 
-    if (title === "Go Back") {
+    if (title === "Facebook" || title === "Instagram") {
         return (
-            <button disabled={disabled} onClick={handleClickBack}>{title}</button>
+            <a href={url}><button disabled={disabled}>{title}</button></a>
         );
     }
     else if (url !== "") {
