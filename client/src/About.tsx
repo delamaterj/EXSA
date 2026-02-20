@@ -30,7 +30,7 @@ function About() {
       <p>Email</p>
       <p>© 2025 EXSA. All rights reserved.</p>
       <Button title="Facebook" disabled={false} url="https://www.facebook.com"/>
-      <Button title="Instagram" disabled={false} url="https://www.instagram.com"/>
+      <Button title="Instagram" disabled={false} url="https://www.instagram.com/exsa.850"/>
       </footer>
       </div>
     </>
