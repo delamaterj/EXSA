@@ -1,40 +1,55 @@
 import { useNavigate } from 'react-router-dom';
 
-interface ButtonProp {
-
+interface ButtonProps {
   title: string;
-  disabled: boolean;
-  url: string;
-
+  url?: string;
+  disabled?: boolean;
+  external?: boolean;
+  variant?: 'primary' | 'secondary' | 'ghost';
 }
 
-function Button({title, disabled, url}: ButtonProp){
+function Button({
+  title,
+  url,
+  disabled = false,
+  external = false,
+  variant = 'primary'
+}: ButtonProps) {
 
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-    function handleClickNav() {
-        navigate(url);
-    }
+  const className = `btn btn-${variant}`;
 
-    function handleClick() {
+  if (external && url) {
+    return (
+      <a
+        href={url}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={className}
+      >
+        {title}
+      </a>
+    );
+  }
 
-    }
+  if (url) {
+    return (
+      <button
+        disabled={disabled}
+        onClick={() => navigate(url)}
+        className={className}
+      >
+        {title}
+      </button>
+    );
+  }
 
-    if (title === "Facebook" || title === "Instagram") {
-        return (
-            <a href={url}><button disabled={disabled}>{title}</button></a>
-        );
-    }
-    else if (url !== "") {
-        return (
-            <button disabled={disabled} onClick={handleClickNav}>{title}</button>
-        );
-    }
-    else {
-        return (
-            <button disabled={disabled} onClick={handleClick}>{title}</button>
-        );
-    }
+  return (
+    <button disabled={disabled} className={className}>
+      {title}
+    </button>
+  );
 }
 
 export default Button;

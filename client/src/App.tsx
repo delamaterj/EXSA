@@ -1,15 +1,12 @@
 import Button from './components/Button';
 import './App.css';
-import {useEffect} from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import About from './About';
 import Members from './Members';
+import logo from '../../public/vite.svg';
+import PageTitle from './components/PageTitle';
 
 function App() {
-
-  useEffect(() => {
-    document.title = "EXSA";
-  }, []);
 
   return (
     <>
@@ -17,26 +14,27 @@ function App() {
       <Routes>
         <Route path="/" element = {
           <div className="layout">
+            <PageTitle title="EXSA - Home"/> 
             <nav>
-              <p>Logo</p>
-              <Button title="Home" disabled={false} url="/"/>
-              <Button title="About EXSA" disabled={false} url="/About"/>
-              <Button title="Our Members" disabled={false} url="/Members"/>
+              <img src={logo} alt="EXSA Logo" className="logo" />
+                <div className="nav-links">
+                  <Button title="Home" disabled={false} url="/"/>
+                  <Button title="About EXSA" disabled={false} url="/About"/>
+                  <Button title="Our Members" disabled={false} url="/Members"/>
+                </div>
             </nav>
             <div className="backdrop">
               <h1>Welcome to EXSA</h1>
             </div>
             <main>
-              <br/>
                 <p>This is the home page. This is where the important content will go.</p>
-              <br/>
             </main>
             <footer>
               <p>Address</p>
               <p>Email</p>
               <p>© 2025 EXSA. All rights reserved.</p>
-              <Button title="Facebook" disabled={false} url="https://www.facebook.com"/>
-              <Button title="Instagram" disabled={false} url="https://www.instagram.com"/>
+              <Button title="Facebook (Coming Soon!)" disabled={true} url="https://www.facebook.com" external variant="secondary"/>
+              <Button title="Instagram" disabled={false} url="https://www.instagram.com/exsa.850" external variant="secondary"/>
             </footer>
           </div>
           }/>
