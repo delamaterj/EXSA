@@ -1,49 +1,44 @@
-import Button from './components/Button';
 import './App.css';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import About from './About';
-import Members from './Members';
-import logo from '../../public/vite.svg';
-import PageTitle from './components/PageTitle';
+import Layout from './components/Layout';
 
 function App() {
-
   return (
-    <>
     <BrowserRouter>
       <Routes>
-        <Route path="/" element = {
-          <div className="layout">
-            <PageTitle title="EXSA - Home"/> 
-            <nav>
-              <img src={logo} alt="EXSA Logo" className="logo" />
-                <div className="nav-links">
-                  <Button title="Home" disabled={false} url="/"/>
-                  <Button title="About EXSA" disabled={false} url="/About"/>
-                  <Button title="Our Members" disabled={false} url="/Members"/>
-                </div>
-            </nav>
-            <div className="backdrop">
-              <h1>Welcome to EXSA</h1>
-            </div>
-            <main>
+        <Route
+          path="/"
+          element={
+            <Layout pageTitle ="EXSA - Home" heroText="Welcome to EXSA">
+              <main>
                 <p>This is the home page. This is where the important content will go.</p>
-            </main>
-            <footer>
-              <p>Address</p>
-              <p>Email</p>
-              <p>© 2025 EXSA. All rights reserved.</p>
-              <Button title="Facebook (Coming Soon!)" disabled={true} url="https://www.facebook.com" external variant="secondary"/>
-              <Button title="Instagram" disabled={false} url="https://www.instagram.com/exsa.850" external variant="secondary"/>
-            </footer>
-          </div>
-          }/>
-        <Route path="/About" element={<About/>} />
-        <Route path="/Members" element={<Members/>} />
+              </main>
+            </Layout>
+          }
+        />
+        <Route
+          path="/About"
+          element={
+            <Layout pageTitle ="EXSA - About" heroText="About Us">
+              <main>
+                <p>About page content goes here.</p>
+              </main>
+            </Layout>
+          }
+        />
+        <Route
+          path="/Members"
+          element={
+            <Layout pageTitle ="EXSA - Members" heroText="Our Members">
+              <main>
+                <p>Members page content goes here.</p>
+              </main>
+            </Layout>
+          }
+        />
       </Routes>
     </BrowserRouter>
-    </>
-  )
+  );
 }
 
 export default App;
