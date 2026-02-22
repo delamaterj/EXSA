@@ -17,7 +17,8 @@ export default function Layout({ children, pageTitle, heroText }: LayoutProps) {
                 <div className="nav-links">
                     <Button title="Home" url="/" variant="ghost" />
                     <Button title="About EXSA" url="/About" variant="ghost" />
-                    <Button title="Our Members" url="/Members" variant="ghost" />
+                    <Button title="Members" url="/Members" variant="ghost" />
+                    <Button title="Activities" url="/Activities" variant="ghost" />
                 </div>
             </nav>
             {heroText && (
@@ -34,12 +35,12 @@ export default function Layout({ children, pageTitle, heroText }: LayoutProps) {
                 </div>
             </div>
             <footer>
-                <p>Address</p>
-                <p>Email</p>
+                <p></p>
+                <p>exsa850@gmail.com</p>
                 <p>© 2025 EXSA850. All rights reserved.</p>
                 <div className="social-links">
                     <a
-                        href="https://www.facebook.com"
+                        href="https://www.facebook.com/share/1HiNHGPc6t/?mibextid=wwXIfr"
                         target="_blank"
                         rel="noopener noreferrer"
                         aria-label="Facebook"

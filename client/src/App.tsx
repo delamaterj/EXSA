@@ -36,6 +36,16 @@ function App() {
             </Layout>
           }
         />
+        <Route
+          path="/Activities"
+          element={
+            <Layout pageTitle ="EXSA - Activities" heroText="Our Activities">
+              <main>
+                <p>This is the activities page. This is where the activities peformed at exsa will be listed</p>
+              </main>
+            </Layout>
+          }
+        />
       </Routes>
     </BrowserRouter>
   );
