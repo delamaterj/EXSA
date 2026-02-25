@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 import Button from './Button';
 import PageTitle from './PageTitle';
+import FadeInSection from "./FadeInSection";
 
 interface LayoutProps {
   children: ReactNode;
@@ -13,7 +14,7 @@ export default function Layout({ children, pageTitle, heroText }: LayoutProps) {
         <div className="layout">
             <PageTitle title={pageTitle} />
             <nav>
-                <img src="" alt="EXSA Logo" className="logo" />
+                <img src="/exsa-logo.jpeg" alt="EXSA Logo" className="logo" />
                 <div className="nav-links">
                     <Button title="Home" url="/" variant="ghost" />
                     <Button title="About EXSA" url="/About" variant="ghost" />
@@ -27,6 +28,7 @@ export default function Layout({ children, pageTitle, heroText }: LayoutProps) {
                 </div>
             )}
             {children} {/* This is where each page’s <main> content will go */}
+            <FadeInSection>
             <div className="sponsors">
                 <h2>Our Platforms</h2>
                 <div className="sponsor-logos">
@@ -34,6 +36,7 @@ export default function Layout({ children, pageTitle, heroText }: LayoutProps) {
                     <img src="/vite.svg" alt="Sponsor 2" className="sponsor-logo" />
                 </div>
             </div>
+            </FadeInSection>
             <footer>
                 <p></p>
                 <p>exsa850@gmail.com</p>
