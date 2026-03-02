@@ -4,7 +4,7 @@ import { useLocation } from "react-router-dom";
 
 interface Props {
   children: ReactNode;
-  delay?: number; // Optional delay for staggered animations
+  delay?: number;
 }
 
 export default function FadeInSection({ children, delay = 0 }: Props) {
@@ -13,7 +13,7 @@ export default function FadeInSection({ children, delay = 0 }: Props) {
   const location = useLocation();
 
   useEffect(() => {
-    setIsVisible(false); // reset animation on route change
+    setIsVisible(false);
     const element = ref.current;
     if (!element) return;
     const observer = new IntersectionObserver(

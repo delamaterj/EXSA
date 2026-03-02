@@ -27,7 +27,7 @@ export default function Layout({ children, pageTitle, heroText }: LayoutProps) {
                     <h1>{heroText}</h1>
                 </div>
             )}
-            {children} {/* This is where each page’s <main> content will go */}
+            {children} 
             <FadeInSection>
             <div className="sponsors">
                 <h2>Our Platforms</h2>
