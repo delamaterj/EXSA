@@ -40,7 +40,7 @@ export default function Layout({ children, pageTitle, heroText }: LayoutProps) {
             <footer>
                 <p></p>
                 <p>exsa850@gmail.com</p>
-                <p>© 2025 EXSA850. All rights reserved.</p>
+                <p>© 2025 Emerald Excellence Sports Academy (EXSA). All rights reserved.</p>
                 <div className="social-links">
                     <a
                         href="https://www.facebook.com/share/1HiNHGPc6t/?mibextid=wwXIfr"
