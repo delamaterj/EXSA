@@ -144,6 +144,40 @@ function AnimatedRoutes() {
       </Layout>
       }
       />
+        <Route
+        path="/Activities"
+        element={
+          <Layout pageTitle ="EXSA - Activities" heroText="Our Activities">
+            <main className="members-container">
+              <FadeInSection>
+                <h4 className="header-p">EXSA provides a variety of activities for all ages and members. These activities are designed to be and inclusive and engaging experience for the members of this community.</h4>
+              </FadeInSection>
+            {activities.map((activity, index) => (
+              <FadeInSection key={activity.name}>
+                <div
+                key={activity.name}
+                className={`activity-card ${
+                index % 2 === 0 ? "normal" : "reverse"
+                }`}
+                >
+                  <div className="activity-image">
+                    <FadeInSection delay={150}>
+                      <img src={activity.image} alt={activity.name} />
+                    </FadeInSection>
+                  </div>
+                  <div className="activity-info">
+                    <FadeInSection delay={300}>
+                      <h2>{activity.name}</h2>
+                      <p>{activity.description}</p>
+                    </FadeInSection>
+                  </div>
+                </div>
+              </FadeInSection>
+            ))}
+          </main>
+          </Layout>
+        }
+      />
       <Route
       path="/Members"
       element={
@@ -172,38 +206,6 @@ function AnimatedRoutes() {
         </Layout>
         }
         />
-        <Route
-        path="/Activities"
-        element={
-          <Layout pageTitle ="EXSA - Activities" heroText="Our Activities">
-            <main className="members-container">
-              <h4 className="header-p">EXSA provides a variety of activities for all ages and members. These activities are designed to be and inclusive and engaging experience for the members of this community.</h4>
-            {activities.map((activity, index) => (
-              <FadeInSection key={activity.name}>
-                <div
-                key={activity.name}
-                className={`activity-card ${
-                index % 2 === 0 ? "normal" : "reverse"
-                }`}
-                >
-                  <div className="activity-image">
-                    <FadeInSection delay={150}>
-                      <img src={activity.image} alt={activity.name} />
-                    </FadeInSection>
-                  </div>
-                  <div className="activity-info">
-                    <FadeInSection delay={300}>
-                      <h2>{activity.name}</h2>
-                      <p>{activity.description}</p>
-                    </FadeInSection>
-                  </div>
-                </div>
-              </FadeInSection>
-            ))}
-          </main>
-          </Layout>
-        }
-      />
     </Routes>
   );
 }
