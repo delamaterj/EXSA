@@ -18,8 +18,8 @@ export default function Layout({ children, pageTitle, heroText }: LayoutProps) {
                 <div className="nav-links">
                     <Button title="Home" url="/" variant="ghost" />
                     <Button title="About EXSA" url="/About" variant="ghost" />
-                    <Button title="Members" url="/Members" variant="ghost" />
                     <Button title="Activities" url="/Activities" variant="ghost" />
+                    <Button title="Members" url="/Members" variant="ghost" />
                 </div>
             </nav>
             {heroText && (
@@ -38,9 +38,8 @@ export default function Layout({ children, pageTitle, heroText }: LayoutProps) {
             </div>
             </FadeInSection>
             <footer>
-                <p></p>
-                <p>exsa850@gmail.com</p>
                 <p>© 2025 Emerald Excellence Sports Academy (EXSA). All rights reserved.</p>
+                <p>(850) 895-7735 | exsa850@gmail.com</p>
                 <div className="social-links">
                     <a
                         href="https://www.facebook.com/share/1HiNHGPc6t/?mibextid=wwXIfr"

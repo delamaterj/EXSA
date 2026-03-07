@@ -27,27 +27,30 @@ const members: Member[] = [
         <p>An accomplished educator and program leader with over 15 years of experience, Mia has successfully managed teams, coordinated large-scale community events, and developed impactful athletic and educational programs. She serves as a USA Volleyball Club Director and Assistant Coach, mentoring young athletes while promoting teamwork, discipline, and confidence. Her community leadership includes organizing the First International Children’s Art Competition and the 2007–2010 Turkish Festivals in Washington, D.C., where she led children’s cultural programs for thousands of participants. Recognized as “Best Volunteer of the Year” (2009) by the American Turkish Association of Washington, DC and recipient of a Certificate of Impact from US Volleyball Academy, Mia exemplifies dedication, vision, and a commitment to empowering youth.</p>
       </>
     ),
-    image: "/member1.jpg",
+    image: "/exsa-mia.jpeg",
   },
   {
-    name: "Savaş Akkaya",
+    name: "Mustafa Savaş Akkaya",
     role: "Vice President",
     bio: (
       <>
-        <p>Vice President info will go here</p>
+        <p>Mustafa Savaş Akkaya is a high-performance Strength & Conditioning Coach specializing in elite volleyball athletes and national teams, and currently serves as Head Coach at EXSA.</p>
+        <p>With extensive international experience and more than 31 professional certifications, including CFSC Level 2, Performance Enhancement Specialist, Level 1 Volleyball Coach Certification, and advanced education such as NASSAM and EXOS. He brings a multidimensional and science-driven approach to athletic development, he also holds a Master’s degree in Movement and Training Science.</p>
+        <p>Throughout his career, he has worked with multiple national volleyball programs, including the Turkey Men’s National Volleyball Team and the Turkey Women’s National Volleyball Team, contributing to major international achievements such as championships in the CEV European Golden League and the Mediterranean Games.</p>
       </>
     ),
-    image: "/member2.jpg",
+    image: "/exsa-savas.jpeg",
   },
   {
     name: "Joshua Delamater",
     role: "Secretary",
     bio: (
       <>
-        <p>Secretary info will go here</p>
+        <p>Josh is the recording secretary and the webmaster for EXSA. He is in charge of documenting important meetings with EXSA's executive board, maintaining the organization's bylaws and minutes, and updating the beautiful website you are currently viewing!</p>
+        <p>Throughout his academics, Josh specialized primarily in web application development, and has been building websites and mobile apps for almost a decade. He won the 2019 Congressional App Challenge for the FL-01 district and graduated from the University of Florida with a bachelor's in computer science (go gators!), making the dean's list his first three semesters. During his undergraduate studies, he also took a focus in machine learning applications, react development, and CISE higher education.</p>
       </>
     ),
-    image: "/member3.jpg",
+    image: "/exsa-joesh.jpeg",
   },
   {
     name: "Maya Delamater",
@@ -66,7 +69,7 @@ const activities: Activities[] = [
     name: "Youth Volleyball Clinic",
     description: (
       <>
-        <p>Activity description will go here</p>
+        <p>The youth volleyball clinic is a 6 week clinic that aims to improve physical skills such as balance, coordination, agility, and game-based non-competitive learning. The clinics are led by coaches and volunteers within the community. The clinic is $60 per participant.</p>
       </>
     ),
     image: "/exsa-vb2.jpeg",
@@ -75,7 +78,7 @@ const activities: Activities[] = [
     name: "Gymnastics & Dance Clinics",
     description: (
       <>
-        <p>Activity description will go here</p>
+        <p>The gymnastics and dance clinics utilize appropiate equipment to improve the dexterity, athletics, and choreography of children ages 8-12. The clinics' focus include fundamentals such as cartwheels, handstands, balance, and core strength. The clinic is $40 for residents and $50 for non-residents.</p>
       </>
     ),
     image: "/exsa-gym.jpeg",
@@ -84,7 +87,7 @@ const activities: Activities[] = [
     name: "Chair Volleyball",
     description: (
       <>
-        <p>Chair volleyball at EXSA meets every Wednesday from 4:00 - 5:00 PM in the Destin Community Center. It's designed so that players of all abilities and experiences are welcome. Regular volleyball and other related activities are also included!</p>
+        <p>Chair volleyball at EXSA meets every Wednesday from 4:00 - 5:00 PM in the Destin Community Center. It's designed so that players of all abilities and experiences are welcome. Regular volleyball and other related activities are also included! Four sessions is $40 per participant.</p>
       </>
     ),
     image: "/exsa-chairvb.jpeg",
@@ -135,6 +138,7 @@ function AnimatedRoutes() {
                 <li>Seniors and adaptive populations have minimal structured opportunities.</li>
                 <li>Most available programs are competitive, expensive, age-restricted, or not designed for beginners.</li>
               </ul>
+              <p><b>EXSA exists to change that.</b></p>
             </div>
           </main>
       </Layout>
