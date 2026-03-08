@@ -47,7 +47,7 @@ const members: Member[] = [
     bio: (
       <>
         <p>Josh is the recording secretary and the webmaster for EXSA. He is in charge of documenting important meetings with EXSA's executive board, maintaining the organization's bylaws and minutes, and updating the beautiful website you are currently viewing!</p>
-        <p>Throughout his academics, Josh specialized primarily in web application development, and has been building websites and mobile apps for almost a decade. He won the 2019 Congressional App Challenge for the FL-01 district and graduated from the University of Florida with a bachelor's in computer science (go gators!), making the dean's list his first three semesters. During his undergraduate studies, he also took a focus in machine learning applications, react development, and CISE higher education.</p>
+        <p>Throughout his academics, Josh specialized primarily in web application development and has been building websites and mobile apps for almost a decade. He won the 2019 Congressional App Challenge for the FL-01 district and graduated from the University of Florida with a bachelor's in computer science (go gators!), making the dean's list his first three semesters. During his undergraduate studies, he also took a focus in machine learning applications, react development, and CISE higher education.</p>
       </>
     ),
     image: "/exsa-joesh.jpeg",
@@ -102,10 +102,38 @@ function AnimatedRoutes() {
       path="/"
       element={
       <Layout pageTitle ="EXSA - Home" heroText="Emerald Excellence Sports Academy">
-        <main>
-          <p className="header-p">This is the home page. This is where the important content will go.</p>
-        </main>
-      </Layout>
+        <main className="home-container">
+          <FadeInSection>
+            <section className="home-intro">
+              <h1 className="header-p">Participate with EXSA!</h1>
+              <h4>Join our community and get involved by filling out our wellness surveys!</h4>
+              <div className="survey-links">
+                <a href="https://docs.google.com/forms/d/1Uk3-zstpgWoDrMoBON_HpEWqSzGNFvCX_9LqLdbmAMw/edit?usp=drivesdk" target="_blank" rel="noopener noreferrer" className="btn btn-primary">
+                Wellness Survey for Youth and Families
+                </a>
+                <a href="https://docs.google.com/forms/d/1OyZsHjTt1cgL9iKaRI6pyV4raA6xQykLGRqPJ0pUtSc/edit?usp=drivesdk" target="_blank" rel="noopener noreferrer" className="btn btn-primary">
+                Wellness Survey for Seniors
+                </a>
+              </div>
+            </section>
+          </FadeInSection>
+            <section className="events">
+              <FadeInSection>
+              <h2>Upcoming Events</h2>
+                <div className="event-card">
+                  <h3>Youth Co-Ed Volleyball Clinic (Ages 7-12)</h3>
+                  <img src="/exsa-coedvb.jpeg" alt="Co-Ed Volleyball Flyer"/>
+                </div>
+                </FadeInSection>
+              <FadeInSection>
+                <div className="event-card">
+                  <h3>Live Online Fitness for Seniors</h3>
+                  <img src="/exsa-srfit.jpeg" alt="Senior Flyer"/>
+                </div>
+              </FadeInSection>
+              </section>
+          </main>
+        </Layout>
       }
       />
       <Route
@@ -174,6 +202,16 @@ function AnimatedRoutes() {
                 </div>
               </FadeInSection>
             ))}
+            <FadeInSection>
+              <div className="survey-links">
+                <a href="https://docs.google.com/forms/d/1Uk3-zstpgWoDrMoBON_HpEWqSzGNFvCX_9LqLdbmAMw/edit?usp=drivesdk" target="_blank" rel="noopener noreferrer" className="btn btn-primary">
+                Wellness Survey for Youth and Families
+                </a>
+                <a href="https://docs.google.com/forms/d/1OyZsHjTt1cgL9iKaRI6pyV4raA6xQykLGRqPJ0pUtSc/edit?usp=drivesdk" target="_blank" rel="noopener noreferrer" className="btn btn-primary">
+                Wellness Survey for Seniors
+                </a>
+              </div>
+            </FadeInSection>
           </main>
           </Layout>
         }

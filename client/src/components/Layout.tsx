@@ -30,7 +30,7 @@ export default function Layout({ children, pageTitle, heroText }: LayoutProps) {
             {children} 
             <FadeInSection>
             <div className="sponsors">
-                <h2>Our Platforms</h2>
+                <h2>Our Sponsors</h2>
                 <div className="sponsor-logos">
                     <img src="/react.svg" alt="Sponsor 1" className="sponsor-logo" />
                     <img src="/vite.svg" alt="Sponsor 2" className="sponsor-logo" />

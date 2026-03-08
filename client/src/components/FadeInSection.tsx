@@ -22,7 +22,7 @@ export default function FadeInSection({ children, delay = 0 }: Props) {
           setIsVisible(true);
         }
       },
-      { threshold: 0.2 }
+      { threshold: 0.1 }
     );
     observer.observe(element);
 
