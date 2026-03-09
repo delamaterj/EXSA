@@ -15,3 +15,4 @@ You can view and access the website via. Vercel => exsa850.vercel.app
 - Open the repository in VSCode or whatever appropiate platform
 - open the terminal and cd into client
 - type 'npm run dev'
+- (To view application on multiple devices within same network, type 'npm run dev -- --host')
