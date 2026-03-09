@@ -47,11 +47,11 @@ const members: Member[] = [
     bio: (
       <>
         <p>Josh is the recording secretary and the webmaster for EXSA. He is in charge of documenting important meetings with EXSA's executive board, maintaining the organization's bylaws and minutes, and updating the beautiful website you are currently viewing!</p>
-        <p>Throughout his academics, Josh specialized primarily in web application development and has been building websites and mobile apps for almost a decade. He won the 2019 Congressional App Challenge for the FL-01 district and graduated from the University of Florida with a bachelor's in computer science (go gators!), making the dean's list his first three semesters. During his undergraduate studies, he also took a focus in machine learning applications, react development, and CISE higher education.</p>
+        <p>Throughout his academics, Josh specialized primarily in web application development and has been building websites and mobile apps for almost a decade. He won the 2019 Congressional App Challenge for the FL-01 district and graduated from the University of Florida with a bachelor's in computer science (go gators!). During his undergraduate studies, he also took a focus in machine learning applications, react development, and CISE higher education.</p>
       </>
     ),
     image: "/exsa-joesh.jpeg",
-  },
+  },/*
   {
     name: "Maya Delamater",
     role: "Treasurer",
@@ -61,7 +61,7 @@ const members: Member[] = [
       </>
     ),
     image: "/member4.jpg",
-  },
+  },*/
 ];
 
 const activities: Activities[] = [
@@ -116,22 +116,20 @@ function AnimatedRoutes() {
                 </a>
               </div>
             </section>
-          </FadeInSection>
-            <section className="events">
-              <FadeInSection>
+            </FadeInSection>
+            <FadeInSection delay={150}>
               <h2>Upcoming Events</h2>
+              <section className="events">
                 <div className="event-card">
                   <h3>Youth Co-Ed Volleyball Clinic (Ages 7-12)</h3>
                   <img src="/exsa-coedvb.jpeg" alt="Co-Ed Volleyball Flyer"/>
                 </div>
-                </FadeInSection>
-              <FadeInSection>
                 <div className="event-card">
                   <h3>Live Online Fitness for Seniors</h3>
                   <img src="/exsa-srfit.jpeg" alt="Senior Flyer"/>
                 </div>
-              </FadeInSection>
               </section>
+            </FadeInSection>
           </main>
         </Layout>
       }
@@ -160,12 +158,15 @@ function AnimatedRoutes() {
             </div>
             <div className="member-info">
               <p>Destin has approximately 14,000 residents, with a significant youth population and growing demographic diversity. Despite this, the city has only one public indoor gym—the Destin Community Center. A second gym, located at a Methodist Church, is primarily reserved for Niceville High School. During basketball season (4–5 months annually), access becomes even more limited. As a result:</p>
-              <ul>
-                <li>Elementary-age children lack beginner-level sports options.</li>
-                <li>Families face cost and facility barriers.</li>
-                <li>Seniors and adaptive populations have minimal structured opportunities.</li>
-                <li>Most available programs are competitive, expensive, age-restricted, or not designed for beginners.</li>
-              </ul>
+              <div className="about-list-section">
+                <ul>
+                  <li>Elementary-age children lack beginner-level sports options.</li>
+                  <li>Families face cost and facility barriers.</li>
+                  <li>Seniors and adaptive populations have minimal structured opportunities.</li>
+                  <li>Most available programs are competitive, expensive, age-restricted, or not designed for beginners.</li>
+                </ul>
+                <img src="/exsa-srvb.jpeg" alt="Senior Volleyball"/>
+              </div>
               <p><b>EXSA exists to change that.</b></p>
             </div>
           </main>

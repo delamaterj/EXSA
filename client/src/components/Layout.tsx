@@ -9,6 +9,15 @@ interface LayoutProps {
   heroText?: string;
 }
 
+/*  When sponsors are finalized:
+
+<h2>Our Sponsors</h2>
+                <div className="sponsor-logos">
+                    <img src="/react.svg" alt="Sponsor 1" className="sponsor-logo" />
+                    <img src="/vite.svg" alt="Sponsor 2" className="sponsor-logo" />
+                </div>
+*/
+
 export default function Layout({ children, pageTitle, heroText }: LayoutProps) {
     return (
         <div className="layout">
@@ -30,11 +39,6 @@ export default function Layout({ children, pageTitle, heroText }: LayoutProps) {
             {children} 
             <FadeInSection>
             <div className="sponsors">
-                <h2>Our Sponsors</h2>
-                <div className="sponsor-logos">
-                    <img src="/react.svg" alt="Sponsor 1" className="sponsor-logo" />
-                    <img src="/vite.svg" alt="Sponsor 2" className="sponsor-logo" />
-                </div>
             </div>
             </FadeInSection>
             <footer>
