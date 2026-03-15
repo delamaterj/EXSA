@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import Layout from './components/Layout';
 import FadeInSection from "./components/FadeInSection";
 import type { ReactNode } from "react";
+//import { Analytics } from "@vercel/analytics/next"
 
 interface Member {
   name: string;
@@ -251,9 +252,11 @@ function AnimatedRoutes() {
 
 function App() {
   return (
+  
     <BrowserRouter>
       <AnimatedRoutes />
     </BrowserRouter>
+
   );
 }
 
