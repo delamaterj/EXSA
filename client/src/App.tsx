@@ -109,10 +109,10 @@ function AnimatedRoutes() {
               <h1 className="header-p">Participate with EXSA!</h1>
               <h4>Join our community and get involved by filling out our wellness surveys!</h4>
               <div className="survey-links">
-                <a href="https://docs.google.com/forms/d/1Uk3-zstpgWoDrMoBON_HpEWqSzGNFvCX_9LqLdbmAMw/edit?usp=drivesdk" target="_blank" rel="noopener noreferrer" className="btn btn-primary">
+                <a href="https://forms.gle/JcvDJ1uW4qU3Us9V6" target="_blank" rel="noopener noreferrer" className="btn btn-primary">
                 Wellness Survey for Youth and Families
                 </a>
-                <a href="https://docs.google.com/forms/d/1OyZsHjTt1cgL9iKaRI6pyV4raA6xQykLGRqPJ0pUtSc/edit?usp=drivesdk" target="_blank" rel="noopener noreferrer" className="btn btn-primary">
+                <a href="https://forms.gle/4jVAVWzUtj7xXkPm7" target="_blank" rel="noopener noreferrer" className="btn btn-primary">
                 Wellness Survey for Seniors
                 </a>
               </div>
@@ -206,10 +206,10 @@ function AnimatedRoutes() {
             ))}
             <FadeInSection>
               <div className="survey-links">
-                <a href="https://docs.google.com/forms/d/1Uk3-zstpgWoDrMoBON_HpEWqSzGNFvCX_9LqLdbmAMw/edit?usp=drivesdk" target="_blank" rel="noopener noreferrer" className="btn btn-primary">
+                <a href="https://forms.gle/JcvDJ1uW4qU3Us9V6" target="_blank" rel="noopener noreferrer" className="btn btn-primary">
                 Wellness Survey for Youth and Families
                 </a>
-                <a href="https://docs.google.com/forms/d/1OyZsHjTt1cgL9iKaRI6pyV4raA6xQykLGRqPJ0pUtSc/edit?usp=drivesdk" target="_blank" rel="noopener noreferrer" className="btn btn-primary">
+                <a href="https://forms.gle/4jVAVWzUtj7xXkPm7" target="_blank" rel="noopener noreferrer" className="btn btn-primary">
                 Wellness Survey for Seniors
                 </a>
               </div>
