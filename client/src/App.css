@@ -12,6 +12,10 @@ html, body, #root {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
+html, body {
+  min-height: 100%;
+}
+
 :root {
   --color-dark: black;
   --color-light: #ffffff;
@@ -122,6 +126,7 @@ footer {
   text-align: center;
   padding: var(--space-lg);
   font-size: 0.9rem;
+  margin-top: auto;
 }
 
 .social-links {
@@ -368,8 +373,14 @@ footer {
 /*mobile*/
 @media (max-width: 768px) {
 
+  .layout {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; 
+  }
+
   main {
-    padding: 2rem 1rem;
+    flex: 1;
   }
 
   nav {
@@ -386,6 +397,10 @@ footer {
   }
   .logo {
     height: 42px;
+  }
+
+  footer {
+    margin-top: auto;
   }
 
   .home-container {

@@ -39,10 +39,10 @@ export default function Layout({ children, pageTitle, heroText }: LayoutProps) {
                 </div>
             )}
             {children} 
-            <FadeInSection>
+            
             <div className="sponsors">
             </div>
-            </FadeInSection>
+            
             <footer>
                 <p>© 2025 Emerald Excellence Sports Academy (EXSA). All rights reserved.</p>
                 <p>(850) 895-7735 | exsa850@gmail.com</p>
