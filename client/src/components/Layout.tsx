@@ -29,6 +29,7 @@ export default function Layout({ children, pageTitle, heroText }: LayoutProps) {
                     <Button title="Home" url="/" variant="ghost" />
                     <Button title="About EXSA" url="/About" variant="ghost" />
                     <Button title="Activities" url="/Activities" variant="ghost" />
+                    {/* <Button title="Events" url="/Events" variant="ghost" /> */}
                     <Button title="Members" url="/Members" variant="ghost" />
                 </div>
             </nav>
