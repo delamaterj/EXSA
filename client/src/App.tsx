@@ -3,8 +3,8 @@ import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import Layout from './components/Layout';
 import FadeInSection from "./components/FadeInSection";
 import { useState, useRef, type ReactNode, useEffect } from "react";
-import EventsPage from './components/EventsPage';
-import EventDetails from './components/EventDetails';
+//import EventsPage from './components/EventsPage';
+//import EventDetails from './components/EventDetails';
 //import { Analytics } from "@vercel/analytics/next"
 
 
