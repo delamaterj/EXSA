@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import Button from './Button';
 import PageTitle from './PageTitle';
-import FadeInSection from "./FadeInSection";
+//import FadeInSection from "./FadeInSection";
 //import { Analytics } from "@vercel/analytics/next"
 
 interface LayoutProps {
