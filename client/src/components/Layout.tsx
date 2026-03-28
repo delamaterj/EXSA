@@ -1,6 +1,8 @@
 import type { ReactNode } from 'react';
+import { useState, useEffect } from 'react';
 import Button from './Button';
 import PageTitle from './PageTitle';
+import Navbar from './Navbar';
 //import FadeInSection from "./FadeInSection";
 //import { Analytics } from "@vercel/analytics/next"
 
@@ -20,6 +22,20 @@ interface LayoutProps {
 */
 
 export default function Layout({ children, pageTitle, heroText }: LayoutProps) {
+    const [user, setUser] = useState(() =>
+        JSON.parse(localStorage.getItem("user") || "null")
+    )   ;
+
+    useEffect(() => {
+        const handleStorageChange = () => {
+        setUser(JSON.parse(localStorage.getItem("user") || "null"));
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+
+    return () => window.removeEventListener("storage", handleStorageChange);
+    }, []);
+
     return (
         <div className="layout">
             <PageTitle title={pageTitle} />
@@ -27,10 +43,17 @@ export default function Layout({ children, pageTitle, heroText }: LayoutProps) {
                 <img src="/exsa-logo.jpeg" alt="EXSA Logo" className="logo" />
                 <div className="nav-links">
                     <Button title="Home" url="/" variant="ghost" />
-                    <Button title="About EXSA" url="/About" variant="ghost" />
-                    <Button title="Activities" url="/Activities" variant="ghost" />
-                    {/* <Button title="Events" url="/Events" variant="ghost" /> */}
-                    <Button title="Members" url="/Members" variant="ghost" />
+                    <Button title="About EXSA" url="/about" variant="ghost" />
+                    <Button title="Activities" url="/activities" variant="ghost" />
+                    <Button title="Events" url="/events" variant="ghost" />
+                    <Button title="Members" url="/members" variant="ghost" />
+                    {!user ? (
+                    <>
+                        <Button title="Login/Signup" url="/login" variant="ghost" />
+                    </>
+                    ) : (
+                        <Navbar />
+                    )}  
                 </div>
             </nav>
             {heroText && (

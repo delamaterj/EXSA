@@ -3,11 +3,12 @@ import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import Layout from './components/Layout';
 import FadeInSection from "./components/FadeInSection";
 import { useState, useRef, type ReactNode, useEffect } from "react";
-//import EventsPage from './components/EventsPage';
-//import EventDetails from './components/EventDetails';
+import EventsPage from './components/EventsPage';
+import EventDetails from './components/EventDetails';
+import Signup from "./components/Signup";
+import Login from "./components/Login";
+import Navbar from "./components/Navbar";
 //import { Analytics } from "@vercel/analytics/next"
-
-
 
 interface Member {
   name: string;
@@ -32,6 +33,7 @@ const members: Member[] = [
       <>
         <p>Mia is the President and Founder of Emerald Excellence Sports Academy (EXSA), providing strategic vision, organizational leadership, and program development. She oversees governance, partnerships, sponsorships, and ensures alignment with EXSA’s charitable mission.</p>
         <p>An accomplished educator and program leader with over 15 years of experience, Mia has successfully managed teams, coordinated large-scale community events, and developed impactful athletic and educational programs. She serves as a USA Volleyball Club Director and Assistant Coach, mentoring young athletes while promoting teamwork, discipline, and confidence. Her community leadership includes organizing the First International Children’s Art Competition and the 2007–2010 Turkish Festivals in Washington, D.C., where she led children’s cultural programs for thousands of participants. Recognized as “Best Volunteer of the Year” (2009) by the American Turkish Association of Washington, DC and recipient of a Certificate of Impact from US Volleyball Academy, Mia exemplifies dedication, vision, and a commitment to empowering youth.</p>
+        <p>Her community leadership includes organizing the First International Children’s Art Competition and the 2007–2010 Turkish Festivals in Washington, D.C., where she led children’s cultural programs for thousands of participants. Recognized as “Best Volunteer of the Year” (2009) by the American Turkish Association of Washington, DC and recipient of a Certificate of Impact from US Volleyball Academy, Muge exemplifies dedication, vision, and a commitment to empowering youth.</p>
       </>
     ),
     image: "/exsa-mia.jpeg",
@@ -43,6 +45,7 @@ const members: Member[] = [
       <>
         <p>Mustafa Savaş Akkaya is a high-performance Strength & Conditioning Coach specializing in elite volleyball athletes and national teams, and currently serves as Head Coach at EXSA.</p>
         <p>With extensive international experience and more than 31 professional certifications, including CFSC Level 2, Performance Enhancement Specialist, Level 1 Volleyball Coach Certification, and advanced education such as NASSAM and EXOS. He brings a multidimensional and science-driven approach to athletic development, he also holds a Master’s degree in Movement and Training Science.</p>
+        <p>Savaş builds athletes who are not only stronger, but smarter, faster, and more resilient. His expertise integrates biomechanics, neuro-athletics, speed development, energy system training, corrective exercise, and sport-specific power development to elevate performance where it matters most — on the court.</p>
         <p>Throughout his career, he has worked with multiple national volleyball programs, including the Turkey Men’s National Volleyball Team and the Turkey Women’s National Volleyball Team, contributing to major international achievements such as championships in the CEV European Golden League and the Mediterranean Games.</p>
       </>
     ),
@@ -128,7 +131,7 @@ const activities: Activity[] = [
   {
     category: "youth",
     title: "Dance",
-    //image: "",
+    image: "/exsa-dance.JPG",
     shortDesc: "Dance Camp featuring ballet, modern, and jazz/contemporary with age-appropriate choreography by our coaches. With dynamic movements like jumps, cartwheels, and handstands, we build confidence, coordination, and creativity in a supportive environment.",
     longDesc: <>
                 <p>Our Dance Camp offers a fun and engaging introduction to movement for children of all skill levels. Participants explore a variety of dance styles, including ballet, modern, and jazz/contemporary, in a supportive and encouraging environment.</p>
@@ -359,7 +362,7 @@ function AnimatedRoutes() {
           </Layout>
         }
       />
-      {/*
+      {}
       <Route
       path="/Events"
       element={
@@ -379,8 +382,28 @@ function AnimatedRoutes() {
         </main>
       </Layout>
       }
-      />*/}
+      />
       <Route
+      path="/login"
+      element={
+      <Layout pageTitle ="EXSA - Login" heroText="Log Into EXSA">
+          <main>
+              <Login />
+          </main>
+        </Layout>
+        }
+        />
+        <Route
+      path="/signup"
+      element={
+      <Layout pageTitle ="EXSA - Signup" heroText="Create an Account">
+          <main>
+              <Signup />
+          </main>
+        </Layout>
+        }
+        />
+        <Route
       path="/Members"
       element={
       <Layout pageTitle ="EXSA - Members" heroText="Our Members">
