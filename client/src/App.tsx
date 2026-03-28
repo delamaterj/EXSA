@@ -7,7 +7,6 @@ import EventsPage from './components/EventsPage';
 import EventDetails from './components/EventDetails';
 import Signup from "./components/Signup";
 import Login from "./components/Login";
-import Navbar from "./components/Navbar";
 //import { Analytics } from "@vercel/analytics/next"
 
 interface Member {
