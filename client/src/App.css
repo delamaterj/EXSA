@@ -463,6 +463,13 @@ footer {
   margin-bottom: 0.5rem;
 }
 
+.under-construction {
+  text-align: center;
+  background: #edc9c9;
+  border-radius: 8px;
+  padding: 12px;
+}
+
 /*mobile*/
 @media (max-width: 768px) {
 

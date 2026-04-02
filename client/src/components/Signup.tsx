@@ -1,4 +1,5 @@
 import { useState } from "react";
+import UnderConstr from "./UnderConstr";
 
 function Signup() {
   const [name, setName] = useState("");
@@ -34,6 +35,7 @@ function Signup() {
   };
 
   return (
+    <>
     <div className="form-container">
       <h2>Sign Up</h2>
 
@@ -61,6 +63,8 @@ function Signup() {
         <button type="submit">Create Account</button>
       </form>
     </div>
+    <UnderConstr />
+    </>
   );
 }
 

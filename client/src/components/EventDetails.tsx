@@ -1,5 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
+import UnderConstr from "./UnderConstr";
 
 // Updated type to include array of dates with id
 type EventDate = {
@@ -26,7 +27,7 @@ function EventDetails() {
 
   // Fetch event details including all dates
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL}/${id}`)
+    fetch(`${import.meta.env.VITE_API_URL}/events/${id}`)
       .then((res) => res.json())
       .then((data) => {
         // if your backend returns multiple rows (one per date), group them
@@ -83,6 +84,7 @@ function EventDetails() {
   };
 
   return (
+    <>
     <div className="form-container">
       <h2>{event ? `Sign up for ${event.title}` : "Loading event..."}</h2>
 
@@ -138,6 +140,8 @@ function EventDetails() {
         <p>This event has no upcoming dates available for RSVP.</p>
       )}
     </div>
+    {!event && <UnderConstr />}
+    </>
   );
 }
 

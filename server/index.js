@@ -4,7 +4,7 @@ require("dotenv").config();
 
 const app = express();
 app.use(cors({
-  origin: "https://exsa850.org"
+  origin: process.env.ORIGIN_NAME,
 }));
 app.use(express.json());
 

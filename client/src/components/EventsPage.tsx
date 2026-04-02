@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { formatGroupedDates } from "./formatDate";
 import { Link } from "react-router-dom";
+import UnderConstr from "./UnderConstr";
 
 // Define TypeScript type for an Event
 type Event = {
@@ -64,7 +65,6 @@ eventsArray.forEach((event: any) => {
   const futureDates = event.dates.filter(
     (date: string) => new Date(date) >= now
   );
-
   const pastDates = event.dates.filter(
     (date: string) => new Date(date) < now
   );
@@ -140,8 +140,8 @@ const removeDate = (index: number) => {
 const user = JSON.parse(localStorage.getItem("user") || "null");
 
   return (
-  
     <div className="events-container">
+      {upcomingEvents.length > 0 || pastEvents.length > 0 ? <>
       <h2>Upcoming Events</h2>
         {upcomingEvents.map((event) => (
         <div key={event.id}>
@@ -162,6 +162,7 @@ const user = JSON.parse(localStorage.getItem("user") || "null");
           <p>{event.location}</p>
         </div>
         ))}
+      </> : <UnderConstr />}
 
 
        {/* --- Event Creation Form --- */}
