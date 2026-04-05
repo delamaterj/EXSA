@@ -49,7 +49,7 @@ const members: Member[] = [
       </>
     ),
     image: "/exsa-savas.jpeg",
-  },
+  },/*
   {
     name: "Joshua Delamater",
     role: "Secretary",
@@ -60,7 +60,7 @@ const members: Member[] = [
       </>
     ),
     image: "/exsa-joesh.jpeg",
-  },/*
+  },
   {
     name: "Maya Delamater",
     role: "Treasurer",
@@ -345,6 +345,7 @@ function AnimatedRoutes() {
                   <img src={selected.image} alt={selected.title} />
                   )}
                   <p>{selected.longDesc}</p>
+                  <a className="read-more" href="/events">Check Out Upcoming/Past Events</a>
                 </div>
               )}
             <FadeInSection>
@@ -385,7 +386,7 @@ function AnimatedRoutes() {
       <Route
       path="/login"
       element={
-      <Layout pageTitle ="EXSA - Login" heroText="Log Into EXSA">
+      <Layout pageTitle ="EXSA - Login" heroText="EXSA Member Login">
           <main>
               <Login />
           </main>
@@ -395,7 +396,7 @@ function AnimatedRoutes() {
         <Route
       path="/signup"
       element={
-      <Layout pageTitle ="EXSA - Signup" heroText="Create an Account">
+      <Layout pageTitle ="EXSA - Signup" heroText="Become A Member">
           <main>
               <Signup />
           </main>

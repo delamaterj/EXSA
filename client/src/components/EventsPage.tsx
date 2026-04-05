@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { formatGroupedDates } from "./formatDate";
 import { Link } from "react-router-dom";
 import UnderConstr from "./UnderConstr";
+import FadeInSection from "./FadeInSection";
 
 // Define TypeScript type for an Event
 type Event = {
@@ -141,6 +142,7 @@ const user = JSON.parse(localStorage.getItem("user") || "null");
 
   return (
     <div className="events-container">
+      <FadeInSection>
       {upcomingEvents.length > 0 || pastEvents.length > 0 ? <>
       <h2>Upcoming Events</h2>
         {upcomingEvents.map((event) => (
@@ -162,12 +164,13 @@ const user = JSON.parse(localStorage.getItem("user") || "null");
           <p>{event.location}</p>
         </div>
         ))}
-      </> : <UnderConstr />}
+      </> : <p></p>}
 
 
        {/* --- Event Creation Form --- */}
        {user?.role === "admin" && (
       <div className="form-container">
+        <h2>Add Events (Admin)</h2>
       <form onSubmit={handleSubmit}>
         <input
           value={title}
@@ -200,7 +203,7 @@ const user = JSON.parse(localStorage.getItem("user") || "null");
         <button type="submit">Add Event</button>
       </form>
       </div>)}
-
+    </FadeInSection>
     </div>
   );
 }

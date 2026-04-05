@@ -56,9 +56,9 @@ function Login() {
 
         <button type="submit">Login</button>
       </form>
-      <a href="/signup">Don't have an account? Sign up</a>
+      <a href="/signup">Don't have an account? Become a Member</a>
     </div>
-    <UnderConstr />
+    
     </>
 
   );

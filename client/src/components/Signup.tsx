@@ -10,7 +10,7 @@ function Signup() {
     e.preventDefault();
 
     try {
-      const res = await fetch("https://exsa-7cmm.onrender.com/signup", {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/signup`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -63,7 +63,7 @@ function Signup() {
         <button type="submit">Create Account</button>
       </form>
     </div>
-    <UnderConstr />
+    
     </>
   );
 }
