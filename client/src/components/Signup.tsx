@@ -1,5 +1,4 @@
 import { useState } from "react";
-import UnderConstr from "./UnderConstr";
 
 function Signup() {
   const [name, setName] = useState("");

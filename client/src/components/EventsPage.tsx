@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { formatGroupedDates } from "./formatDate";
 import { Link } from "react-router-dom";
-import UnderConstr from "./UnderConstr";
 import FadeInSection from "./FadeInSection";
 
 // Define TypeScript type for an Event
