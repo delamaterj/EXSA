@@ -4,7 +4,7 @@ This is the open-source repo for the EXSA 850 web application
 
 Currently, EXSA 850 is a front-end landing webpage containing information regarding the organization, executive members, activities, services, and much more
 
-###The website has its own domain now! Go to exsa850.org
+### The website has its own domain now! Go to exsa850.org
 
 ## To work on the repository locally
 
