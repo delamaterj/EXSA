@@ -1,6 +1,5 @@
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
-import UnderConstr from "./UnderConstr";
 
 // Updated type to include array of dates with id
 type EventDate = {
@@ -140,7 +139,7 @@ function EventDetails() {
         <p>This event has no upcoming dates available for RSVP.</p>
       )}
     </div>
-    {!event && <UnderConstr />}
+    {!event && <p></p>}
     </>
   );
 }
