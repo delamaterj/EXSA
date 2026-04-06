@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { formatGroupedDates } from "./formatDate";
 import { Link } from "react-router-dom";
 import FadeInSection from "./FadeInSection";
+import UnderConstr from "./UnderConstr";
 
 // Define TypeScript type for an Event
 type Event = {
@@ -55,7 +56,7 @@ function EventsPage() {
 
       // 🔥 Step 2: Split into upcoming vs past
       const now = new Date(
-  new Date().toLocaleString("en-US", { timeZone: "America/Chicago" })
+      new Date().toLocaleString("en-US", { timeZone: "America/Chicago" })
 );
 
 const upcoming: any[] = [];
@@ -163,7 +164,7 @@ const user = JSON.parse(localStorage.getItem("user") || "null");
           <p>{event.location}</p>
         </div>
         ))}
-      </> : <p></p>}
+      </> : <UnderConstr/>}
 
 
        {/* --- Event Creation Form --- */}

@@ -1,5 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
+import UnderConstr from "./UnderConstr";
 
 // Updated type to include array of dates with id
 type EventDate = {
@@ -85,7 +86,7 @@ function EventDetails() {
   return (
     <>
     <div className="form-container">
-      <h2>{event ? `Sign up for ${event.title}` : "Loading event..."}</h2>
+      <h2>{event ? `Sign up for ${event.title}` : <UnderConstr/>}</h2>
 
       <p>{event?.description}</p>
       <p>Location: {event?.location}</p>
