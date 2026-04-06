@@ -24,5 +24,5 @@ Currently, EXSA 850 is a front-end landing webpage containing information regard
 - (To view application on multiple devices within same network, type 'npm run dev -- --host')
 
 #### Environment variables have been added for protection. To work on this project locally, you will need to manually update these variables:
-- SQL database credentials (host, user, password, name) and backend localhost
+- SQL database credentials (host, user, password, name)
 - localhost domain for both front end and back end (vite api url + origin name)
