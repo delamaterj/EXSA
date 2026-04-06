@@ -553,9 +553,13 @@ footer {
     padding: 0 1rem;
   }
 
-  .about-image img {
+  .two-col {
+    display: block;
+  }
+
+  .two-col img {
     width: 100%;
-    height: auto;
+    margin-bottom: 20px;
   }
 
   .activities-row {
