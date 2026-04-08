@@ -143,7 +143,7 @@ const user = JSON.parse(localStorage.getItem("user") || "null");
   return (
     <div className="events-container">
       <FadeInSection>
-      {upcomingEvents.length > 0 || pastEvents.length > 0 ? <>
+      {upcomingEvents || pastEvents ? <>
       <h2>Upcoming Events</h2>
         {upcomingEvents.map((event) => (
         <div key={event.id}>
