@@ -3,6 +3,7 @@ import { formatGroupedDates } from "./formatDate";
 import { Link } from "react-router-dom";
 import FadeInSection from "./FadeInSection";
 import UnderConstr from "./UnderConstr";
+import { DateTime } from "luxon";
 
 // Define TypeScript type for an Event
 type Event = {
@@ -107,8 +108,16 @@ eventsArray.forEach((event: any) => {
 }, []);
 
   // --- Handle form submission ---
-  const handleSubmit = async (e: React.FormEvent) => {
+
+const handleSubmit = async (e: React.FormEvent) => {
   e.preventDefault();
+
+  const utcDates = dates.map((date) => {
+    return DateTime
+      .fromISO(date, { zone: "America/Chicago" }) // interpret as CST
+      .toUTC()
+      .toISO(); // convert to UTC ISO string
+  });
 
   await fetch(`${import.meta.env.VITE_API_URL}/events`, {
     method: "POST",
@@ -118,14 +127,9 @@ eventsArray.forEach((event: any) => {
     body: JSON.stringify({
       title,
       location,
-      dates,
+      dates: utcDates, // ✅ send UTC, not raw input
     }),
   });
-
-  alert("Event created!");
-
-  // reset form
-  setDates([""]);
 };
 
   const addDate = () => {
