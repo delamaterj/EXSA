@@ -558,6 +558,16 @@ footer {
     max-width: 450px;
   }
 
+  .react-calendar {
+    min-width: unset; 
+    width: 100%;
+  }
+
+  .react-calendar__tile {
+    height: 70px;      
+    font-size: 0.75rem;
+  }
+
   .member-card,
   .member-card.reverse {
     flex-direction: column;
