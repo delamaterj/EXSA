@@ -374,6 +374,32 @@ footer {
 }
 
 /*events*/
+.calendar-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin: 2rem 0;
+}
+
+.react-calendar {
+  width: 100%;
+  max-width: 1000px;
+  min-width: 700px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.react-calendar__tile {
+  padding: 4px;
+  border-radius: 8px;
+  vertical-align: top;
+}
+
+.react-calendar__tile--now {
+  background: #e6f0ff;
+  border-radius: 8px;
+}
+
 .events-container {
   max-width: 900px;
   margin: 2rem auto;

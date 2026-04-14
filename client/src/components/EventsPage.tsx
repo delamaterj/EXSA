@@ -1,23 +1,25 @@
 import React, { useState, useEffect } from "react";
-import { formatGroupedDates } from "./formatDate";
+/*import { formatGroupedDates } from "./formatDate";
 import { Link } from "react-router-dom";
 import FadeInSection from "./FadeInSection";
-import UnderConstr from "./UnderConstr";
+import UnderConstr from "./UnderConstr";*/
 import { DateTime } from "luxon";
+import EventsCalendar from "./EventsCalendar";
 
 // Define TypeScript type for an Event
+/*
 type Event = {
   id: number;
   title: string;
   location: string;
   description?: string;
   dates: string[];
-};
+};*/
 
 function EventsPage() {
   // --- State for existing events ---
-  const [upcomingEvents, setUpcomingEvents] = useState<Event[]>([]);
-  const [pastEvents, setPastEvents] = useState<Event[]>([]);
+  /*const [upcomingEvents, setUpcomingEvents] = useState<Event[]>([]);
+  const [pastEvents, setPastEvents] = useState<Event[]>([]);*/
 
   // --- State for form inputs ---
   const [title, setTitle] = useState("");
@@ -102,8 +104,8 @@ eventsArray.forEach((event: any) => {
       });
 
       // Step 4: set state
-      setUpcomingEvents(upcoming);
-      setPastEvents(past);
+      /*setUpcomingEvents(upcoming);
+      setPastEvents(past);*/
     });
 }, []);
 
@@ -145,31 +147,9 @@ const removeDate = (index: number) => {
 const user = JSON.parse(localStorage.getItem("user") || "null");
 
   return (
-    <div className="events-container">
-      <FadeInSection>
-      {upcomingEvents || pastEvents ? <>
-      <h2>Upcoming Events</h2>
-        {upcomingEvents.map((event) => (
-        <div key={event.id}>
-          <h3>
-            <Link to={`/events/${event.id}`}>{event.title}</Link>
-          </h3>
-          <p>{formatGroupedDates(event.dates)}</p>
-          <p>{event.location}</p>
-        </div>
-        ))}
-      <h2>Past Events</h2>
-        {pastEvents.map((event) => (
-        <div key={event.id}>
-          <h3>
-            <Link to={`/events/${event.id}`}>{event.title}</Link>
-          </h3>
-          <p>{formatGroupedDates(event.dates)}</p>
-          <p>{event.location}</p>
-        </div>
-        ))}
-      </> : <UnderConstr/>}
-
+    
+    <div>
+      <EventsCalendar />
 
        {/* --- Event Creation Form --- */}
        {user?.role === "admin" && (
@@ -207,9 +187,32 @@ const user = JSON.parse(localStorage.getItem("user") || "null");
         <button type="submit">Add Event</button>
       </form>
       </div>)}
-    </FadeInSection>
     </div>
   );
 }
 
 export default EventsPage;
+
+/*<FadeInSection>
+      {upcomingEvents || pastEvents ? <>
+      <h2>Upcoming Events</h2>
+        {upcomingEvents.map((event) => (
+        <div key={event.id}>
+          <h3>
+            <Link to={`/events/${event.id}`}>{event.title}</Link>
+          </h3>
+          <p>{formatGroupedDates(event.dates)}</p>
+          <p>{event.location}</p>
+        </div>
+        ))}
+      <h2>Past Events</h2>
+        {pastEvents.map((event) => (
+        <div key={event.id}>
+          <h3>
+            <Link to={`/events/${event.id}`}>{event.title}</Link>
+          </h3>
+          <p>{formatGroupedDates(event.dates)}</p>
+          <p>{event.location}</p>
+        </div>
+        ))}
+      </> : <UnderConstr/>} */
