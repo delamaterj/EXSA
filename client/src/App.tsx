@@ -170,9 +170,18 @@ function AnimatedRoutes() {
         <Route
       path="/Members"
       element={
-      <Layout pageTitle ="EXSA - Members" heroText="Our Members">
+      <Layout pageTitle ="EXSA - Members" heroText="Our Staff and Volunteers">
           <main className="members-container">
             <MembersPage />
+          </main>
+        </Layout>
+        }
+        />
+        <Route
+      path="/md"
+      element={
+      <Layout pageTitle ="Mia Delamater" heroText="Mia Delamater">
+          <main>
           </main>
         </Layout>
         }

@@ -393,6 +393,8 @@ footer {
   padding: 4px;
   border-radius: 8px;
   vertical-align: top;
+  height: 110px;
+  overflow: hidden;
 }
 
 .react-calendar__tile--now {
