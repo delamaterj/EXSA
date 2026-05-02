@@ -141,6 +141,10 @@ function EventDetails() {
       )}
     </div>
     {!event && <p></p>}
+    <div className="qr-code">
+      <img src="/exsa-venmo.jpeg" alt="venmo"></img>
+      <img src="/exsa-zelle.jpeg" alt="zelle"></img>
+    </div>
     </>
   );
 }

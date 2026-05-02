@@ -40,7 +40,7 @@ export default function Layout({ children, pageTitle, heroText }: LayoutProps) {
         <div className="layout">
             <PageTitle title={pageTitle} />
             <nav>
-                <img src="/exsa-logo.jpeg" alt="EXSA Logo" className="logo" />
+                <img src="/exsa-logo-2.jpeg" alt="EXSA Logo" className="logo" />
                 <div className="nav-links">
                     <Button title="Home" url="/" variant="ghost" />
                     <Button title="About EXSA" url="/about" variant="ghost" />

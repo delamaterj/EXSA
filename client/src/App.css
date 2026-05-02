@@ -17,9 +17,9 @@ html, body {
 }
 
 :root {
-  --color-dark: black;
-  --color-light: #ffffff;
-  --color-accent: #0F6398;
+  --color-dark: #08142B;
+  --color-light: #565D6E;
+  --color-accent: #8A6E43;
   /*
   #011F77
   #0F6398
@@ -53,7 +53,7 @@ nav {
   align-items: center;
   justify-content: space-between;
   padding: var(--space-md) var(--space-lg);
-  background: var(--color-dark);
+  background: #08142B;
   color: var(--color-light);
   box-shadow: 0 2px 8px rgba(0,0,0,0.08);
   flex-wrap: wrap;
@@ -82,11 +82,11 @@ nav {
 }
 
 .btn-primary {
-  background: #0F6398;
+  background: #101C33;
   color: white;
 }
 .btn-primary:hover {
-  background: #011F77;
+  color: #8A6E43;
   transform: translateY(-2px);
 }
 
@@ -109,7 +109,7 @@ nav {
 /*backdrop*/
 .backdrop {
   padding: var(--space-xl) var(--space-lg);
-  background: linear-gradient(135deg, #011F77, #15AEBD);
+  background: linear-gradient(135deg, #101C33, #091327);
   color: white;
   text-align: center;
 }
@@ -437,6 +437,15 @@ footer {
 
 .event-card a:hover {
   text-decoration: underline;
+}
+
+.qr-code {
+  text-align: center;
+}
+
+.qr-code img {
+  width: 150px;
+  height: auto;
 }
 
 /*forms*/
