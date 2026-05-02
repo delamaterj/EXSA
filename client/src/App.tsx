@@ -181,7 +181,31 @@ function AnimatedRoutes() {
       path="/md"
       element={
       <Layout pageTitle ="Mia Delamater" heroText="Mia Delamater">
-          <main>
+          <main className="contact-container">
+            <div className="contact-card">
+    
+    <div className="contact-image">
+      <img src="/exsa-mia2.jpeg" alt="Mia Profile" />
+    </div>
+
+    <div className="contact-info">
+      <p className="contact-role"></p>
+      <div className="contact-details">
+        <h4>mugedelamater0@gmail.com</h4>
+        <h4>(850) 910-0118</h4>
+      </div>
+      <div className="contact-socials">
+        <a href="https://www.instagram.com/mgsdl?igsh=MWdscGU1aWFjcDN3ZA==" target="_blank">
+          <img src="/instagram-logo.png" alt="Instagram" />
+        </a>
+        <a href="https://www.facebook.com/share/1HYu5NL9cF/" target="_blank">
+          <img src="/facebook-logo.png" alt="Facebook" />
+        </a>
+      </div>
+
+    </div>
+
+  </div>
           </main>
         </Layout>
         }
