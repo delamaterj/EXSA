@@ -21,6 +21,15 @@ function AnimatedRoutes() {
       element={
       <Layout pageTitle ="EXSA - Home" heroText="Emerald Xcellence Sports Academy">
         <main className="home-container">
+          <FadeInSection delay={150}>
+              <h2>Coming Soon!</h2>
+              <section className="events">
+                <div className="event-card">
+                  <h3>Youth Gymnastics Clinic</h3>
+                  <img src="/exsa-gymyouth.png" alt="Youth Gym"/>
+                </div>
+              </section>
+            </FadeInSection>
           <FadeInSection>
             <section className="home-intro">
               <h1 className="header-p">Building Stronger Bodies, Confident Minds, and Connected Communities</h1>
@@ -35,15 +44,6 @@ function AnimatedRoutes() {
                 </a>
               </div>
             </section>
-            </FadeInSection>
-            <FadeInSection delay={150}>
-              <h2>Upcoming Events</h2>
-              <section className="events">
-                <div className="event-card">
-                  <h3>Youth Gymnastics Clinic</h3>
-                  <img src="/exsa-gymyouth.png" alt="Youth Gym"/>
-                </div>
-              </section>
             </FadeInSection>
             <FadeInSection>
             <h2>Digital Wellness Event with Screen Time Clinic!</h2>
