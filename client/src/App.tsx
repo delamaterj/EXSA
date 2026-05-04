@@ -19,7 +19,7 @@ function AnimatedRoutes() {
       <Route
       path="/"
       element={
-      <Layout pageTitle ="EXSA - Home" heroText="Emerald Excellence Sports Academy">
+      <Layout pageTitle ="EXSA - Home" heroText="Emerald Xcellence Sports Academy">
         <main className="home-container">
           <FadeInSection>
             <section className="home-intro">
