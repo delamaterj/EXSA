@@ -55,7 +55,7 @@ function AnimatedRoutes() {
               <section className="events">
                 <div className="event-card">
                   <h3>Youth Gymnastics Clinic</h3>
-                  <img src="/youth-vb.jpeg" alt="Youth VB"/>
+                  <img src="/exsa-gymyouth.png" alt="Youth Gym"/>
                 </div>
               </section>
             </FadeInSection>
