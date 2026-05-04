@@ -36,6 +36,15 @@ function AnimatedRoutes() {
               </div>
             </section>
             </FadeInSection>
+            <FadeInSection delay={150}>
+              <h2>Upcoming Events</h2>
+              <section className="events">
+                <div className="event-card">
+                  <h3>Youth Gymnastics Clinic</h3>
+                  <img src="/exsa-gymyouth.png" alt="Youth Gym"/>
+                </div>
+              </section>
+            </FadeInSection>
             <FadeInSection>
             <h2>Digital Wellness Event with Screen Time Clinic!</h2>
               <section className="events">
@@ -50,15 +59,6 @@ function AnimatedRoutes() {
                 </div>
               </section>
               </FadeInSection>
-            <FadeInSection delay={150}>
-              <h2>Upcoming Events</h2>
-              <section className="events">
-                <div className="event-card">
-                  <h3>Youth Gymnastics Clinic</h3>
-                  <img src="/exsa-gymyouth.png" alt="Youth Gym"/>
-                </div>
-              </section>
-            </FadeInSection>
           </main>
         </Layout>
       }
