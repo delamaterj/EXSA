@@ -439,18 +439,30 @@ footer {
   text-decoration: underline;
 }
 
+.event-flyer {
+  width: 100%;
+  max-width: 500px;
+  border-radius: 12px;
+  margin: 1rem 0;
+  object-fit: cover;
+}
+
 .qr-code {
-  text-align: center;
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 
 .qr-code img {
-  width: 150px;
-  height: auto;
+  width: 140px;
+  border-radius: 12px;
 }
 
 /*forms*/
 .form-container {
-  max-width: 500px;
+  max-width: 900px;
   margin: 2rem auto;
   padding: 2rem;
   background: #ffffff;
@@ -501,6 +513,32 @@ footer {
   font-weight: 500;
   display: block;
   margin-bottom: 0.5rem;
+}
+
+.event-content {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+  margin-top: 2rem;
+}
+
+.event-form {
+  flex: 1;
+  min-width: 0;
+}
+
+.event-flyer-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.event-flyer {
+  width: 100%;
+  max-width: 450px;
+  border-radius: 12px;
+  object-fit: cover;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
 .under-construction {
@@ -674,6 +712,18 @@ footer {
   }
 
   .activity-card {
+    max-width: 100%;
+  }
+
+  .event-content {
+    flex-direction: column;
+  }
+
+  .event-flyer-container {
+    width: 100%;
+  }
+
+  .event-flyer {
     max-width: 100%;
   }
 

@@ -35,6 +35,7 @@ app.get("/events", async (req, res) => {
         e.title,
         e.location,
         e.description,
+        e.flyer,
         ed.date
       FROM events e
       JOIN event_dates ed ON e.id = ed.event_id
@@ -50,12 +51,12 @@ app.get("/events", async (req, res) => {
 
 // post new event
 app.post("/events", async (req, res) => {
-  const { title, location, description, dates } = req.body;
+  const { title, location, description, dates, flyer } = req.body;
 
   try {
     // 1. Insert event
     const [result] = await pool.query(
-      "INSERT INTO events (title, location, description) VALUES (?, ?, ?)",
+      "INSERT INTO events (title, location, description, flyer) VALUES (?, ?, ?, ?)",
       [title, location, description]
     );
 
@@ -110,7 +111,7 @@ app.get("/events/:id", async (req, res) => {
   try {
     const [rows] = await pool.query(
       `SELECT e.id, e.title, e.description, e.location,
-              d.id AS date_id, d.date
+             e.flyer, d.id AS date_id, d.date
        FROM events e
        LEFT JOIN event_dates d ON e.id = d.event_id
        WHERE e.id = ?`,

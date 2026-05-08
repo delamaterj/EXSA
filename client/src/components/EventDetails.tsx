@@ -13,6 +13,7 @@ type Event = {
   title: string;
   location: string;
   description?: string;
+  flyer?: string;
   dates: EventDate[]; // all dates for this event
 };
 
@@ -35,6 +36,7 @@ function EventDetails() {
           id: data[0].id,
           title: data[0].title,
           location: data[0].location,
+          flyer: data[0].flyer,
           description: data[0].description,
           dates: data.map((row: any) => ({ id: row.date_id, date: row.date })),
         };
@@ -86,10 +88,23 @@ function EventDetails() {
   return (
     <>
     <div className="form-container">
-      <h2>{event ? `Sign up for ${event.title}` : <UnderConstr/>}</h2>
+  <h2>{event ? `Sign up for ${event.title}` : <UnderConstr />}</h2>
 
-      <p>{event?.description}</p>
-      <p>Location: {event?.location}</p>
+  <div className={`event-content ${event?.flyer ? "has-flyer" : ""}`}>
+
+    {/* LEFT SIDE → FLYER */}
+    {event?.flyer && (
+      <div className="event-flyer-container">
+        <img
+          src={`/${event.flyer}`}
+          alt={`${event.title} flyer`}
+          className="event-flyer"
+        />
+      </div>
+    )}
+
+    {/* RIGHT SIDE → FORM + QR */}
+    <div className="event-form">
 
       {upcomingDates.length > 0 ? (
         <form onSubmit={handleRSVP}>
@@ -99,6 +114,7 @@ function EventDetails() {
             placeholder="Your Name"
             required
           />
+
           <input
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -107,6 +123,7 @@ function EventDetails() {
           />
 
           <label>Select date(s) to RSVP for:</label>
+
           <select
             multiple
             value={selectedDates.map(String)}
@@ -134,17 +151,23 @@ function EventDetails() {
           </select>
 
           <button type="submit">RSVP</button>
+
           {message && <p>{message}</p>}
         </form>
       ) : (
         <p>This event has no upcoming dates available for RSVP.</p>
       )}
+
+      {/* QR CODES UNDER FORM */}
+      <div className="qr-code">
+        <h3>Payments are accepted via. Venmo or Zelle. Submit your payment to fully RSVP for an event!</h3>
+        <img src="/exsa-venmo.jpeg" alt="venmo" />
+        <img src="/exsa-zelle.jpeg" alt="zelle" />
+      </div>
+
     </div>
-    {!event && <p></p>}
-    <div className="qr-code">
-      <img src="/exsa-venmo.jpeg" alt="venmo"></img>
-      <img src="/exsa-zelle.jpeg" alt="zelle"></img>
-    </div>
+  </div>
+</div>
     </>
   );
 }
