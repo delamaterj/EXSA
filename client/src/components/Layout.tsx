@@ -67,7 +67,7 @@ export default function Layout({ children, pageTitle, heroText }: LayoutProps) {
             </div>
             
             <footer>
-                <p>© 2025 Emerald Excellence Sports Academy (EXSA). All rights reserved.</p>
+                <p>© 2026 Emerald Excellence Sports Academy (EXSA). All rights reserved.</p>
                 <p>(850) 895-7735 | exsa850@gmail.com</p>
                 <div className="social-links">
                     <a
