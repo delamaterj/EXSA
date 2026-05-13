@@ -83,7 +83,9 @@ return (
           {dayEvents.slice(0, 2).map((event) => (
             <div key={event.id}>
               <Link to={`/events/${event.id}`}>
+              <div className="calendar-event-link">
                 {event.title}
+                </div>
               </Link>
             </div>
           ))}

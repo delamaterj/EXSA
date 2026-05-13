@@ -226,7 +226,7 @@ footer {
   gap: 1rem;
   overflow-x: auto;
   scroll-behavior: smooth;
-  padding: 1rem;
+  padding: 1rem 0;
   scroll-snap-type: x mandatory;
 }
 
@@ -412,9 +412,17 @@ footer {
   margin: 2rem 0;
 }
 
+.calendar-event-link {
+  background-color: #08142B;
+  text-decoration: none;
+  color: white;
+  border-radius: 6px;
+  margin: 3px;
+}
+
 .react-calendar {
   width: 100%;
-  max-width: 1000px;
+  max-width: 100%;
   min-width: 700px;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
