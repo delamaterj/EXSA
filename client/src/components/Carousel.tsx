@@ -31,7 +31,9 @@ export default function Carousel({ title, events }: Props) {
 
       <div className="carousel-container" ref={containerRef}>
 
-        {events.map((event) => (
+        {events
+        .filter((event) => event.flyer)
+        .map((event) => (
           <div key={event.id} className="carousel-card">
 
             {event.flyer && (
