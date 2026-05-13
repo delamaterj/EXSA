@@ -16,8 +16,8 @@ function AnimatedRoutes() {
 
   const [upcomingEvents, setUpcomingEvents] = useState<any[]>([]);
   const [pastEvents, setPastEvents] = useState<any[]>([]);
-  const upcomingCarousel = upcomingEvents;
-  const pastCarousel = pastEvents.slice(0, 6); // optional limit
+  //const upcomingCarousel = upcomingEvents;
+  //const pastCarousel = pastEvents.slice(0, 6); // optional limit
 
     useEffect(() => {
   fetch(`${import.meta.env.VITE_API_URL}/events`)

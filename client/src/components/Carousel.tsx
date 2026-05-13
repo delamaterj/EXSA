@@ -8,7 +8,7 @@ type Props = {
 export default function Carousel({ title, events }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const scroll = (direction: "left" | "right") => {
+  {/*const scroll = (direction: "left" | "right") => {
     if (!containerRef.current) return;
 
     const scrollAmount = 300;
@@ -17,7 +17,7 @@ export default function Carousel({ title, events }: Props) {
       left: direction === "left" ? -scrollAmount : scrollAmount,
       behavior: "smooth",
     });
-  };
+  };*/}
 
   return (
     <div className="carousel-wrapper">
