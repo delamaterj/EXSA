@@ -33,7 +33,7 @@ function AnimatedRoutes() {
             title: row.title,
             location: row.location,
             description: row.description,
-            flyer: row.flyer, // important for carousel
+            flyer: row.flyer,
             dates: [],
           };
         }
@@ -266,7 +266,12 @@ function AnimatedRoutes() {
           <img src="/facebook-logo.png" alt="Facebook" />
         </a>
       </div>
-
+      <a href="/md.vcf" download>
+        <div className="contact-download">
+          Download Contact
+          <img src="/download.png" alt="Download" />
+        </div>
+      </a>
     </div>
 
   </div>
