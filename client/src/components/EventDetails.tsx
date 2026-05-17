@@ -102,8 +102,11 @@ function EventDetails() {
         />
       </div>
     )}
-
-    {/* RIGHT SIDE → FORM + QR */}
+    {event?.title === "Digital Wellness Event (Screen Time Clinic)" ? (
+      <a href="https://us06web.zoom.us/meeting/register/st7Kl8f2QyGFrIMt5mDs8Q#/registration" target="_blank" rel="noopener noreferrer" className="read-more">
+        <u>Sign Up for Screen Time Clinic</u>
+      </a>
+    ) : (    
     <div className="event-form">
 
       {upcomingDates.length > 0 ? (
@@ -165,7 +168,7 @@ function EventDetails() {
         <img src="/exsa-zelle.jpeg" alt="zelle" />
       </div>
 
-    </div>
+    </div>)}
   </div>
 </div>
     </>
