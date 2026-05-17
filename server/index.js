@@ -2,6 +2,15 @@
 const express = require("express");
 const cors = require("cors");
 require("dotenv").config();
+const AWS = require("aws-sdk");
+
+AWS.config.update({
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  region: process.env.AWS_REGION,
+});
+
+const sns = new AWS.SNS();
 
 const app = express();
 app.use(cors({
@@ -97,6 +106,19 @@ app.post("/events/:id/rsvp", async (req, res) => {
       )
     );
     await Promise.all(promises);
+
+    await sns.publish({
+  TopicArn: process.env.SNS_TOPIC_ARN,
+  Subject: "New RSVP Submitted",
+  Message: `
+  New RSVP received
+
+  Name: ${name}
+  Email: ${email}
+  Event ID: ${eventId}
+  Selected Dates: ${dateIds.join(", ")}
+  `,
+  }).promise();
 
     res.status(201).json({ message: "RSVP successful for selected date(s)" });
   } catch (err) {

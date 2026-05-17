@@ -253,7 +253,6 @@ function AnimatedRoutes() {
     </div>
 
     <div className="contact-info">
-      <p className="contact-role"></p>
       <div className="contact-details">
         <h4>mugedelamater0@gmail.com</h4>
         <h4>(850) 910-0118</h4>
