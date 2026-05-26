@@ -23,8 +23,23 @@ function EventDetails() {
   const [event, setEvent] = useState<Event | null>(null);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
   const [selectedDates, setSelectedDates] = useState<number[]>([]); // store selected event_date ids
   const [message, setMessage] = useState("");
+
+  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const input = e.target.value.replace(/\D/g, "");
+
+  let formatted = input;
+
+  if (input.length > 3 && input.length <= 6) {
+    formatted = `(${input.slice(0, 3)}) ${input.slice(3)}`;
+  } else if (input.length > 6) {
+    formatted = `(${input.slice(0, 3)}) ${input.slice(3, 6)}-${input.slice(6, 10)}`;
+  }
+
+  setPhone(formatted);
+};
 
   // Fetch event details including all dates
   useEffect(() => {
@@ -60,13 +75,20 @@ function EventDetails() {
       return;
     }
 
+    const phoneRegex = /^\(\d{3}\) \d{3}-\d{4}$/;
+
+    if (!phoneRegex.test(phone)) {
+      setMessage("Please enter a valid phone number.");
+    return;
+    }
+
     try {
       const res = await fetch(`${import.meta.env.VITE_API_URL}/events/${id}/rsvp`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ name, email, dateIds: selectedDates }),
+        body: JSON.stringify({ name, email, phone, dateIds: selectedDates }),
       });
 
       const data = await res.json();
@@ -111,17 +133,23 @@ function EventDetails() {
 
       {upcomingDates.length > 0 ? (
         <form onSubmit={handleRSVP}>
+          <label>Name</label>
           <input
             value={name}
             onChange={(e) => setName(e.target.value)}
-            placeholder="Your Name"
             required
           />
-
+          <label>Email</label>
           <input
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder="Your Email"
+            required
+          />
+          <label>Phone Number</label>
+          <input
+            type="tel"
+            value={phone}
+            onChange={handlePhoneChange}
             required
           />
 
@@ -154,20 +182,21 @@ function EventDetails() {
           </select>
 
           <button type="submit">RSVP</button>
-
           {message && <p>{message}</p>}
-        </form>
-      ) : (
-        <p>This event has no upcoming dates available for RSVP.</p>
-      )}
-
-      {/* QR CODES UNDER FORM */}
-      <div className="qr-code">
+          <div className="qr-code">
         <h3>Payments are accepted via. Venmo or Zelle. Submit your payment to fully RSVP for an event!</h3>
         <img src="/exsa-venmo.jpeg" alt="venmo" />
         <img src="/exsa-zelle.jpeg" alt="zelle" />
       </div>
-
+        </form>
+      ) : (
+        <>
+        <div className="qr-code">
+        <p>This event has no upcoming dates available for RSVP.</p>
+        <a className="read-more" href="/events">Check out our other events</a>
+        </div>
+        </>
+      )}    
     </div>)}
   </div>
 </div>

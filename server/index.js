@@ -91,34 +91,66 @@ app.post("/events", async (req, res) => {
 // post rsvp for event
 app.post("/events/:id/rsvp", async (req, res) => {
   const eventId = req.params.id;
-  const { name, email, dateIds } = req.body; // array of event_date IDs
+  const { name, email, phone, dateIds } = req.body; // array of event_date IDs
 
-  if (!name || !email || !dateIds || !dateIds.length) {
-    return res.status(400).json({ error: "Name, email, and at least one date required" });
+  if (!name || !email || !phone || !dateIds || !dateIds.length) {
+    return res.status(400).json({ error: "Name, email, phone, and at least one date required" });
   }
 
   try {
     // insert an RSVP for each selected date
     const promises = dateIds.map((dateId) =>
       pool.query(
-        "INSERT INTO rsvps (event_id, event_date_id, name, email) VALUES (?, ?, ?, ?)",
-        [eventId, dateId, name, email]
+        "INSERT INTO rsvps (event_id, event_date_id, name, email, phone) VALUES (?, ?, ?, ?, ?)",
+        [eventId, dateId, name, email, phone]
       )
     );
     await Promise.all(promises);
+
+    const [eventRows] = await pool.query(
+    "SELECT title FROM events WHERE id = ?",
+    [eventId]
+    );
+
+    const [dateRows] = await pool.query(
+  `SELECT date
+   FROM event_dates
+   WHERE id IN (?)`,
+  [dateIds]
+);
+
+const formattedDates = dateRows
+  .map((d) =>
+    new Date(d.date).toLocaleString("en-US", {
+      timeZone: "America/Chicago",
+      month: "long",
+      day: "numeric",
+      year: "numeric",
+      hour: "numeric",
+      minute: "2-digit",
+      hour12: true,
+    })
+  )
+  .join("\n");
+
+const eventTitle = eventRows[0]?.title || "Unknown Event";  
 
     await sns.publish({
   TopicArn: process.env.SNS_TOPIC_ARN,
   Subject: "New RSVP Submitted",
   Message: `
-  New RSVP received
+New RSVP received
 
-  Name: ${name}
-  Email: ${email}
-  Event ID: ${eventId}
-  Selected Dates: ${dateIds.join(", ")}
+Event: ${eventTitle}
+
+Name: ${name}
+Email: ${email}
+Phone: ${phone}
+
+Selected Dates:
+${formattedDates}
   `,
-  }).promise();
+}).promise();
 
     res.status(201).json({ message: "RSVP successful for selected date(s)" });
   } catch (err) {
