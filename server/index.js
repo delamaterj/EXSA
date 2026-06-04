@@ -66,7 +66,7 @@ app.post("/events", async (req, res) => {
     // 1. Insert event
     const [result] = await pool.query(
       "INSERT INTO events (title, location, description, flyer) VALUES (?, ?, ?, ?)",
-      [title, location, description]
+      [title, location, description, flyer || null]
     );
 
     const eventId = result.insertId;
