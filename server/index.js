@@ -73,7 +73,10 @@ app.post("/events", async (req, res) => {
 
     // 2. Insert all dates
     for (let date of dates) {
-      const formattedDate = new Date(date).toISOString();
+      const formattedDate = new Date(date)
+      .toISOString()
+      .slice(0, 19)
+      .replace("T", " ");
 
       await pool.query(
         "INSERT INTO event_dates (event_id, date) VALUES (?, ?)",
