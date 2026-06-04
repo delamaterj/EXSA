@@ -230,6 +230,10 @@ footer {
   scroll-snap-type: x mandatory;
 }
 
+.carousel-container.single {
+  justify-content: center;
+}
+
 .carousel-card {
   flex: 0 0 calc(50% - 0.5rem);
   border-radius: 12px;

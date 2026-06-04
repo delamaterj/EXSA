@@ -8,47 +8,42 @@ type Props = {
 export default function Carousel({ title, events }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
 
-  {/*const scroll = (direction: "left" | "right") => {
-    if (!containerRef.current) return;
+  const MAX_ITEMS = 4;
 
-    const scrollAmount = 300;
-
-    containerRef.current.scrollBy({
-      left: direction === "left" ? -scrollAmount : scrollAmount,
-      behavior: "smooth",
-    });
-  };*/}
+  // 1. filter + sort + limit
+  const visibleEvents = events
+    .filter((event) => event.flyer)
+    .sort(
+      (a, b) =>
+        new Date(b.created_at ?? 0).getTime() -
+        new Date(a.created_at ?? 0).getTime()
+    )
+    .slice(0, MAX_ITEMS);
 
   return (
     <div className="carousel-wrapper">
-
       <h2>{title}</h2>
 
       <div className="carousel-controls">
-        {/*<button onClick={() => scroll("left")}>←</button>
-        <button onClick={() => scroll("right")}>→</button>*/}
+        {/* buttons later */}
       </div>
 
-      <div className="carousel-container" ref={containerRef}>
-
-        {events
-        .filter((event) => event.flyer)
-        .map((event) => (
+      <div
+        ref={containerRef}
+        className={`carousel-container ${
+          visibleEvents.length === 1 ? "single" : ""
+        }`}
+      >
+        {visibleEvents.map((event) => (
           <div key={event.id} className="carousel-card">
-
-            {event.flyer && (
-              <img
-                src={`/${event.flyer}`}
-                alt={event.title}
-                className="carousel-image"
-              />
-            )}
-
+            <img
+              src={`/${event.flyer}`}
+              alt={event.title}
+              className="carousel-image"
+            />
             <h3>{event.title}</h3>
-
           </div>
         ))}
-
       </div>
     </div>
   );
