@@ -9,11 +9,10 @@ function EventsPage() {
   const [location, setLocation] = useState("");
 
   const handleDateChange = (index: number, value: string) => {
-  const newDates = [...dates];
-  newDates[index] = value;
-  setDates(newDates);
-
-};
+    const newDates = [...dates];
+    newDates[index] = value;
+    setDates(newDates);
+  };
 
   useEffect(() => {
   fetch(`${import.meta.env.VITE_API_URL}/events`)

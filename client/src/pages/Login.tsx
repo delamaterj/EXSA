@@ -3,6 +3,7 @@ import { useState } from "react";
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -24,12 +25,12 @@ function Login() {
         localStorage.setItem("user", JSON.stringify(data.user));
         window.dispatchEvent(new Event("storage"));
       } else {
-        alert(data.error);
+        setError(data.error);
       }
 
     } catch (err) {
       console.error(err);
-      alert("Error logging in");
+      setError("An error occurred while logging in. Please try again later.");
     }
   };
 
@@ -39,20 +40,24 @@ function Login() {
       <h2>Login</h2>
 
       <form onSubmit={handleLogin}>
+        <label>Email<b className="error-text"> *</b></label>
         <input
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          placeholder="Email"
           required
         />
+        <label>Password<b className="error-text"> *</b></label>
         <input
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          placeholder="Password"
           required
         />
 
+        {error && (
+          <>
+            <p className="error-text">{error}</p>
+          </>)}
         <button type="submit">Login</button>
       </form>
       <a href="/signup">Don't have an account? Become a Member</a>

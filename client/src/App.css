@@ -671,7 +671,12 @@ footer {
 .contact-download img {
   width: 36px;
   height: 36px;
+}
 
+.error-text {
+  color: red;
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
 }
 
 /*mobile*/

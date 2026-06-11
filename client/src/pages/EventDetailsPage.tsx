@@ -133,19 +133,20 @@ function EventDetailsPage() {
 
       {upcomingDates.length > 0 ? (
         <form onSubmit={handleRSVP}>
-          <label>Name</label>
+          <label>Name<b className="error-text"> *</b></label>
           <input
             value={name}
             onChange={(e) => setName(e.target.value)}
             required
           />
-          <label>Email</label>
+          <label>Email<b className="error-text"> *</b></label>
           <input
+            type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
           />
-          <label>Phone Number</label>
+          <label>Phone Number<b className="error-text"> *</b></label>
           <input
             type="tel"
             value={phone}
@@ -153,7 +154,7 @@ function EventDetailsPage() {
             required
           />
 
-          <label>Select date(s) to RSVP for:</label>
+          <label>Select date(s) to RSVP for:<b className="error-text"> *</b></label>
 
           <select
             multiple

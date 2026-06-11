@@ -191,10 +191,17 @@ const saltRounds = 10;
 
 // SIGNUP
 app.post("/signup", async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, password, phone } = req.body;
 
-  if (!name || !email || !password) {
+  if (!name || !email || !password || !phone) {
     return res.status(400).json({ error: "All fields required" });
+  }
+
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    return res.status(400).json({
+      error: "Invalid email address",
+    });
   }
 
   try {
@@ -202,8 +209,8 @@ app.post("/signup", async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, saltRounds);
 
     await pool.query(
-      "INSERT INTO users (name, email, password) VALUES (?, ?, ?)",
-      [name, email, hashedPassword]
+      "INSERT INTO users (name, email, password, phone) VALUES (?, ?, ?, ?)",
+      [name, email, hashedPassword, phone]
     );
 
     res.status(201).json({ message: "User created successfully" });
@@ -214,7 +221,7 @@ app.post("/signup", async (req, res) => {
       return res.status(400).json({ error: "Email already exists" });
     }
 
-    res.status(500).json({ error: "Database error" });
+    res.status(500).json({ error: "Error trying to sign up. Please try again later" });
   }
 });
 
@@ -240,14 +247,14 @@ app.post("/login", async (req, res) => {
       return res.status(400).json({ error: "Invalid email or password" });
     }
 
-    res.json({ message: "Login successful", user: {
+    res.json({ message: "Login successful!", user: {
     id: user.id,
     name: user.name,
     role: user.role,
   }, });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: "Database error" });
+    res.status(500).json({ error: "Error occured while logging in. Please try again later" });
   }
 });
 

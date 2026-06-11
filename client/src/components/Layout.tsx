@@ -3,8 +3,6 @@ import { useState, useEffect } from 'react';
 import Button from './Button';
 import PageTitle from './PageTitle';
 import Navbar from './Navbar';
-//import FadeInSection from "./FadeInSection";
-//import { Analytics } from "@vercel/analytics/next"
 
 interface LayoutProps {
   children: ReactNode;
@@ -47,12 +45,11 @@ export default function Layout({ children, pageTitle, heroText }: LayoutProps) {
                     <Button title="Activities" url="/activities" variant="ghost" />
                     <Button title="Events" url="/events" variant="ghost" />
                     <Button title="Members" url="/members" variant="ghost" />
-                    {!user ? (
+                    <Button title="Login/Signup" url="/login" variant="ghost" />
+                    {user && (
                     <>
-                        <Button title="Login/Signup" url="/login" variant="ghost" />
-                    </>
-                    ) : (
                         <Navbar />
+                    </>
                     )}  
                 </div>
             </nav>
