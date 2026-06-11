@@ -1,5 +1,5 @@
 import {type ReactNode} from "react";
-import FadeInSection from "./FadeInSection";
+import FadeInSection from "../components/FadeInSection";
 
 interface Member {
   name: string;

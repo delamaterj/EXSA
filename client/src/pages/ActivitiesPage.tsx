@@ -1,4 +1,4 @@
-import FadeInSection from "./FadeInSection";
+import FadeInSection from "../components/FadeInSection";
 import { useState, useRef, useEffect} from "react";
 
 type Activity = {

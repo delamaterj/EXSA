@@ -1,27 +1,9 @@
 import React, { useState, useEffect } from "react";
-/*import { formatGroupedDates } from "./formatDate";
-import { Link } from "react-router-dom";
-import FadeInSection from "./FadeInSection";
-import UnderConstr from "./UnderConstr";*/
 import { DateTime } from "luxon";
-import EventsCalendar from "./EventsCalendar";
-
-// Define TypeScript type for an Event
-/*
-type Event = {
-  id: number;
-  title: string;
-  location: string;
-  description?: string;
-  dates: string[];
-};*/
+import EventsCalendar from "../components/EventsCalendar";
 
 function EventsPage() {
-  // --- State for existing events ---
-  /*const [upcomingEvents, setUpcomingEvents] = useState<Event[]>([]);
-  const [pastEvents, setPastEvents] = useState<Event[]>([]);*/
 
-  // --- State for form inputs ---
   const [title, setTitle] = useState("");
   const [dates, setDates] = useState<string[]>([""]);
   const [location, setLocation] = useState("");
@@ -33,14 +15,12 @@ function EventsPage() {
 
 };
 
-  // --- Fetch events from backend on mount ---
   useEffect(() => {
   fetch(`${import.meta.env.VITE_API_URL}/events`)
     .then((res) => res.json())
     .then((data) => {
       const grouped: { [key: number]: any } = {};
 
-      // Step 1: Group rows into events with dates[]
       data.forEach((row: any) => {
         if (!grouped[row.id]) {
           grouped[row.id] = {
@@ -57,7 +37,6 @@ function EventsPage() {
 
       const eventsArray = Object.values(grouped);
 
-      // 🔥 Step 2: Split into upcoming vs past
       const now = new Date(
       new Date().toLocaleString("en-US", { timeZone: "America/Chicago" })
 );
@@ -73,24 +52,21 @@ eventsArray.forEach((event: any) => {
     (date: string) => new Date(date) < now
   );
 
-  // If there are future dates → add to upcoming
   if (futureDates.length > 0) {
     upcoming.push({
       ...event,
-      dates: futureDates, // 🔥 only future dates
+      dates: futureDates,
     });
   }
 
-  // If there are past dates → add to past
   if (pastDates.length > 0) {
     past.push({
       ...event,
-      dates: pastDates, // 🔥 only past dates
+      dates: pastDates,
     });
   }
 });
 
-      // 🔥 Step 3: (optional but recommended) sort events
       upcoming.sort((a, b) => {
         const aNext = Math.min(...a.dates.map((d: string) => new Date(d).getTime()));
         const bNext = Math.min(...b.dates.map((d: string) => new Date(d).getTime()));
@@ -102,23 +78,17 @@ eventsArray.forEach((event: any) => {
         const bLast = Math.max(...b.dates.map((d: string) => new Date(d).getTime()));
         return bLast - aLast;
       });
-
-      // Step 4: set state
-      /*setUpcomingEvents(upcoming);
-      setPastEvents(past);*/
     });
 }, []);
-
-  // --- Handle form submission ---
 
 const handleSubmit = async (e: React.FormEvent) => {
   e.preventDefault();
 
   const utcDates = dates.map((date) => {
     return DateTime
-      .fromISO(date, { zone: "America/Chicago" }) // interpret as CST
+      .fromISO(date, { zone: "America/Chicago" })
       .toUTC()
-      .toISO(); // convert to UTC ISO string
+      .toISO();
   });
 
   await fetch(`${import.meta.env.VITE_API_URL}/events`, {
@@ -129,7 +99,7 @@ const handleSubmit = async (e: React.FormEvent) => {
     body: JSON.stringify({
       title,
       location,
-      dates: utcDates, // ✅ send UTC, not raw input
+      dates: utcDates,
     }),
   });
 };
@@ -150,8 +120,6 @@ const user = JSON.parse(localStorage.getItem("user") || "null");
     
     <div>
       <EventsCalendar />
-
-       {/* --- Event Creation Form --- */}
        {user?.role === "admin" && (
       <div className="form-container">
         <h2>Add Events (Admin)</h2>
@@ -192,27 +160,3 @@ const user = JSON.parse(localStorage.getItem("user") || "null");
 }
 
 export default EventsPage;
-
-/*<FadeInSection>
-      {upcomingEvents || pastEvents ? <>
-      <h2>Upcoming Events</h2>
-        {upcomingEvents.map((event) => (
-        <div key={event.id}>
-          <h3>
-            <Link to={`/events/${event.id}`}>{event.title}</Link>
-          </h3>
-          <p>{formatGroupedDates(event.dates)}</p>
-          <p>{event.location}</p>
-        </div>
-        ))}
-      <h2>Past Events</h2>
-        {pastEvents.map((event) => (
-        <div key={event.id}>
-          <h3>
-            <Link to={`/events/${event.id}`}>{event.title}</Link>
-          </h3>
-          <p>{formatGroupedDates(event.dates)}</p>
-          <p>{event.location}</p>
-        </div>
-        ))}
-      </> : <UnderConstr/>} */

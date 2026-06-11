@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
-import UnderConstr from "./UnderConstr";
+import UnderConstr from "../components/UnderConstr";
 
 // Updated type to include array of dates with id
 type EventDate = {
@@ -17,7 +17,7 @@ type Event = {
   dates: EventDate[]; // all dates for this event
 };
 
-function EventDetails() {
+function EventDetailsPage() {
   const { id } = useParams(); // gets :id from URL
 
   const [event, setEvent] = useState<Event | null>(null);
@@ -204,4 +204,4 @@ function EventDetails() {
   );
 }
 
-export default EventDetails;
+export default EventDetailsPage;
