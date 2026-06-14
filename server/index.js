@@ -1,4 +1,4 @@
-
+const crypto = require("crypto");
 const express = require("express");
 const cors = require("cors");
 require("dotenv").config();
@@ -35,20 +35,26 @@ module.exports = pool;
 
 const PORT = process.env.PORT || 5000;
 
-// get all events
+//get all events
 app.get("/events", async (req, res) => {
   try {
     const [rows] = await pool.query(`
-      SELECT 
-        e.id,
-        e.title,
-        e.location,
-        e.description,
-        e.flyer,
-        ed.date
-      FROM events e
-      JOIN event_dates ed ON e.id = ed.event_id
-      ORDER BY ed.date
+      SELECT
+  e.id,
+  e.title,
+  e.location,
+  e.description,
+  e.flyer,
+  e.uuid,
+
+  ed.id AS date_id,
+  ed.date
+
+FROM events e
+JOIN event_dates ed
+ON e.id = ed.event_id
+
+ORDER BY ed.date
     `);
 
     res.json(rows); // returns rows with real dates
@@ -58,15 +64,18 @@ app.get("/events", async (req, res) => {
   }
 });
 
-// post new event
+//add new event
 app.post("/events", async (req, res) => {
   const { title, location, description, dates, flyer } = req.body;
 
   try {
     // 1. Insert event
+
+    const public_id = crypto.randomUUID();
+
     const [result] = await pool.query(
-      "INSERT INTO events (title, location, description, flyer) VALUES (?, ?, ?, ?)",
-      [title, location, description, flyer || null]
+      "INSERT INTO events (title, location, description, flyer, uuid) VALUES (?, ?, ?, ?, ?)",
+      [title, location, description, flyer || null, public_id]
     );
 
     const eventId = result.insertId;
@@ -91,8 +100,8 @@ app.post("/events", async (req, res) => {
   }
 });
 
-// post rsvp for event
-app.post("/events/:id/rsvp", async (req, res) => {
+//user rsvps for event
+app.post("/events/:uuid/rsvp", async (req, res) => {
   const eventId = req.params.id;
   const { name, email, phone, dateIds } = req.body; // array of event_date IDs
 
@@ -162,34 +171,52 @@ ${formattedDates}
   }
 });
 
-// get an event by id
-app.get("/events/:id", async (req, res) => {
-  const eventId = req.params.id;
+//get an event by id
+app.get("/events/:uuid", async (req, res) => {
+  const uuid = req.params.uuid;
   try {
     const [rows] = await pool.query(
-      `SELECT e.id, e.title, e.description, e.location,
-             e.flyer, d.id AS date_id, d.date
-       FROM events e
-       LEFT JOIN event_dates d ON e.id = d.event_id
-       WHERE e.id = ?`,
-      [eventId]
+      `
+      SELECT
+        e.id,
+        e.uuid,
+        e.title,
+        e.description,
+        e.location,
+        e.flyer,
+
+        d.id AS date_id,
+        d.date
+
+      FROM events e
+
+      LEFT JOIN event_dates d
+      ON e.id = d.event_id
+
+      WHERE e.uuid = ?
+      `,
+      [uuid]
     );
 
     if (rows.length === 0) {
-      return res.status(404).json({ error: "Event not found" });
+      return res.status(404).json({error: "Event not found"});
     }
 
-    res.json(rows); // returns array of {event + date} objects
+    res.json(rows);
+
   } catch (err) {
+
     console.error(err);
-    res.status(500).json({ error: "Database error" });
+
+    res.status(500).json({error:"Database error"});
+
   }
 });
 
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
 
-// SIGNUP
+// signup - add new user
 app.post("/signup", async (req, res) => {
   const { name, email, password, phone } = req.body;
 
@@ -208,9 +235,11 @@ app.post("/signup", async (req, res) => {
     // hash password
     const hashedPassword = await bcrypt.hash(password, saltRounds);
 
+    const public_id =crypto.randomUUID();
+
     await pool.query(
-      "INSERT INTO users (name, email, password, phone) VALUES (?, ?, ?, ?)",
-      [name, email, hashedPassword, phone]
+      "INSERT INTO users (name, email, password, phone, uuid) VALUES (?, ?, ?, ?, ?)",
+      [name, email, hashedPassword, phone, public_id]
     );
 
     res.status(201).json({ message: "User created successfully" });
@@ -225,7 +254,7 @@ app.post("/signup", async (req, res) => {
   }
 });
 
-// LOGIN
+// login - verify user information
 app.post("/login", async (req, res) => {
   const { email, password } = req.body;
 
@@ -251,10 +280,85 @@ app.post("/login", async (req, res) => {
     id: user.id,
     name: user.name,
     role: user.role,
+    email: user.email,
+    phone: user.phone,
+    uuid: user.uuid,
   }, });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Error occured while logging in. Please try again later" });
+  }
+});
+
+//Update user information
+app.put("/profile/:uuid",async (req,res) => {
+
+    const { id } = req.params;
+    const updates = req.body;
+
+    try {
+
+      const allowed = [
+        "name",
+        "email",
+        "phone",
+      ];
+
+      const keys = Object.keys(updates);
+
+      if (keys.length !== 1) {
+        return res.status(400).json({error: "Update exactly one field"});
+      }
+
+      const field = keys[0];
+
+      if (!allowed.includes(field)) {
+        return res.status(400).json({error: "Invalid field",});
+      }
+
+      const value = updates[field];
+
+      if(field === "phone") {
+        const phoneRegex = /^\d{3}-\d{3}-\d{4}$/;
+        if (!phoneRegex.test(value)) {
+          return res.status(400).json({error: "Invalid phone number format"});
+        }
+      }
+
+      else if(field === "email") {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(value)) {
+          return res.status(400).json({error: "Invalid email address"});
+        }       
+        const [existing] = await pool.query(
+          `SELECT id
+          FROM users
+          WHERE email = ?`
+          [value]
+        );
+        if (existing.length > 0) {
+          return res.status(400).json({error: "Email already exists"});
+        }
+      }
+      else if(field === "name") {
+        if (value.trim() === "") {
+          return res.status(400).json({error: "Name cannot be empty"});
+        }
+      }
+
+      await pool.query(
+        `UPDATE users
+        SET ${field}=?
+        WHERE id=?`,
+        [value,id,]);
+
+      res.json({message:`${field} updated`});
+
+    }
+    catch (err) 
+    {
+      console.error(err);
+      res.status(500).json({error:"Database error"});
   }
 });
 
