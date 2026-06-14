@@ -11,6 +11,7 @@ import ActivitiesPage from './pages/ActivitiesPage';
 import AboutPage from './pages/AboutPage';
 import {useEffect, useState} from 'react';
 import Carousel from './components/Carousel';
+import Profile from './pages/Profile';
 
 function AnimatedRoutes() {
 
@@ -127,7 +128,7 @@ function AnimatedRoutes() {
       }
       />
       <Route
-      path="/About"
+      path="/about"
       element={
         <Layout pageTitle ="EXSA - About" heroText="About Us">
           <main className="about-main">
@@ -137,7 +138,7 @@ function AnimatedRoutes() {
       }
       />
       <Route
-      path="/Activities"
+      path="/activities"
       element={
         <Layout pageTitle ="EXSA - Activities" heroText="Our Activities">
           <main className="activities-container">
@@ -147,7 +148,7 @@ function AnimatedRoutes() {
       }
       />
       <Route
-      path="/Events"
+      path="/events"
       element={
         <Layout pageTitle ="EXSA - Events" heroText="Upcoming and Past Events">
           <main>
@@ -157,7 +158,7 @@ function AnimatedRoutes() {
       }
       />
       <Route
-      path="/Events/:id"
+      path="/events/:uuid"
       element={
         <Layout pageTitle ="EXSA - Events Sign Up" heroText="Event Sign Up">
           <main>
@@ -187,11 +188,21 @@ function AnimatedRoutes() {
       }
       />
       <Route
-      path="/Members"
+      path="/members"
       element={
       <Layout pageTitle ="EXSA - Members" heroText="Our Staff and Volunteers">
         <main className="members-container">
           <MembersPage />
+        </main>
+      </Layout>
+      }
+      />
+      <Route
+      path="/profile/:id"
+      element={
+      <Layout pageTitle ="User Profile" heroText="Profile">
+        <main>
+          <Profile />
         </main>
       </Layout>
       }

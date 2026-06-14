@@ -15,10 +15,11 @@ type Event = {
   description?: string;
   flyer?: string;
   dates: EventDate[]; // all dates for this event
+  uuid: string;
 };
 
 function EventDetailsPage() {
-  const { id } = useParams(); // gets :id from URL
+  const { uuid } = useParams(); // gets :uuid from URL
 
   const [event, setEvent] = useState<Event | null>(null);
   const [name, setName] = useState("");
@@ -43,9 +44,10 @@ function EventDetailsPage() {
 
   // Fetch event details including all dates
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL}/events/${id}`)
+    fetch(`${import.meta.env.VITE_API_URL}/events/${uuid}`)
       .then((res) => res.json())
       .then((data) => {
+        console.log("RAW API =", data);
         // if your backend returns multiple rows (one per date), group them
         const grouped: Event = {
           id: data[0].id,
@@ -54,11 +56,13 @@ function EventDetailsPage() {
           flyer: data[0].flyer,
           description: data[0].description,
           dates: data.map((row: any) => ({ id: row.date_id, date: row.date })),
+          
+          uuid: data[0].uuid,
         };
         setEvent(grouped);
       })
       .catch((err) => console.error(err));
-  }, [id]);
+  }, [uuid]);
 
   const now = new Date(
     new Date().toLocaleString("en-US", { timeZone: "America/Chicago" })
@@ -83,7 +87,7 @@ function EventDetailsPage() {
     }
 
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/events/${id}/rsvp`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/events/${uuid}/rsvp`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -155,7 +159,6 @@ function EventDetailsPage() {
           />
 
           <label>Select date(s) to RSVP for:<b className="error-text"> *</b></label>
-
           <select
             multiple
             value={selectedDates.map(String)}

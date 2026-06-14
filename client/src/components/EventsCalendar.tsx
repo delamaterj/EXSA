@@ -29,6 +29,7 @@ function EventsCalendar() {
             location: row.location,
             description: row.description,
             dates: [],
+            uuid: row.uuid,
           };
         }
 
@@ -39,7 +40,7 @@ function EventsCalendar() {
 
       const eventsArray = Object.values(grouped);
 
-      // STEP 2: convert → eventsByDate
+      // STEP 2: convert into eventsByDate
       const eventsMap: { [key: string]: any[] } = {};
 
       eventsArray.forEach((event: any) => {
@@ -82,7 +83,7 @@ return (
         <div style={{ fontSize: "0.7rem" }}>
           {dayEvents.slice(0, 2).map((event) => (
             <div key={event.id}>
-              <Link to={`/events/${event.id}`}>
+              <Link to={`/events/${event.uuid}`}>
               <div className="calendar-event-link">
                 {event.title}
                 </div>

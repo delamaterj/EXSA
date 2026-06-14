@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 function Navbar() {
   const [open, setOpen] = useState(false);
@@ -24,7 +25,7 @@ function Navbar() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  if (!user) return null; // 🔥 safety
+  if (!user) return null;
 
   return (
     <div ref={ref} style={{ position: "relative" }}>
@@ -36,17 +37,11 @@ function Navbar() {
 
       {/* Dropdown */}
       {open && (
-        <div
-          style={{
-            position: "absolute",
-            right: 0,
-            background: "white",
-            border: "1px solid #ccc",
-            padding: "10px",
-            color: "black",
-          }}
-        >
+        <div className="navbar-dropdown">
           <p>{user.name}</p>
+          <Link to={`/profile/${user.uuid}`}>
+            <p>Profile</p>
+              </Link>
           <button onClick={handleLogout}>Logout</button>
         </div>
       )}
