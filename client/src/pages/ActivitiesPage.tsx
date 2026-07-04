@@ -189,10 +189,10 @@ function ActivitiesPage() {
                       )}
                     <FadeInSection>
                       <div className="survey-links">
-                        <a href="https://forms.gle/JcvDJ1uW4qU3Us9V6" target="_blank" rel="noopener noreferrer" className="btn btn-primary">
+                        <a href="https://forms.gle/JcvDJ1uW4qU3Us9V6" target="_blank" rel="noopener noreferrer" className="read-more">
                         Wellness Survey for Youth and Families
                         </a>
-                        <a href="https://forms.gle/4jVAVWzUtj7xXkPm7" target="_blank" rel="noopener noreferrer" className="btn btn-primary">
+                        <a href="https://forms.gle/4jVAVWzUtj7xXkPm7" target="_blank" rel="noopener noreferrer" className="read-more">
                         Wellness Survey for Seniors
                         </a>
                       </div>

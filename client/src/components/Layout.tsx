@@ -1,6 +1,5 @@
 import type { ReactNode } from 'react';
 import { useState, useEffect } from 'react';
-import Button from './Button';
 import PageTitle from './PageTitle';
 import Navbar from './Navbar';
 
@@ -9,15 +8,6 @@ interface LayoutProps {
   pageTitle: string;
   heroText?: string;
 }
-
-/*  When sponsors are finalized:
-
-<h2>Our Sponsors</h2>
-                <div className="sponsor-logos">
-                    <img src="/react.svg" alt="Sponsor 1" className="sponsor-logo" />
-                    <img src="/vite.svg" alt="Sponsor 2" className="sponsor-logo" />
-                </div>
-*/
 
 export default function Layout({ children, pageTitle, heroText }: LayoutProps) {
     const [user, setUser] = useState(() =>
@@ -35,23 +25,21 @@ export default function Layout({ children, pageTitle, heroText }: LayoutProps) {
     }, []);
 
     return (
-        <div className="layout">
+        <>
             <PageTitle title={pageTitle} />
             <nav>
-                <img src="/exsa-logo-2.jpeg" alt="EXSA Logo" className="logo" />
-                <div className="nav-links">
-                    <Button title="Home" url="/" variant="ghost" />
-                    <Button title="About EXSA" url="/about" variant="ghost" />
-                    <Button title="Activities" url="/activities" variant="ghost" />
-                    <Button title="Events" url="/events" variant="ghost" />
-                    <Button title="Members" url="/members" variant="ghost" />
-                    <Button title="Login/Signup" url="/login" variant="ghost" />
-                    {user && (
-                    <>
-                        <Navbar />
-                    </>
-                    )}  
+                <div className="nav-logo">
+                    <img src="/exsa-logo-3b.jpeg" alt="EXSA Logo" className="nav-logo" />
                 </div>
+                <ul className="nav-links">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/about">About Us</a></li>
+                    <li><a href="/activities">Activities</a></li>
+                    <li><a href="/members">Members</a></li>
+                    <li><a href="/events">Events</a></li>
+                    <li><a href="/login">Login</a></li>
+                </ul>
+                {user ? <Navbar/> : <div className="nav-profile"></div>}
             </nav>
             {heroText && (
                 <div className="backdrop">
@@ -85,6 +73,6 @@ export default function Layout({ children, pageTitle, heroText }: LayoutProps) {
                     </a>
                 </div>
             </footer>
-        </div>
+        </>
     ); 
 }

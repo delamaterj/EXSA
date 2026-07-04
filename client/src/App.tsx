@@ -1,4 +1,3 @@
-import './App.css';
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import Layout from './components/Layout';
 import FadeInSection from "./components/FadeInSection";
@@ -12,11 +11,14 @@ import AboutPage from './pages/AboutPage';
 import {useEffect, useState} from 'react';
 import Carousel from './components/Carousel';
 import Profile from './pages/Profile';
+import UnderConstr from "./components/UnderConstr";
 
 function AnimatedRoutes() {
 
   const [upcomingEvents, setUpcomingEvents] = useState<any[]>([]);
   const [pastEvents, setPastEvents] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     fetch(`${import.meta.env.VITE_API_URL}/events`)
@@ -75,10 +77,32 @@ function AnimatedRoutes() {
 
       setUpcomingEvents(upcoming);
       setPastEvents(past);
+    })
+    .catch((err) => {
+      console.error(err);
+      setError(true);
+    })
+    .finally(() => {
+      setLoading(false);
     });
   }, []);
 
   const location = useLocation();
+
+  const carouselDiv = (
+    <>
+    <FadeInSection delay={150}>
+            <Carousel
+            title="Upcoming Events"
+            events={upcomingEvents}
+            />
+            <Carousel
+            title="Past Events"
+            events={pastEvents}
+            />
+          </FadeInSection>
+    </>
+  );
 
   return (
     <Routes location={location} key={location.pathname}>
@@ -93,16 +117,15 @@ function AnimatedRoutes() {
               <h2> Inclusive programs for youth and adults of all abilities—focused on movement, skill development, and community engagement.</h2>
             </section>
           </FadeInSection>
-          <FadeInSection delay={150}>
-            <Carousel
-            title="Upcoming Events"
-            events={upcomingEvents}
-            />
-            <Carousel
-            title="Past Events"
-            events={pastEvents}
-            />
-          </FadeInSection>
+          {loading && <UnderConstr />}
+          {error && 
+            <>
+              <div className="under-construction">
+                <p><b>There are no events available at this time</b></p>
+                <p><i>Stop by another time to see available events!</i></p>
+              </div>
+            </>}
+          {(!loading && !error) && carouselDiv}          
           <FadeInSection>
             <section className="home-intro">
               <div className="survey-links">
@@ -110,14 +133,14 @@ function AnimatedRoutes() {
                 <a 
                 href="https://forms.gle/JcvDJ1uW4qU3Us9V6" 
                 target="_blank" rel="noopener noreferrer" 
-                className="btn btn-primary">
+                className="read-more">
                   Wellness Survey for Youth and Families
                 </a>
                 <a 
                 href="https://forms.gle/4jVAVWzUtj7xXkPm7" 
                 target="_blank" 
                 rel="noopener noreferrer" 
-                className="btn btn-primary">
+                className="read-more">
                   Wellness Survey for Seniors
                 </a>
               </div>

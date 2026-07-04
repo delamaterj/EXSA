@@ -28,20 +28,14 @@ function Navbar() {
   if (!user) return null;
 
   return (
-    <div ref={ref} style={{ position: "relative" }}>
-      {/* Profile Icon */}
-      <button onClick={() => setOpen(!open)}>
-        <img src="/profile.png" alt="profile" style={{height: "30px",
-        width: "auto,"}}/>
-      </button>
-
-      {/* Dropdown */}
+    <div ref={ref} className="nav-profile">
+      <img src="/profile.png" alt="profile" onClick={() => setOpen(!open)}/>
       {open && (
-        <div className="navbar-dropdown">
+        <div className="nav-profile-dropdown">
           <p>{user.name}</p>
           <Link to={`/profile/${user.uuid}`}>
             <p>Profile</p>
-              </Link>
+          </Link>
           <button onClick={handleLogout}>Logout</button>
         </div>
       )}

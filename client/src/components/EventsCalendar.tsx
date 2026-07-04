@@ -18,7 +18,6 @@ function EventsCalendar() {
       return res.json();
     })
     .then((data) => {
-      // STEP 1: group rows into events
       const grouped: { [key: number]: any } = {};
 
       data.forEach((row: any) => {
@@ -40,7 +39,6 @@ function EventsCalendar() {
 
       const eventsArray = Object.values(grouped);
 
-      // STEP 2: convert into eventsByDate
       const eventsMap: { [key: string]: any[] } = {};
 
       eventsArray.forEach((event: any) => {
@@ -55,7 +53,6 @@ function EventsCalendar() {
         });
       });
 
-      // STEP 3: store final result
       setEventsByDate(eventsMap);
     })
     .catch((err) => {
@@ -68,7 +65,13 @@ function EventsCalendar() {
 }, []);
     
     if (loading) return <UnderConstr />;
-    if (error) return <p>Events unavailable. Check again later!</p>;
+    if (error) return (
+      <>
+        <div className="under-construction">
+          <p><b>There are no events available at this time</b></p>
+          <p><i>Stop by another time to see available events!</i></p>
+        </div>
+      </>);
 
 return (
     <div className="calendar-container">
