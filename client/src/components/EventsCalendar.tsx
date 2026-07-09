@@ -11,14 +11,13 @@ function EventsCalendar() {
     const [error, setError] = useState(false);
 
     useEffect(() => {
-
-  fetch(`${import.meta.env.VITE_API_URL}/events`)
+  fetch(`${import.meta.env.VITE_API_URL}/events/get`)
     .then((res) => {
       if (!res.ok) throw new Error("Failed to fetch events");
       return res.json();
     })
     .then((data) => {
-      const grouped: { [key: number]: any } = {};
+      const grouped: { [key: string]: any } = {};
 
       data.forEach((row: any) => {
         if (!grouped[row.id]) {
@@ -28,7 +27,6 @@ function EventsCalendar() {
             location: row.location,
             description: row.description,
             dates: [],
-            uuid: row.uuid,
           };
         }
 
@@ -43,7 +41,12 @@ function EventsCalendar() {
 
       eventsArray.forEach((event: any) => {
         event.dates.forEach((date: string) => {
-          const key = new Date(date).toLocaleDateString("en-CA");
+          const key = new Date(date).toLocaleDateString(
+            "en-CA",
+            {
+              timeZone: "America/Chicago"
+            }
+)
 
           if (!eventsMap[key]) {
             eventsMap[key] = [];
@@ -86,7 +89,7 @@ return (
         <div style={{ fontSize: "0.7rem" }}>
           {dayEvents.slice(0, 2).map((event) => (
             <div key={event.id}>
-              <Link to={`/events/${event.uuid}`}>
+              <Link to={`/events/${event.id}`}>
               <div className="calendar-event-link">
                 {event.title}
                 </div>

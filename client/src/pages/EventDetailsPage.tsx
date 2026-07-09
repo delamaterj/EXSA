@@ -4,28 +4,26 @@ import UnderConstr from "../components/UnderConstr";
 
 // Updated type to include array of dates with id
 type EventDate = {
-  id: number;      // event_dates.id
+  id: string;      // event_dates.id
   date: string;    // datetime string
 };
 
 type Event = {
-  id: number;
+  id: string;
   title: string;
   location: string;
   description?: string;
   flyer?: string;
   dates: EventDate[]; // all dates for this event
-  uuid: string;
 };
 
 function EventDetailsPage() {
-  const { uuid } = useParams(); // gets :uuid from URL
-
+  const { eventId } = useParams(); // gets :id from URL
   const [event, setEvent] = useState<Event | null>(null);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-  const [selectedDates, setSelectedDates] = useState<number[]>([]); // store selected event_date ids
+  const [selectedDates, setSelectedDates] = useState<string[]>([]); // store selected event_date ids
   const [message, setMessage] = useState("");
 
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -44,10 +42,9 @@ function EventDetailsPage() {
 
   // Fetch event details including all dates
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL}/events/${uuid}`)
+    fetch(`${import.meta.env.VITE_API_URL}/events/get/${eventId}`)
       .then((res) => res.json())
       .then((data) => {
-        console.log("RAW API =", data);
         // if your backend returns multiple rows (one per date), group them
         const grouped: Event = {
           id: data[0].id,
@@ -56,13 +53,11 @@ function EventDetailsPage() {
           flyer: data[0].flyer,
           description: data[0].description,
           dates: data.map((row: any) => ({ id: row.date_id, date: row.date })),
-          
-          uuid: data[0].uuid,
         };
         setEvent(grouped);
       })
       .catch((err) => console.error(err));
-  }, [uuid]);
+  }, [eventId]);
 
   const now = new Date(
     new Date().toLocaleString("en-US", { timeZone: "America/Chicago" })
@@ -87,12 +82,17 @@ function EventDetailsPage() {
     }
 
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/events/${uuid}/rsvp`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/rsvps/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ name, email, phone, dateIds: selectedDates }),
+        body: JSON.stringify({
+          name,
+          email,
+          phone,
+          eventDateIds: selectedDates
+        })
       });
 
       const data = await res.json();
@@ -165,7 +165,7 @@ function EventDetailsPage() {
             onChange={(e) =>
               setSelectedDates(
                 Array.from(e.target.selectedOptions, (option) =>
-                  parseInt(option.value)
+                  option.value
                 )
               )
             }

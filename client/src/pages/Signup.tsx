@@ -32,7 +32,7 @@ function Signup() {
     }
 
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/signup`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/users/signup`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

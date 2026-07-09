@@ -15,7 +15,7 @@ function EventsPage() {
   };
 
   useEffect(() => {
-  fetch(`${import.meta.env.VITE_API_URL}/events`)
+  fetch(`${import.meta.env.VITE_API_URL}/events/get`)
     .then((res) => res.json())
     .then((data) => {
       const grouped: { [key: number]: any } = {};
@@ -90,10 +90,11 @@ const handleSubmit = async (e: React.FormEvent) => {
       .toISO();
   });
 
-  await fetch(`${import.meta.env.VITE_API_URL}/events`, {
+  await fetch(`${import.meta.env.VITE_API_URL}/events/`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      "Authorization":`Bearer ${localStorage.getItem("token")}`
     },
     body: JSON.stringify({
       title,
@@ -119,7 +120,7 @@ const user = JSON.parse(localStorage.getItem("user") || "null");
     
     <div>
       <EventsCalendar />
-       {user?.role === "admin" && (
+       {user?.role === "ADMIN" && (
       <div className="form-container">
         <h2>Add Events (Admin)</h2>
       <form onSubmit={handleSubmit}>

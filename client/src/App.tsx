@@ -21,11 +21,11 @@ function AnimatedRoutes() {
   const [error, setError] = useState(false);
 
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL}/events`)
+    fetch(`${import.meta.env.VITE_API_URL}/events/get`)
     .then((res) => res.json())
     .then((data) => {
 
-      const grouped: Record<number, any> = {};
+      const grouped: Record<string, any> = {};
 
       data.forEach((row: any) => {
         if (!grouped[row.id]) {
@@ -34,7 +34,7 @@ function AnimatedRoutes() {
             title: row.title,
             location: row.location,
             description: row.description,
-            flyer: row.flyer,
+            flyer: row.flyer_url,
             dates: [],
           };
         }
@@ -92,15 +92,22 @@ function AnimatedRoutes() {
   const carouselDiv = (
     <>
     <FadeInSection delay={150}>
-            <Carousel
-            title="Upcoming Events"
-            events={upcomingEvents}
-            />
-            <Carousel
-            title="Past Events"
-            events={pastEvents}
-            />
-          </FadeInSection>
+      {upcomingEvents.length === 0 ? 
+        <>
+          <div className="carousel-wrapper"> 
+            <h2>There are currently no upcoming events</h2>
+            <a className="read-more" href="/events">Check out our events calendar!</a>
+          </div>
+        </> 
+        : 
+        <>
+        <Carousel title="Upcoming Events"
+        events={upcomingEvents}/>
+        </>}
+        <Carousel
+        title="Past Events"
+        events={pastEvents}/>
+    </FadeInSection>
     </>
   );
 
@@ -117,15 +124,7 @@ function AnimatedRoutes() {
               <h2> Inclusive programs for youth and adults of all abilities—focused on movement, skill development, and community engagement.</h2>
             </section>
           </FadeInSection>
-          {loading && <UnderConstr />}
-          {error && 
-            <>
-              <div className="under-construction">
-                <p><b>There are no events available at this time</b></p>
-                <p><i>Stop by another time to see available events!</i></p>
-              </div>
-            </>}
-          {(!loading && !error) && carouselDiv}          
+          {loading || error ? <UnderConstr /> : carouselDiv}         
           <FadeInSection>
             <section className="home-intro">
               <div className="survey-links">
@@ -181,7 +180,7 @@ function AnimatedRoutes() {
       }
       />
       <Route
-      path="/events/:uuid"
+      path="/events/:eventId"
       element={
         <Layout pageTitle ="EXSA - Events Sign Up" heroText="Event Sign Up">
           <main>
