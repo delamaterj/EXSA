@@ -9,7 +9,7 @@ function Login() {
     e.preventDefault();
 
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/login`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/users/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -21,7 +21,8 @@ function Login() {
 
       if (res.ok) {
         alert("Login successful!");
-        console.log("User ID:", data.userId);
+        console.log("User ID:", data.id);
+        localStorage.setItem("token", data.token);
         localStorage.setItem("user", JSON.stringify(data.user));
         window.dispatchEvent(new Event("storage"));
       } else {
@@ -42,6 +43,7 @@ function Login() {
       <form onSubmit={handleLogin}>
         <label>Email<b className="error-text"> *</b></label>
         <input
+          type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
