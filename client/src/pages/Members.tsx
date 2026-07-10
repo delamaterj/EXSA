@@ -57,32 +57,28 @@ const members: Member[] = [
   },*/
 ];
 
-function MembersPage() {
-
-    return (
-        <>
-            {members.map((member, index) => (
-                          <FadeInSection key={member.name}>
-                            <div
-                            key={member.name}
-                            className={`member-card ${
-                            index % 2 === 0 ? "normal" : "reverse"
-                            }`}
-                            >
-                              <div className="member-image">
-                                <img src={member.image} alt={member.name} />
-                              </div>
-                              <div className="member-info">
-                                <h2>{member.name}</h2>
-                                <h3>{member.role}</h3>
-                                <p>{member.bio}</p>
-                              </div>
-                            </div>
-                          </FadeInSection>
-                        ))}
-        </>
-    )
-
+export default function Members() {
+  return (
+    <>
+      <article>
+        {members.map((member, index) => (
+          <FadeInSection key={member.name}>
+            <section key={member.name}
+            className={`member-card ${
+              index % 2 === 0 ? "normal" : "reverse"
+            }`}>
+              <div className="member-image">
+                <img src={member.image} alt={member.name} />
+              </div>
+              <div className="member-info">
+                <h2>{member.name}</h2>
+                <h3>{member.role}</h3>
+                <p>{member.bio}</p>
+              </div>
+            </section>
+          </FadeInSection>
+        ))}
+      </article>
+    </>
+  );
 }
-
-export default MembersPage;

@@ -1,6 +1,8 @@
-import { useState } from "react";
+import {useState} from 'react';
+import {Link} from 'react-router-dom';
 
-function Login() {
+
+export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -37,37 +39,35 @@ function Login() {
 
   return (
     <>
-    <div className="form-container">
-      <h2>Login</h2>
+      <article className="form-container">
+        
+        <h2>Login</h2>
 
-      <form onSubmit={handleLogin}>
-        <label>Email<b className="error-text"> *</b></label>
-        <input
-          type="email"
+        <form onSubmit={handleLogin}>
+          <label>Email<b className="error-text"> *</b></label>
+          <input type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        <label>Password<b className="error-text"> *</b></label>
-        <input
-          type="password"
+          required/>
+
+          <label>Password<b className="error-text"> *</b></label>
+          <input type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          required
-        />
+          required/>
 
-        {error && (
-          <>
-            <p className="error-text">{error}</p>
-          </>)}
-        <button type="submit">Login</button>
-      </form>
-      <a href="/signup">Don't have an account? Become a Member</a>
-    </div>
-    
+          {error && (
+            <>
+              <label className="error-text">{error}</label>
+            </>
+          )}
+
+          <button type="submit">Login</button>
+        </form>
+
+        <Link to="/signup">Don't have an account? Become a Member</Link>
+
+      </article>
     </>
-
   );
 }
-
-export default Login;

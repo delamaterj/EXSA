@@ -1,5 +1,6 @@
-import FadeInSection from "../components/FadeInSection";
-import { useState, useRef, useEffect} from "react";
+import FadeInSection from '../components/FadeInSection';
+import {useState, useRef, useEffect} from 'react';
+import {Link} from 'react-router-dom';
 
 type Activity = {
   category: string;
@@ -102,103 +103,102 @@ const activities: Activity[] = [
 const youthActivities = activities.filter(a => a.category === "youth");
 const seniorActivities = activities.filter(a => a.category === "seniors");
 
-function ActivitiesPage() {
+export default function ActivitiesPage() {
 
-      const [selected, setSelected] = useState<any>(null);
-      const detailRef = useRef<HTMLDivElement | null>(null);
+  const [selected, setSelected] = useState<any>(null);
+  const detailRef = useRef<HTMLDivElement | null>(null);
 
-      useEffect(() => {
-        setSelected(null);
-        }, [location.pathname]);
+  useEffect(() => {
+    setSelected(null);
+  }, [location.pathname]);
 
-    return (
-        <>
-        {/* FIRST HEADER */}
-                      <FadeInSection>
-                        <h2>Youth Programs (Ages 5-14)</h2>
-                        <div className="activities-row">
-                          {youthActivities.map((activity) => (
-                            <div
-                            key={activity.title}
-                            className={`activity-card ${selected?.title === activity.title ? "selected" : ""}`}>
-                              <h3>{activity.title}</h3>
-                              {activity.image && (
-                              <img src={activity.image} alt={activity.title} />
-                              )}
-                              <p>{activity.shortDesc}</p>
-                              <span className="read-more" 
-                              onClick={() => {
-                                setSelected(activity);
-                                setTimeout(() => {
-                                  detailRef.current?.scrollIntoView({
-                                  behavior: "smooth",
-                                  block: "start"
-                                });
-                                }, 100);
-                              }}
-                              >
-                                Read more
-                              </span>
-                            </div>
-                          ))}
-                        </div>
-                      </FadeInSection>
+  return (
+    <>
+      <article>
+        <FadeInSection>
+          <section>
+            <h2>Youth Programs (Ages 5-14)</h2>
+            <div className="activities-row">
+              {youthActivities.map((activity) => (
+                <div key={activity.title}
+                className={`activity-card ${selected?.title === activity.title ? 
+                "selected" 
+                : 
+                ""}`}>
+                <h3>{activity.title}</h3>
+                {activity.image 
+                && 
+                (<img src={activity.image} alt={activity.title}/>)}
+                <p>{activity.shortDesc}</p>
+                  <span className="read-more" 
+                  onClick={() => {
+                    setSelected(activity);
+                    setTimeout(() => {
+                      detailRef.current?.scrollIntoView({
+                        behavior: "smooth",
+                        block: "start"
+                      });
+                    }, 100);
+                  }}>Read more</span>
+              </div>
+            ))}
+            </div>
+          </section>
+        </FadeInSection>
         
-                      {/* SECOND HEADER */}
-                      <FadeInSection>
-                        <h2>Senior Programs (Ages 50+)</h2>
-                        <div className="activities-row">
-                          {seniorActivities.map((activity) => (
-                            <div
-                            key={activity.title}
-                            className={`activity-card ${selected?.title === activity.title ? "selected" : ""}`}
-                            >
-                              <h3>{activity.title}</h3>
-                              {activity.image && (
-                                <img src={activity.image} alt={activity.title} />
-                              )}
-                              <p>{activity.shortDesc}</p>
-                              <span className="read-more" 
-                              onClick={() => {
-                                setSelected(activity);
-                                setTimeout(() => {
-                                  detailRef.current?.scrollIntoView({
-                                  behavior: "smooth",
-                                  block: "start"
-                                });
-                              }, 100);
-                            }}
-                            >
-                              Read more
-                            </span>
-                            </div>
-                          ))}
-                        </div>
-                      </FadeInSection>
+        <FadeInSection>
+          <section>
+            <h2>Senior Programs (Ages 50+)</h2>
+            <div className="activities-row">
+              {seniorActivities.map((activity) => (
+                <div key={activity.title}
+                className={`activity-card ${selected?.title === activity.title ? 
+                "selected" 
+                : 
+                ""}`}>
+                  <h3>{activity.title}</h3>
+                  {activity.image 
+                  && 
+                  (<img src={activity.image} alt={activity.title} />)}
+                  <p>{activity.shortDesc}</p>
+                  <span className="read-more" 
+                    onClick={() => {
+                      setSelected(activity);
+                      setTimeout(() => {
+                        detailRef.current?.scrollIntoView({
+                          behavior: "smooth",
+                          block: "start"
+                        });
+                      }, 100);
+                    }}>Read more</span>
+                </div>
+              ))}
+            </div>
+          </section>
+        </FadeInSection>
         
-                      {/* DYNAMIC DETAIL DIV */}
-                      {selected && (
-                        <div className="activity-detail" ref={detailRef}>
-                          <h2>{selected.title}</h2>
-                          {selected.image && (
-                          <img src={selected.image} alt={selected.title} />
-                          )}
-                          <p>{selected.longDesc}</p>
-                          <a className="read-more" href="/events">Check Out Upcoming/Past Events</a>
-                        </div>
-                      )}
-                    <FadeInSection>
-                      <div className="survey-links">
-                        <a href="https://forms.gle/JcvDJ1uW4qU3Us9V6" target="_blank" rel="noopener noreferrer" className="read-more">
-                        Wellness Survey for Youth and Families
-                        </a>
-                        <a href="https://forms.gle/4jVAVWzUtj7xXkPm7" target="_blank" rel="noopener noreferrer" className="read-more">
-                        Wellness Survey for Seniors
-                        </a>
-                      </div>
-                    </FadeInSection>
-        </>
-    )
+
+        {selected && (
+          <section className="activity-detail" ref={detailRef}>
+            <h2>{selected.title}</h2>
+            {selected.image && (
+              <img src={selected.image} alt={selected.title} />
+            )}
+            <p>{selected.longDesc}</p>
+            <Link className="read-more" to="/events">Check Out Upcoming/Past Events</Link>
+          </section>
+        )}
+        <FadeInSection>
+          <section className="survey-links">
+            <a href="https://forms.gle/JcvDJ1uW4qU3Us9V6" target="_blank" rel="noopener noreferrer" className="read-more">
+              Wellness Survey for Youth and Families
+            </a>
+            <a href="https://forms.gle/4jVAVWzUtj7xXkPm7" target="_blank" rel="noopener noreferrer" className="read-more">
+              Wellness Survey for Seniors
+            </a>
+          </section>
+        </FadeInSection>
+      </article>
+    </>
+  )
 }
-
-export default ActivitiesPage;
