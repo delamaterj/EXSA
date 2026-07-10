@@ -1,17 +1,18 @@
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import Layout from './components/layout/Layout';
 import FadeInSection from "./components/FadeInSection";
-import EventsPage from './pages/EventsPage';
-import EventDetailsPage from './pages/EventDetailsPage';
+import EventsPage from './pages/Events';
+import EventDetailsPage from './pages/Event_EventID';
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
-import MembersPage from './pages/MembersPage';
-import ActivitiesPage from './pages/ActivitiesPage';
-import AboutPage from './pages/AboutPage';
+import MembersPage from './pages/Members';
+import ActivitiesPage from './pages/Activities';
+import AboutPage from './pages/About';
 import {useEffect, useState} from 'react';
 import Carousel from './components/Carousel';
-import Profile from './pages/Profile';
+import Profile from './pages/Profile_ProfileID';
 import UnderConstr from "./components/UnderConstr";
+import ContactMD from './pages/Contact_MD';
 
 function AnimatedRoutes() {
 
@@ -234,31 +235,7 @@ function AnimatedRoutes() {
       element={
       <Layout pageTitle ="Mia Delamater" heroText="Mia Delamater">
         <main className="contact-container">
-          <div className="contact-card">
-            <div className="contact-image">
-              <img src="/exsa-mia2.jpeg" alt="Mia Profile" />
-            </div>
-            <div className="contact-info">
-              <div className="contact-details">
-                <h4>mugedelamater0@gmail.com</h4>
-                <h4>(850) 910-0118</h4>
-              </div>
-              <div className="contact-socials">
-                <a href="https://www.instagram.com/mgsdl?igsh=MWdscGU1aWFjcDN3ZA==" target="_blank">
-                  <img src="/instagram-logo.png" alt="Instagram" />
-                </a>
-                <a href="https://www.facebook.com/share/1HYu5NL9cF/" target="_blank">
-                  <img src="/facebook-logo.png" alt="Facebook" />
-                </a>
-              </div>
-              <a href="/md.vcf" download>
-                <div className="contact-download">
-                  Download Contact
-                  <img src="/download.png" alt="Download" />
-                </div>
-              </a>
-            </div>
-          </div>
+          <ContactMD />
         </main>
       </Layout>
       }
