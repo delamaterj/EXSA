@@ -1,11 +1,10 @@
-import { useParams } from "react-router-dom";
-import { useState, useEffect } from "react";
-import UnderConstr from "../components/UnderConstr";
+import {useParams, Link} from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import UnderConstr from '../components/UnderConstr';
 
-// Updated type to include array of dates with id
 type EventDate = {
-  id: string;      // event_dates.id
-  date: string;    // datetime string
+  id: string;
+  date: string;
 };
 
 type Event = {
@@ -14,16 +13,16 @@ type Event = {
   location: string;
   description?: string;
   flyer?: string;
-  dates: EventDate[]; // all dates for this event
+  dates: EventDate[];
 };
 
-function EventDetailsPage() {
-  const { eventId } = useParams(); // gets :id from URL
+export default function EventID() {
+  const { eventId } = useParams();
   const [event, setEvent] = useState<Event | null>(null);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-  const [selectedDates, setSelectedDates] = useState<string[]>([]); // store selected event_date ids
+  const [selectedDates, setSelectedDates] = useState<string[]>([]);
   const [message, setMessage] = useState("");
 
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -40,12 +39,10 @@ function EventDetailsPage() {
   setPhone(formatted);
 };
 
-  // Fetch event details including all dates
   useEffect(() => {
     fetch(`${import.meta.env.VITE_API_URL}/events/get/${eventId}`)
       .then((res) => res.json())
       .then((data) => {
-        // if your backend returns multiple rows (one per date), group them
         const grouped: Event = {
           id: data[0].id,
           title: data[0].title,
@@ -113,99 +110,82 @@ function EventDetailsPage() {
 
   return (
     <>
-    <div className="form-container">
-  <h2>{event ? `Sign up for ${event.title}` : <UnderConstr />}</h2>
+      <article className="form-container">
+        <h2>{event ? `Sign up for ${event.title}` : <UnderConstr />}</h2>
 
-  <div className={`event-content ${event?.flyer ? "has-flyer" : ""}`}>
+        <section className={`event-content ${event?.flyer ? "has-flyer" : ""}`}>
+          {event?.flyer && (
+            <picture className="event-flyer-container">
+              <img src={`/${event.flyer}`}
+              alt={`${event.title} flyer`}
+              className="event-flyer"/>
+            </picture>
+          )}
+            
+          <div className="event-form">
+            {upcomingDates.length > 0 ? (
+              <form onSubmit={handleRSVP}>
+                <label>Name<b className="error-text"> *</b></label>
+                <input value={name}
+                onChange={(e) => setName(e.target.value)}
+                required/>
 
-    {/* LEFT SIDE → FLYER */}
-    {event?.flyer && (
-      <div className="event-flyer-container">
-        <img
-          src={`/${event.flyer}`}
-          alt={`${event.title} flyer`}
-          className="event-flyer"
-        />
-      </div>
-    )}
-    {event?.title === "Digital Wellness Event (Screen Time Clinic)" ? (
-      <a href="https://us06web.zoom.us/meeting/register/st7Kl8f2QyGFrIMt5mDs8Q#/registration" target="_blank" rel="noopener noreferrer" className="read-more">
-        <u>Sign Up for Screen Time Clinic</u>
-      </a>
-    ) : (    
-    <div className="event-form">
+                <label>Email<b className="error-text"> *</b></label>
+                <input type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required/>
 
-      {upcomingDates.length > 0 ? (
-        <form onSubmit={handleRSVP}>
-          <label>Name<b className="error-text"> *</b></label>
-          <input
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-          />
-          <label>Email<b className="error-text"> *</b></label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-          <label>Phone Number<b className="error-text"> *</b></label>
-          <input
-            type="tel"
-            value={phone}
-            onChange={handlePhoneChange}
-            required
-          />
+                <label>Phone Number<b className="error-text"> *</b></label>
+                <input type="tel"
+                value={phone}
+                onChange={handlePhoneChange}
+                required/>
 
-          <label>Select date(s) to RSVP for:<b className="error-text"> *</b></label>
-          <select
-            multiple
-            value={selectedDates.map(String)}
-            onChange={(e) =>
-              setSelectedDates(
-                Array.from(e.target.selectedOptions, (option) =>
-                  option.value
-                )
-              )
-            }
-          >
-            {upcomingDates.map((d) => (
-              <option key={d.id} value={d.id}>
-                {new Date(d.date).toLocaleString("en-US", {
-                  timeZone: "America/Chicago",
-                  month: "long",
-                  day: "numeric",
-                  year: "numeric",
-                  hour: "numeric",
-                  minute: "2-digit",
-                  hour12: true,
-                })}
-              </option>
-            ))}
-          </select>
+                <label>Select date(s) to RSVP for:<b className="error-text"> *</b></label>
+                <select multiple
+                value={selectedDates.map(String)}
+                onChange={(e) =>
+                  setSelectedDates(
+                  Array.from(e.target.selectedOptions, (option) =>
+                    option.value)
+                  )
+                }>
+                  {upcomingDates.map((d) => (
+                    <option key={d.id} value={d.id}>
+                      {new Date(d.date).toLocaleString("en-US", {
+                        timeZone: "America/Chicago",
+                        month: "long",
+                        day: "numeric",
+                        year: "numeric",
+                        hour: "numeric",
+                        minute: "2-digit",
+                        hour12: true,
+                      })}
+                    </option>
+                  ))}
+                </select>
 
-          <button type="submit">RSVP</button>
-          {message && <p>{message}</p>}
-          <div className="qr-code">
-        <h3>Payments are accepted via. Venmo or Zelle. Submit your payment to fully RSVP for an event!</h3>
-        <img src="/exsa-venmo.jpeg" alt="venmo" />
-        <img src="/exsa-zelle.jpeg" alt="zelle" />
-      </div>
-        </form>
+                <button type="submit">RSVP</button>
+
+                {message && <p>{message}</p>}
+                <div className="qr-code">
+                  <h3>Payments are accepted via. Venmo or Zelle. Submit your payment to fully RSVP for an event!</h3>
+                  <img src="/exsa-venmo.jpeg" alt="Venmo QR Code" />
+                  <img src="/exsa-zelle.jpeg" alt="Zelle QR Code" />
+                </div>
+              </form>
       ) : (
-        <>
-        <div className="qr-code">
-        <p>This event has no upcoming dates available for RSVP.</p>
-        <a className="read-more" href="/events">Check out our other events</a>
-        </div>
-        </>
-      )}    
-    </div>)}
-  </div>
-</div>
+            <>
+              <div className="qr-code">
+                <p>This event has no upcoming dates available for RSVP.</p>
+                <Link className="read-more" to="/events">Check out our other events</Link>
+              </div>
+            </>
+          )}    
+          </div>
+        </section>
+      </article>
     </>
   );
 }
-
-export default EventDetailsPage;

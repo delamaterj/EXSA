@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import Layout from './components/layout/Layout';
 import FadeInSection from "./components/FadeInSection";
 import EventsPage from './pages/Events';
-import EventDetailsPage from './pages/Event_EventID';
+import EventID from './pages/Event_EventID';
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import MembersPage from './pages/Members';
@@ -185,7 +185,7 @@ function AnimatedRoutes() {
       element={
         <Layout pageTitle ="EXSA - Events Sign Up" heroText="Event Sign Up">
           <main>
-            <EventDetailsPage />
+            <EventID />
           </main>
         </Layout>
       }
