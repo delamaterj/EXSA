@@ -59,47 +59,44 @@ function Signup() {
 
   return (
     <>
-    <div className="form-container">
-      <h2>Sign Up</h2>
+      <article className="form-container">
 
-      <form onSubmit={handleSignup}>
-        <label>Name<b className="error-text"> *</b></label>
-        <input
-          value={name}
+        <h2>Sign Up</h2>
+
+        <form onSubmit={handleSignup}>
+          <label>Name<b className="error-text"> *</b></label>
+          <input value={name}
           onChange={(e) => setName(e.target.value)}
-          required
-        />
-        <label>Email<b className="error-text"> *</b></label>
-        <input
-          type="email"
+          required/>
+
+          <label>Email<b className="error-text"> *</b></label>
+          <input type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        <label>Phone<b className="error-text"> *</b></label>
-        <input
-          type="tel"
+          required/>
+
+          <label>Phone<b className="error-text"> *</b></label>
+          <input type="tel"
           value={phone}
           onChange={handlePhoneChange}
-          required
-        />
-        <label>Password<b className="error-text"> *</b></label>
-        <input
-          type="password"
+          required/>
+
+          <label>Password<b className="error-text"> *</b></label>
+          <input type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          required
-        />
+          required/>
 
-        {error && (
-          <>
-            <p className="error-text">{error}</p>
-          </>)}
+          {error && (
+            <>
+              <p className="error-text">{error}</p>
+            </>
+          )}
 
-        <button type="submit">Create Account</button>
-      </form>
-    </div>
-    
+          <button type="submit">Create Account</button>
+          
+        </form>
+      </article>
     </>
   );
 }
