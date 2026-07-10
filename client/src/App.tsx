@@ -6,7 +6,7 @@ import EventDetailsPage from './pages/Event_EventID';
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import MembersPage from './pages/Members';
-import ActivitiesPage from './pages/Activities';
+import Activities from './pages/Activities';
 import About from './pages/About';
 import {useEffect, useState} from 'react';
 import Carousel from './components/Carousel';
@@ -165,7 +165,7 @@ function AnimatedRoutes() {
       element={
         <Layout pageTitle ="EXSA - Activities" heroText="Our Activities">
           <main className="activities-container">
-            <ActivitiesPage />
+            <Activities />
           </main>
         </Layout>
       }
