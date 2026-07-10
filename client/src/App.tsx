@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
-import Layout from './components/Layout';
+import Layout from './components/layout/Layout';
 import FadeInSection from "./components/FadeInSection";
 import EventsPage from './pages/EventsPage';
 import EventDetailsPage from './pages/EventDetailsPage';

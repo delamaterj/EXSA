@@ -1,19 +1,17 @@
 import { useState, useRef, useEffect } from "react";
-import { Link } from "react-router-dom";
+import {Link} from "react-router-dom";
 
-function Navbar() {
+export default function NavDropDown() {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
-
   const user = JSON.parse(localStorage.getItem("user") || "null");
 
-  const handleLogout = () => {
+  function handleLogout() {
     localStorage.removeItem("user");
     window.location.reload();
     window.dispatchEvent(new Event("storage"));
   };
 
-  // close dropdown on outside click
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (ref.current && !ref.current.contains(e.target as Node)) {
@@ -28,19 +26,19 @@ function Navbar() {
   if (!user) return null;
 
   return (
-    <div ref={ref} className="nav-profile">
-      <img src="/profile.png" alt="profile" onClick={() => setOpen(!open)}/>
-      {open && (
-        <div className="nav-profile-dropdown">
-          <p>{user.name}</p>
-          <Link to={`/profile/${user.uuid}`}>
-            <p>Profile</p>
-          </Link>
-          <button onClick={handleLogout}>Logout</button>
+    <>
+        <div ref={ref} className="nav-profile">
+            <img src="/profile.png" alt="profile" onClick={() => setOpen(!open)}/>
+            {open && (
+                <div className="nav-profile-dropdown">
+                    <p>{user.name}</p>
+                    <Link to={`/profile/${user.uuid}`}>
+                        <p>Profile</p>
+                    </Link>
+                    <button onClick={handleLogout}>Logout</button>
+                </div>
+            )}
         </div>
-      )}
-    </div>
+    </>
   );
 }
-
-export default Navbar;
