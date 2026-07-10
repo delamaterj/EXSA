@@ -5,7 +5,7 @@ import Events from './pages/Events';
 import EventID from './pages/Event_EventID';
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
-import MembersPage from './pages/Members';
+import Members from './pages/Members';
 import Activities from './pages/Activities';
 import About from './pages/About';
 import {useEffect, useState} from 'react';
@@ -215,7 +215,7 @@ function AnimatedRoutes() {
       element={
       <Layout pageTitle ="EXSA - Members" heroText="Our Staff and Volunteers">
         <main className="members-container">
-          <MembersPage />
+          <Members />
         </main>
       </Layout>
       }
