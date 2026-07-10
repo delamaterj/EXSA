@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import Layout from './components/layout/Layout';
 import FadeInSection from "./components/FadeInSection";
-import EventsPage from './pages/Events';
+import Events from './pages/Events';
 import EventID from './pages/Event_EventID';
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
@@ -175,7 +175,7 @@ function AnimatedRoutes() {
       element={
         <Layout pageTitle ="EXSA - Events" heroText="Upcoming and Past Events">
           <main>
-            <EventsPage />
+            <Events />
           </main>
         </Layout>
       }

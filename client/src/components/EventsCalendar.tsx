@@ -77,7 +77,7 @@ function EventsCalendar() {
       </>);
 
 return (
-    <div className="calendar-container">
+    <section className="calendar-container">
   <Calendar
     tileContent={({ date }) => {
       const key = date.toLocaleDateString("en-CA");
@@ -103,7 +103,7 @@ return (
       );
     }}
   />
-  </div>
+  </section>
 );
 }
 

@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
-import { DateTime } from "luxon";
-import EventsCalendar from "../components/EventsCalendar";
+import React, {useState, useEffect} from 'react';
+import {DateTime} from 'luxon';
+import EventsCalendar from '../components/EventsCalendar';
 
-function EventsPage() {
+export default function Events() {
 
   const [title, setTitle] = useState("");
   const [dates, setDates] = useState<string[]>([""]);
@@ -117,46 +117,40 @@ const removeDate = (index: number) => {
 const user = JSON.parse(localStorage.getItem("user") || "null");
 
   return (
-    
-    <div>
-      <EventsCalendar />
-       {user?.role === "ADMIN" && (
-      <div className="form-container">
-        <h2>Add Events (Admin)</h2>
-      <form onSubmit={handleSubmit}>
-        <input
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          placeholder="Title"
-          required
-        />
-        {dates.map((date, index) => (
-        <div key={index}>
-        <input
-        type="datetime-local"
-        value={date}
-        onChange={(e) => handleDateChange(index, e.target.value)}
-        required
-        />
-      <button type="button" onClick={() => removeDate(index)} disabled={dates.length === 1}>
-        Remove
-      </button>
-      <button type="button" onClick={addDate}>
-        Add Another Date
-      </button>
-    </div>
-))}
-        <input
-          value={location}
-          onChange={(e) => setLocation(e.target.value)}
-          placeholder="Location"
-          required
-        />
-        <button type="submit">Add Event</button>
-      </form>
-      </div>)}
-    </div>
+    <>
+      <article>
+        <EventsCalendar />
+        {user?.role === "ADMIN" && (
+          <section className="form-container">
+            <h2>Add Events (Admin)</h2>
+            <form onSubmit={handleSubmit}>
+              <input value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              placeholder="Title"
+              required/>
+              {dates.map((date, index) => (
+              <div key={index}>
+                <input type="datetime-local"
+                value={date}
+                onChange={(e) => handleDateChange(index, e.target.value)}
+                required/>
+                <button type="button" onClick={() => removeDate(index)} disabled={dates.length === 1}>
+                  Remove
+                </button>
+                <button type="button" onClick={addDate}>
+                  Add Another Date
+                </button>
+              </div>
+              ))}
+              <input value={location}
+              onChange={(e) => setLocation(e.target.value)}
+              placeholder="Location"
+              required/>
+              <button type="submit">Add Event</button>
+            </form>
+          </section>
+        )}
+      </article>
+    </>
   );
 }
-
-export default EventsPage;
