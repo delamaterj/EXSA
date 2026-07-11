@@ -1,6 +1,10 @@
-import { useState } from "react";
+import {useState} from 'react';
+import {formatPhone, isValidPhone} from '../utils/phone';
+import {isValidEmail} from '../utils/email';
+import {signupUser} from '../api/users.api';
+import type {SignupRequest, SignupResponse} from '../types/users';
 
-function Signup() {
+export default function Signup() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -8,52 +12,46 @@ function Signup() {
   const [error, setError] = useState("");
 
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const input = e.target.value.replace(/\D/g, "");
+    setPhone(formatPhone(e.target.value));
+  };
 
-    let formatted = input;
-
-    if (input.length > 3 && input.length <= 6) {
-      formatted = `(${input.slice(0, 3)}) ${input.slice(3)}`;
-    } else if (input.length > 6) {
-      formatted = `(${input.slice(0, 3)}) ${input.slice(3, 6)}-${input.slice(6, 10)}`;
-    }
-
-    setPhone(formatted);
+  const resetForm = () => {
+    setName("");
+    setEmail("");
+    setPhone("");
+    setPassword("");
+    setError("");
   };
 
   const handleSignup = async (e: React.FormEvent) => {
+
     e.preventDefault();
 
-    const phoneRegex = /^\(\d{3}\) \d{3}-\d{4}$/;
-
-    if (!phoneRegex.test(phone)) {
+    if (!isValidPhone(phone)) {
       setError("Please enter a valid phone number.");
-    return;
+      return;
     }
 
+    if (!isValidEmail(email)) {
+      setError("Please enter a valid email.");
+      return;
+    }
+
+    const request: SignupRequest = {
+      name,
+      email,
+      phone,
+      password
+    };
+
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/users/signup`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ name, email, password, phone }),
-      });
-
-      const data = await res.json();
-
-      if (res.ok) {
-        alert("Signup successful!");
-        setName("");
-        setEmail("");
-        setPassword("");
-        setPhone("");
-      } else {
-        setError(data.error);
-      }
+      const data : SignupResponse = await signupUser(request);
+      alert("Signup successful!");
+      console.log(`signup ${data.id} successful`);
+      resetForm();
     } catch (err) {
       console.error(err);
-      setError("Error trying to sign up. Please try again later.");
+      setError(err instanceof Error ? err.message : "Error trying to sign up. Please try again later.");
     }
   };
 
@@ -100,5 +98,3 @@ function Signup() {
     </>
   );
 }
-
-export default Signup;
