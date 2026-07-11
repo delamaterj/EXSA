@@ -12,15 +12,15 @@ export async function register(req: Request, res: Response) {
         res.status(201).json(user);
     } catch (err) {
         console.log(err);
-        res.status(500).json({ error: "Registration failed" });
+        res.status(500).json({message: err instanceof Error ? err.message : "Could not sign up user. Try again later"});
     }
 }
 
 export async function login(req: Request, res: Response) {
     try {
         const result = await loginUserService(req.body.email, req.body.password);
-        res.json(result);
+        res.status(201).json(result);
     } catch (err) {
-        res.status(401).json({ error: "Invalid credentials" });
+        res.status(500).json({message: err instanceof Error ? err.message : "Could not login user. Try again later"});
     }
 }

@@ -50,7 +50,7 @@ password: string) {
     const user = result.rows[0];
 
     if (!user) {
-        throw new Error("Invalid credentials");
+        throw new Error("Incorrect email and/or password");
     }
 
     const isMatch = await bcrypt.compare(
@@ -59,7 +59,7 @@ password: string) {
     );
 
     if (!isMatch) {
-        throw new Error("Invalid credentials");
+        throw new Error("Incorrect email and/or password");
     }
 
     const token = jwt.sign(
@@ -82,7 +82,7 @@ password: string) {
 
     }
     catch(err){
-        throw Error("Could not login user");
+        throw Error("Could not login user. Try again later");
     }
     finally {
         client.release();
