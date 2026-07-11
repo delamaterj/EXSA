@@ -7,7 +7,7 @@ export async function createRsvp(
 ): Promise<CreateRsvpResponse> {
 
     return apiClient<CreateRsvpResponse>(
-        `events/${eventId}/rsvps`,
+        `/events/${eventId}/rsvps`,
         {
             method: "POST",
             body: JSON.stringify(request),
