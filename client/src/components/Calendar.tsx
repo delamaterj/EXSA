@@ -15,7 +15,6 @@ export default function EventsCalendar() {
 
     try {
       const rows = await getEvents();
-      console.log(rows);
       const events = groupEvents(rows);
       setEventsByDate(buildCalendarMap(events));
     } catch (err) {
