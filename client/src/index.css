@@ -507,6 +507,7 @@ footer {
   font-weight: bold;
   cursor: pointer;
   transition: background 0.2s ease;
+  margin: 2px;
 }
 
 .form-container button:hover {
