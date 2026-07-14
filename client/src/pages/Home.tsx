@@ -33,9 +33,6 @@ export default function Home() {
 
             });
 
-            console.log("Upcoming:", upcoming);
-            console.log("Past:", past);
-
             setUpcomingEvents(upcoming);
             setPastEvents(past);
 
