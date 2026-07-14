@@ -4,8 +4,7 @@ export interface Rsvp {
     name?: string;
     email?: string;
     phone?: string;
-    event_date_id: string;
-    created_at: string;
+    event_date_ids: string[];
 }
 
 export interface CreateRsvpRequest {
@@ -13,7 +12,7 @@ export interface CreateRsvpRequest {
     name?: string;
     email?: string;
     phone?: string;
-    event_date_id: string;
+    event_date_ids: string[];
 }
 
 export interface CreateRsvpResponse {

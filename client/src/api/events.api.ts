@@ -1,5 +1,5 @@
 import {apiClient} from './client';
-import type {CreateEventRequest, CreateEventResponse} from '../types/events';
+import type {CreateEventRequest, CreateEventResponse, EventRow} from '../types/events';
 
 export async function createEvent(
     request: CreateEventRequest
@@ -14,10 +14,10 @@ export async function createEvent(
     );
 }
 
-export async function getEvents(): Promise<Event[]> {
+export async function getEvents(): Promise<EventRow[]> {
 
-    return apiClient<Event[]>(
-        "/events",
+    return apiClient<EventRow[]>(
+        "/events/get",
         {
             method: "GET",
         }
@@ -26,10 +26,10 @@ export async function getEvents(): Promise<Event[]> {
 
 export async function getEventId(
     eventId: string
-): Promise<Event> {
+): Promise<EventRow[]> {
 
-    return apiClient<Event>(
-        `/events/${eventId}`,
+    return apiClient<EventRow[]>(
+        `/events/get/${eventId}`,
         {
             method: "GET",
         }

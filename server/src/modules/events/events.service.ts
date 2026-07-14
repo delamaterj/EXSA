@@ -87,7 +87,7 @@ export async function getEventInfoIdService(eventId: string) {
             e.title,
             e.location,
             e.description,
-            e.flyer_url AS flyer,
+            e.flyer_url,
             d.id AS date_id,
             d.starts_at AS date
         FROM events e
@@ -122,6 +122,7 @@ export async function getEventsInfoService() {
             events.location,
             events.description,
             events.flyer_url,
+            event_dates.id AS date_id,
             event_dates.starts_at AS date
         FROM events
         INNER JOIN event_dates

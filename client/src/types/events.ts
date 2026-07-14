@@ -10,7 +10,7 @@ export interface Event {
     description?: string;
     location: string;
     flyer_url?: string;
-    dates?: EventDate[];
+    dates: EventDate[];
 }
 
 
@@ -27,6 +27,29 @@ export interface CreateEventResponse {
     eventId: string;
 }
 
+
+export interface EventRow {
+    id: string;
+    title: string;
+    location: string;
+    description?: string;
+    flyer_url?: string;
+
+    date_id: string;
+    date: string;
+
+}
+
+export interface CalendarEvent {
+    id: string;
+    title: string;
+    location: string;
+    description?: string;
+    flyer_url?: string;
+    dates: string[];
+}
+
+export type EventsByDate = Record<string, CalendarEvent[]>;
 
 export type GetEventsResponse = Event[];
 

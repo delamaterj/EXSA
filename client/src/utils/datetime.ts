@@ -1,4 +1,5 @@
 import {DateTime} from 'luxon';
+import type {EventDate} from '../types/events';
 
 export const APP_TIMEZONE = "America/Chicago";
 
@@ -26,23 +27,59 @@ export function isUpcomingDate(date: string): boolean {
     return toCentral(date) >= DateTime.now().setZone(APP_TIMEZONE);
 }
 
-export function sortAscendingDates(
-    dates: string[]
-): string[] {
+export function sortAscendingEventDates(
+    dates: EventDate[]
+): EventDate[] {
+
     return [...dates].sort(
         (a, b) =>
-            DateTime.fromISO(a).toMillis() -
-            DateTime.fromISO(b).toMillis()
+            DateTime.fromISO(a.starts_at).toMillis() -
+            DateTime.fromISO(b.starts_at).toMillis()
     );
 }
 
-export function sortDescendingDates(
-    dates: string[]
-): string[] {
+export function sortDescendingEventDates(
+    dates: EventDate[]
+): EventDate[] {
+
     return [...dates].sort(
         (a, b) =>
-            DateTime.fromISO(b).toMillis() -
-            DateTime.fromISO(a).toMillis()
+            DateTime.fromISO(b.starts_at).toMillis() -
+            DateTime.fromISO(a.starts_at).toMillis()
     );
 }
 
+export function getCalendarDateKey(date: string | Date): string {
+    const value = typeof date === "string"
+        ? new Date(date)
+        : date;
+
+    return value.toLocaleDateString("en-CA", {
+        timeZone: APP_TIMEZONE,
+    });
+}
+
+export function hasUpcomingDates(
+    dates: EventDate[]
+): boolean {
+
+    return dates.some((date) =>
+        isUpcomingDate(date.starts_at)
+    );
+}
+
+export function hasPastDates(
+    dates: EventDate[]
+): boolean {
+
+    return dates.some(
+        (date) => !isUpcomingDate(date.starts_at)
+    );
+
+}
+
+export function getUpcomingDates( 
+    dates: EventDate[] 
+): EventDate[] { 
+    return dates.filter((date) => isUpcomingDate(date.starts_at) ); 
+}
