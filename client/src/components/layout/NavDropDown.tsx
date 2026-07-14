@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import {Link} from "react-router-dom";
+import {clearSession} from '../../utils/storage';
 
 export default function NavDropDown() {
   const [open, setOpen] = useState(false);
@@ -7,7 +8,7 @@ export default function NavDropDown() {
   const user = JSON.parse(localStorage.getItem("user") || "null");
 
   function handleLogout() {
-    localStorage.removeItem("user");
+    clearSession();
     window.location.reload();
     window.dispatchEvent(new Event("storage"));
   };
