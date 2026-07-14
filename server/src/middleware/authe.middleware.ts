@@ -16,6 +16,9 @@ export async function authenticate(
         const token = authHeader.replace("Bearer ", "");
         const decoded = jwt.verify(token, process.env.JWT_SECRET!) as {
             userId: string;
+            name: string;
+            email: string;
+            phone: string;
             role: string;
         };
 
