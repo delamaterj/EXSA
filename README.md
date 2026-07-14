@@ -1,28 +1,99 @@
-# Welcome to EXSA!
+# exsa850.org
 
-This is the open-source repo for the EXSA 850 web application
+Welcome to EXSA850's GitHub portfolio! EXSA850 is a full-stack event management platform developed to centralize event planning, improve community engagement, and streamline communication between organization staff and community members in the Crestview-FWB-Destin area.
 
-Currently, EXSA 850 is a front-end landing webpage containing information regarding the organization, executive members, activities, services, and much more
+The platform enables community members to discover upcoming events, create accounts, RSVP for activities, and receive event notifications, while authorized staff members manage the event lifecycle through an administrative dashboard.
 
-### The website has its own domain now! Go to exsa850.org
+---
 
-## To work on the repository locally
+## Project Overview
 
-(This application uses React, Vite, Node.js, and MySQL - Ensure you have all of the updated features to run these things!)
-(Depending on your device, you may also need to go into powershell as an administrator and update your permissions)
+This application consolidates responsibilities into a centralized web platform where community members and staff interact through a unified event management system. 
 
-- Clone the repository locally onto your own device through the appropiate instructions
-- Open the repository in VSCode or whatever appropiate platform
+Community members can:
 
-### For Back End
-- open the terminal and cd into server
-- type 'node index.js'
+- Browse upcoming events
+- Create an account
+- Log in securely
+- RSVP for upcoming events
+- Receive event notifications
 
-### For Front End
-- open the terminal and cd into client
-- type 'npm run dev'
-- (To view application on multiple devices within same network, type 'npm run dev -- --host')
+Organization staff can:
 
-#### Environment variables have been added for protection. To work on this project locally, you will need to manually update these variables:
-- SQL database credentials (host, user, password, name)
-- localhost domain for both front end and back end (vite api url + origin name)
+- Create and manage events
+- Publish organization announcements
+- Manage event information
+- Monitor participation through an administrative interface
+
+---
+
+## Features
+
+### Community Member Features
+
+- User registration
+- Secure login using JWT authentication
+- Persistent user sessions
+- Browse upcoming events
+- RSVP for events
+- Calendar-based event viewing
+- Receive event notifications
+
+### Administrative Features
+
+- Administrative dashboard
+- Create new events
+- Edit existing events
+- Role-based authorization
+- Publish organization events
+- Manage organization content
+
+---
+
+## Technology Stack
+
+### Frontend
+
+- React
+- TypeScript
+- Vite
+- CSS
+
+### Backend
+
+- Node.js
+- Express
+- TypeScript
+
+### Database
+
+- PostgreSQL
+
+### Authentication
+
+- JSON Web Tokens (JWT)
+- bcrypt
+
+### Deployment
+
+- Frontend: Vercel
+- Backend: Render
+- Database: Supabase
+
+### Development Workflow
+
+- Git/Github (GitHub Projects)
+- Feature branches
+- Development/Production deployment
+
+---
+
+## Application Workflow
+1. A community member creates an account.
+2. The user authenticates using JWT-based login.
+3. The user browses available events.
+4. The user submits an RSVP for an event.
+5. Organization staff create and manage events through the administrative dashboard.
+6. Notifications are distributed to inform users about upcoming events and organization announcements.
+
+This project is for educational and portfolio purposes.
