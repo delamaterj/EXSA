@@ -13,12 +13,12 @@ export default function EventID() {
 
   const {eventId} = useParams();
   const [event, setEvent] = useState<Event>();
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
+  const [name, setName] = useState(getUser()?.name || "");
+  const [email, setEmail] = useState(getUser()?.email || "");
+  const [phone, setPhone] = useState(getUser()?.phone || "");
   const [selectedDates, setSelectedDates] = useState<string[]>([]);
   const [message, setMessage] = useState("");
-
+  
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPhone(formatPhone(e.target.value));
   };
@@ -89,7 +89,6 @@ export default function EventID() {
         ? getUpcomingDates(event.dates)
         : [];
 
-  console.log(`Flyer: ${event?.flyer_url}`);
   return (
     <>
       <article className="form-container">

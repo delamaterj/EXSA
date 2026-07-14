@@ -3,9 +3,9 @@ import pool from "../../config/db";
 //Creates RSVP with user information for event_date
 export async function createRSVPService(
     eventDateId: string,
-    name?: string,
-    email?: string,
-    phone?: string,
+    name: string,
+    email: string,
+    phone: string,
     userId?: string) {
 
     const client = await pool.connect();
@@ -63,9 +63,9 @@ export async function createRSVPService(
             RETURNING id`,
             [
                 userId ? userId : null,
-                userId ? null : name,
-                userId ? null : email,
-                userId ? null : phone,
+                name,
+                email,
+                phone,
                 eventDateId,
             ]
         );

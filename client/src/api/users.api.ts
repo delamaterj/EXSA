@@ -4,12 +4,12 @@ LoginResponse,
 SignupRequest,
 SignupResponse} from "../types/users";
 
-export async function loginUser(
-    request: LoginRequest
-): Promise<LoginResponse> {
+export async function signupUser(
+    request: SignupRequest
+): Promise<SignupResponse> {
 
-    return apiClient<LoginResponse>(
-        "/users/login",
+    return apiClient<SignupResponse>(
+        "/users/signup",
         {
             method: "POST",
             body: JSON.stringify(request),
@@ -17,12 +17,12 @@ export async function loginUser(
     );
 }
 
-export async function signupUser(
-    request: SignupRequest
-): Promise<SignupResponse> {
+export async function loginUser(
+    request: LoginRequest
+): Promise<LoginResponse> {
 
-    return apiClient<SignupResponse>(
-        "/users/signup",
+    return apiClient<LoginResponse>(
+        "/users/login",
         {
             method: "POST",
             body: JSON.stringify(request),
