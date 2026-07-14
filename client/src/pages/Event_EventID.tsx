@@ -54,11 +54,11 @@ export default function EventID() {
       }
 
       const data = await createRsvp({
-        user_id: getUser()?.id,
+        event_date_ids: selectedDates,
         name: name,
         email: email,
         phone: phone,
-        event_date_ids: selectedDates
+        user_id: getUser()?.id,
       });
     
       alert(`Rsvp ${data.id} successful!`);
