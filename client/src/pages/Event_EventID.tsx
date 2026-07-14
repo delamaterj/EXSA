@@ -1,24 +1,18 @@
 import {useParams, Link} from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import UnderConstr from '../components/UnderConstr';
-
-type EventDate = {
-  id: string;
-  date: string;
-};
-
-type Event = {
-  id: string;
-  title: string;
-  location: string;
-  description?: string;
-  flyer?: string;
-  dates: EventDate[];
-};
+import type {Event} from '../types/events';
+import {getEventId} from '../api/events.api';
+import {groupSingleEvent} from '../utils/event';
+import {formatPhone, isValidPhone} from '../utils/phone';
+import {isValidEmail} from '../utils/email';
+import {createRsvp} from '../api/rsvps.api';
+import {getUser} from '../utils/storage';
+import {formatEventDate, getUpcomingDates} from '../utils/datetime';
 
 export default function EventID() {
-  const { eventId } = useParams();
-  const [event, setEvent] = useState<Event | null>(null);
+
+  const {eventId} = useParams();
+  const [event, setEvent] = useState<Event>();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -26,97 +20,85 @@ export default function EventID() {
   const [message, setMessage] = useState("");
 
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  const input = e.target.value.replace(/\D/g, "");
-
-  let formatted = input;
-
-  if (input.length > 3 && input.length <= 6) {
-    formatted = `(${input.slice(0, 3)}) ${input.slice(3)}`;
-  } else if (input.length > 6) {
-    formatted = `(${input.slice(0, 3)}) ${input.slice(3, 6)}-${input.slice(6, 10)}`;
-  }
-
-  setPhone(formatted);
-};
-
-  useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL}/events/get/${eventId}`)
-      .then((res) => res.json())
-      .then((data) => {
-        const grouped: Event = {
-          id: data[0].id,
-          title: data[0].title,
-          location: data[0].location,
-          flyer: data[0].flyer,
-          description: data[0].description,
-          dates: data.map((row: any) => ({ id: row.date_id, date: row.date })),
-        };
-        setEvent(grouped);
-      })
-      .catch((err) => console.error(err));
-  }, [eventId]);
-
-  const now = new Date(
-    new Date().toLocaleString("en-US", { timeZone: "America/Chicago" })
-  );
-
-  const upcomingDates =
-    event?.dates.filter((d) => new Date(d.date) >= now) || [];
-
-  const handleRSVP = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (selectedDates.length === 0) {
-      alert("Please select at least one date to RSVP for.");
-      return;
-    }
-
-    const phoneRegex = /^\(\d{3}\) \d{3}-\d{4}$/;
-
-    if (!phoneRegex.test(phone)) {
-      setMessage("Please enter a valid phone number.");
-    return;
-    }
-
-    try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/rsvps/`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name,
-          email,
-          phone,
-          eventDateIds: selectedDates
-        })
-      });
-
-      const data = await res.json();
-
-      if (res.ok) {
-        setMessage("RSVP successful!");
-        setName("");
-        setEmail("");
-        setSelectedDates([]);
-      } else {
-        setMessage(data.error || "Error submitting RSVP");
-      }
-    } catch (err) {
-      console.error(err);
-      setMessage("Network error");
-    }
+    setPhone(formatPhone(e.target.value));
   };
 
+  const resetForm = () => {
+    setName("");
+    setEmail("");
+    setPhone("");
+    setSelectedDates([""]);
+    setMessage("");
+  };
+
+  async function handleRsvp() {
+    try {
+
+      if (selectedDates.length === 0) {
+        setMessage("Please select at least one date to RSVP for.");
+        return;
+      }
+
+      if (!isValidPhone(phone)) {
+        setMessage("Please enter a valid phone number.");
+        return;
+      }
+
+      if (!isValidEmail(email)) {
+        setMessage("Please enter a valid email.");
+        return;
+      }
+
+      if(!eventId) {
+        return;
+      }
+
+      const data = await createRsvp({
+        user_id: getUser()?.id,
+        name: name,
+        email: email,
+        phone: phone,
+        event_date_ids: selectedDates
+      });
+    
+      alert(`Rsvp ${data.id} successful!`);
+      resetForm;
+    }
+    catch(err) {
+      console.error(err instanceof Error ? err.message : "Could not rsvp for event");
+      setMessage("Could not rsvp for event");
+    }
+  }
+
+  useEffect(() => {
+
+    async function loadEvent() {
+      if (!eventId) return;
+
+      const rows = await getEventId(eventId);
+
+      setEvent(groupSingleEvent(rows));
+    }
+
+    loadEvent();
+
+  }, [eventId]);
+
+  const upcomingDates =
+    event
+        ? getUpcomingDates(event.dates)
+        : [];
+
+  console.log(`Flyer: ${event?.flyer_url}`);
   return (
     <>
       <article className="form-container">
-        <h2>{event ? `Sign up for ${event.title}` : <UnderConstr />}</h2>
+        <h2>Sign up for {event ? event.title : "our event!"}</h2>
 
-        <section className={`event-content ${event?.flyer ? "has-flyer" : ""}`}>
-          {event?.flyer && (
+        <section className={`event-content ${event?.flyer_url ? "has-flyer" : ""}`}>
+          {event?.flyer_url && (
             <picture className="event-flyer-container">
-              <img src={`/${event.flyer}`}
+              <img src={`/${event.flyer_url}`}
               alt={`${event.title} flyer`}
               className="event-flyer"/>
             </picture>
@@ -124,7 +106,7 @@ export default function EventID() {
             
           <div className="event-form">
             {upcomingDates.length > 0 ? (
-              <form onSubmit={handleRSVP}>
+              <form onSubmit={handleRsvp}>
                 <label>Name<b className="error-text"> *</b></label>
                 <input value={name}
                 onChange={(e) => setName(e.target.value)}
@@ -153,15 +135,7 @@ export default function EventID() {
                 }>
                   {upcomingDates.map((d) => (
                     <option key={d.id} value={d.id}>
-                      {new Date(d.date).toLocaleString("en-US", {
-                        timeZone: "America/Chicago",
-                        month: "long",
-                        day: "numeric",
-                        year: "numeric",
-                        hour: "numeric",
-                        minute: "2-digit",
-                        hour12: true,
-                      })}
+                      {formatEventDate(d.starts_at)}
                     </option>
                   ))}
                 </select>

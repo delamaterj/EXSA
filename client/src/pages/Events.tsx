@@ -1,6 +1,8 @@
-import React, {useState, useEffect} from 'react';
-import {DateTime} from 'luxon';
-import EventsCalendar from '../components/EventsCalendar';
+import React, {useState} from 'react';
+import EventsCalendar from '../components/Calendar';
+import {createEvent} from '../api/events.api';
+import {toUTC} from '../utils/datetime';
+import {getUser} from '../utils/storage';
 
 export default function Events() {
 
@@ -14,107 +16,41 @@ export default function Events() {
     setDates(newDates);
   };
 
-  useEffect(() => {
-  fetch(`${import.meta.env.VITE_API_URL}/events/get`)
-    .then((res) => res.json())
-    .then((data) => {
-      const grouped: { [key: number]: any } = {};
+  const resetForm = () => {
+    setTitle("");
+    setDates([""]);
+    setLocation("");
+  };
 
-      data.forEach((row: any) => {
-        if (!grouped[row.id]) {
-          grouped[row.id] = {
-            id: row.id,
-            title: row.title,
-            location: row.location,
-            description: row.description,
-            dates: [],
-          };
-        }
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
 
-        grouped[row.id].dates.push(row.date);
+    const utcDates = dates.map(toUTC);
+
+    try {
+      await createEvent({
+        title,
+        location,
+        dates: utcDates
       });
-
-      const eventsArray = Object.values(grouped);
-
-      const now = new Date(
-      new Date().toLocaleString("en-US", { timeZone: "America/Chicago" })
-);
-
-const upcoming: any[] = [];
-const past: any[] = [];
-
-eventsArray.forEach((event: any) => {
-  const futureDates = event.dates.filter(
-    (date: string) => new Date(date) >= now
-  );
-  const pastDates = event.dates.filter(
-    (date: string) => new Date(date) < now
-  );
-
-  if (futureDates.length > 0) {
-    upcoming.push({
-      ...event,
-      dates: futureDates,
-    });
-  }
-
-  if (pastDates.length > 0) {
-    past.push({
-      ...event,
-      dates: pastDates,
-    });
-  }
-});
-
-      upcoming.sort((a, b) => {
-        const aNext = Math.min(...a.dates.map((d: string) => new Date(d).getTime()));
-        const bNext = Math.min(...b.dates.map((d: string) => new Date(d).getTime()));
-        return aNext - bNext;
-      });
-
-      past.sort((a, b) => {
-        const aLast = Math.max(...a.dates.map((d: string) => new Date(d).getTime()));
-        const bLast = Math.max(...b.dates.map((d: string) => new Date(d).getTime()));
-        return bLast - aLast;
-      });
-    });
-}, []);
-
-const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
-
-  const utcDates = dates.map((date) => {
-    return DateTime
-      .fromISO(date, { zone: "America/Chicago" })
-      .toUTC()
-      .toISO();
-  });
-
-  await fetch(`${import.meta.env.VITE_API_URL}/events/`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization":`Bearer ${localStorage.getItem("token")}`
-    },
-    body: JSON.stringify({
-      title,
-      location,
-      dates: utcDates,
-    }),
-  });
-};
+      alert("Added Event!");
+      resetForm;
+    }
+    catch (err) {
+      console.error(err instanceof Error ? err.message : err);
+    }
+  };
 
   const addDate = () => {
-  setDates([...dates, ""]);
+    setDates([...dates, ""]);
+  };
 
-};
+  const removeDate = (index: number) => {
+    const newDates = dates.filter((_, i) => i !== index);
+    setDates(newDates);
+  };
 
-const removeDate = (index: number) => {
-  const newDates = dates.filter((_, i) => i !== index);
-  setDates(newDates);
-};
-
-const user = JSON.parse(localStorage.getItem("user") || "null");
+  const user = getUser();
 
   return (
     <>

@@ -1,39 +1,46 @@
 import {useState} from 'react';
 import {Link} from 'react-router-dom';
-
+import {loginUser} from '../api/users.api';
+import {isValidEmail} from '../utils/email';
+import type {LoginRequest, LoginResponse} from '../types/users';
+import {saveToken, saveUser} from '../utils/storage';
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
+  const resetForm = () => {
+    setEmail("");
+    setPassword("");
+    setError("");
+  };
+
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
 
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/users/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      });
 
-      const data = await res.json();
-
-      if (res.ok) {
-        alert("Login successful!");
-        console.log("User ID:", data.id);
-        localStorage.setItem("token", data.token);
-        localStorage.setItem("user", JSON.stringify(data.user));
-        window.dispatchEvent(new Event("storage"));
-      } else {
-        setError(data.error);
+      if (!isValidEmail(email)) {
+        setError("Please enter a valid email.");
+        return;
       }
+
+      const request: LoginRequest = {
+        email,
+        password,
+      };
+
+      const data : LoginResponse = await loginUser(request);
+
+      alert("Login successful!");
+        saveToken(data.token);
+        saveUser(data.user);
+        resetForm();
 
     } catch (err) {
       console.error(err);
-      setError("An error occurred while logging in. Please try again later.");
+      setError(err instanceof Error ? err.message : "An error occurred while logging in. Please try again later.");
     }
   };
 
@@ -56,11 +63,7 @@ export default function Login() {
           onChange={(e) => setPassword(e.target.value)}
           required/>
 
-          {error && (
-            <>
-              <label className="error-text">{error}</label>
-            </>
-          )}
+          {error && (<p className="error-text">{error}</p>)}
 
           <button type="submit">Login</button>
         </form>
