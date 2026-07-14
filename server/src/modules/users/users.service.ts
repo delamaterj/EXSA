@@ -65,6 +65,9 @@ password: string) {
     const token = jwt.sign(
         {
             userId: user.id,
+            name: user.name,
+            email: user.email,
+            phone: user.phone,
             role: user.role
         },
         process.env.JWT_SECRET!,
@@ -75,7 +78,9 @@ password: string) {
         token,
         user: {
             id: user.id,
+            name: user.name,
             email: user.email,
+            phone: user.phone,
             role: user.role
         }
     };
