@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { userSignupService, loginUserService } from "./users.service";
+import { userSignupService, loginUserService, updateUserService } from "./users.service";
 
 export async function register(req: Request, res: Response) {
     try {
@@ -9,18 +9,31 @@ export async function register(req: Request, res: Response) {
             req.body.phone,
             req.body.password
         );
-        res.status(201).json(user);
+        return res.status(201).json(user);
     } catch (err) {
         console.log(err);
-        res.status(500).json({message: err instanceof Error ? err.message : "Could not sign up user. Try again later"});
+        return res.status(500).json({message: err instanceof Error ? err.message : "Could not sign up user. Try again later"});
     }
 }
 
 export async function login(req: Request, res: Response) {
     try {
         const result = await loginUserService(req.body.email, req.body.password);
-        res.status(201).json(result);
+        return res.status(201).json(result);
     } catch (err) {
-        res.status(500).json({message: err instanceof Error ? err.message : "Could not login user. Try again later"});
+        return res.status(500).json({message: err instanceof Error ? err.message : "Could not login user. Try again later"});
+    }
+}
+
+export async function update(req: Request, res: Response) {
+    try {
+        const userId = req.user?.userId;
+        if (!userId) {
+            return res.status(401).json({message: "Authentication required"});
+        }
+        const result = await updateUserService(userId, req.body.credential);
+        return res.status(201).json(result);
+    } catch (err) {
+        return res.status(500).json({message: err instanceof Error ? err.message : "Could not update credentials. Try again later"});
     }
 }
