@@ -18,9 +18,7 @@ export default function Login() {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-
     try {
-
       if (!isValidEmail(email)) {
         setError("Please enter a valid email.");
         return;
@@ -37,6 +35,7 @@ export default function Login() {
         saveToken(data.token);
         saveUser(data.user);
         resetForm();
+        window.location.reload();
 
     } catch (err) {
       console.error(err);

@@ -1,4 +1,4 @@
-import type {AuthUser} from '../types/users';
+import type {AuthUser, Credential} from '../types/users';
 
 const TOKEN_KEY = "token";
 const USER_KEY = "user";
@@ -32,4 +32,23 @@ export function removeUser(): void {
 export function clearSession(): void {
     removeToken();
     removeUser();
+}
+
+export function updateCredential(credential: Credential): void {
+    const user = getUser();
+    if (!user) {
+        return
+    }
+    if (credential.type === 'name') {
+        user.name = credential.value;
+        saveUser(user);
+    }
+    else if (credential.type === 'email') {
+        user.email = credential.value;
+        saveUser(user);
+    }
+    else if (credential.type === 'phone') {
+        user.phone = credential.value;
+        saveUser(user);
+    }
 }

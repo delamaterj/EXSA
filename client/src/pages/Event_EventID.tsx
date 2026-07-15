@@ -63,6 +63,7 @@ export default function EventID() {
     
       alert(`Rsvp ${data.id} successful!`);
       resetForm;
+      window.location.reload();
     }
     catch(err) {
       console.error(err instanceof Error ? err.message : "Could not rsvp for event");

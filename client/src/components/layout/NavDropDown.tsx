@@ -1,11 +1,11 @@
 import { useState, useRef, useEffect } from "react";
 import {Link} from "react-router-dom";
-import {clearSession} from '../../utils/storage';
+import {clearSession, getUser} from '../../utils/storage';
 
 export default function NavDropDown() {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
-  const user = JSON.parse(localStorage.getItem("user") || "null");
+  const user = getUser();
 
   function handleLogout() {
     clearSession();
@@ -24,7 +24,7 @@ export default function NavDropDown() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  if (!user) return null;
+  if (!user) return;
 
   return (
     <>
@@ -33,7 +33,7 @@ export default function NavDropDown() {
             {open && (
                 <div className="nav-profile-dropdown">
                     <p>{user.name}</p>
-                    <Link to={`/profile/${user.uuid}`}>
+                    <Link to={`/profile/${user.id}`}>
                         <p>Profile</p>
                     </Link>
                     <button onClick={handleLogout}>Logout</button>
