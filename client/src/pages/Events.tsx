@@ -106,11 +106,12 @@ export default function Events() {
                 <button type="button" onClick={() => removeDate(index)} disabled={dates.length === 1}>
                   Remove
                 </button>
-                <button type="button" onClick={addDate}>
-                  Add Another Date
-                </button>
               </div>
               ))}
+              <br />
+              <button type="button" onClick={addDate}>
+                  Add Another Date
+                </button>
               <button type="submit">Submit Event</button>
               {error && <p className="error-text">{error}</p>}
             </form>
