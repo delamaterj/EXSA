@@ -2,6 +2,11 @@ import bcrypt from "bcrypt";
 import pool from "../../config/db";
 import jwt from "jsonwebtoken";
 
+interface Credential {
+    type : string,
+    value : string
+}
+
 
 //Create new user (name, email, phone, password)
 export async function userSignupService(
@@ -27,7 +32,12 @@ password: string) {
 
     }
     catch(err) {
-        throw Error("Could not signup user");
+        if (err instanceof Error) {
+            throw err;
+        }
+        else {
+            throw Error("Could not signup user. Please try again later");
+        }
     }
     finally {
         client.release();
@@ -41,11 +51,10 @@ password: string) {
     const client = await pool.connect();
 
     try {
-
         const result = await pool.query(
-        `SELECT * FROM users WHERE email = $1`,
-        [email]
-    );
+            `SELECT * FROM users WHERE email = $1`,
+            [email]
+        );
 
     const user = result.rows[0];
 
@@ -87,7 +96,73 @@ password: string) {
 
     }
     catch(err){
-        throw Error("Could not login user. Try again later");
+        if (err instanceof Error) {
+            throw err;
+        }
+        else {
+            throw Error("Could not login user. Try again later");
+        }
+    }
+    finally {
+        client.release();
+    }
+}
+
+export async function updateUserService(userId: string, credential : Credential) {
+
+    const client = await pool.connect();
+
+    try {
+        if (credential.type === 'name') {
+            const updateName = await client.query(
+                `UPDATE users
+                SET name = $1
+                WHERE id = $2
+                RETURNING name`,
+                [credential.value, userId]
+            );
+            return updateName.rows[0];
+        }
+        else if (credential.type === 'email') {
+            const dupeEmail = await client.query(
+                `SELECT email FROM users
+                WHERE email = $1
+                AND id <> $2`,
+                [credential.value, userId]
+            );
+            if (dupeEmail.rows.length > 0) {
+                throw Error("Email already exists");
+            }
+            const updateEmail = await client.query(
+                `UPDATE users
+                SET email = $1
+                WHERE id = $2
+                RETURNING email`,
+                [credential.value, userId]
+            );
+            return updateEmail.rows[0];
+        }
+        else if (credential.type === 'phone') {
+            const updatePhone = await client.query(
+                `UPDATE users
+                SET phone = $1
+                WHERE id = $2
+                RETURNING email`,
+                [credential.value, userId]
+            );
+            return updatePhone.rows[0];
+        }
+        else {
+            throw Error("Invalid credential type");
+        }
+    }
+    catch (err) {
+        if (err instanceof Error) {
+            throw err;
+        }
+        else {
+            throw Error("Could not update user credentials. Try again later");
+        }
     }
     finally {
         client.release();

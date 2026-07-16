@@ -49,6 +49,7 @@ export default function Events() {
       });
       alert("Event created!");
       resetForm;
+      window.location.reload();
     }
     catch (err) {
       console.error(err instanceof Error ? err.message : err);

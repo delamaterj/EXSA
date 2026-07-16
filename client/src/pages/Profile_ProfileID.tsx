@@ -1,113 +1,96 @@
-import { useState } from "react";
+import {useState} from 'react';
+import {getUser, updateCredential} from '../utils/storage';
+import {updateUser} from '../api/users.api';
+import type {UpdateUserRequest, UpdateUserResponse} from '../types/users';
+import {formatPhone} from '../utils/phone';
 
-function Profile() {
-
-    const user = JSON.parse(localStorage.getItem("user") || "null");
+export default function Profile() {
+    
+    const user = getUser();
     const [error, setError] = useState("");
     const [editingField, setEditingField] = useState<string | null>(null);
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [phone, setPhone] = useState("");
 
-    const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const input = e.target.value.replace(/\D/g, "");
-        let formatted = input;
-        if (input.length > 3 && input.length <= 6) {
-            formatted = `(${input.slice(0, 3)}) ${input.slice(3)}`;
-        } 
-        else if (input.length > 6) {
-            formatted = `(${input.slice(0, 3)}) ${input.slice(3, 6)}-${input.slice(6, 10)}`;
-        }
-        setPhone(formatted);
-    };
-
-    const updateProfile = async (
-        field: string,
-        value: string
-    ) => {
-        try {
-            const res = await fetch(`${import.meta.env.VITE_API_URL}/profile/${user.id}`, {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ [field]: value }),
-            });
-
-      const data = await res.json();
-
-      if (res.ok) {
-        alert(`${field} has been modified`);
-        const updatedUser = {
-            ...user,
-            [field]: value,
-        };
-        localStorage.setItem("user",JSON.stringify(updatedUser));
-        setEditingField(null);
-      } 
-      else {
-        setError(data.error);
-      }
-
-    } catch (err) {
-      setError("An error occurred while logging in. Please try again later.");
+    if (!user) {
+        return;
     }
-  };
 
-    if (!user) return null;
+    const handleUpdate = async (type: string, value: string) => {
+        const credential = {
+            type: type,
+            value: value
+        }
+        try {
+            const request : UpdateUserRequest = {
+                userId: user.id,
+                credential: credential
+            }
+            const update : UpdateUserResponse = await updateUser(request);
+            const value = update.email || update.name || update.phone;
+            alert(`Credentials updated with ${value}!`);
+            updateCredential(credential);
+            console.log(`credential type: ${credential.type}, value: ${credential.value}`);
+            window.location.reload();
+        }
+        catch(err) {
+            console.error(err);
+            setError(err instanceof Error ? err.message : "Could not update credentials. Please try again later");
+        }
+    }
+
+    const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setPhone(formatPhone(e.target.value));
+    };
 
     return (
         <>
-            <div className="profile-page">
-                <div className="profile-row">
+            <article className="profile-page">
+                <section className="profile-row">
                     <label>Name</label>
                     <div className="edit-controls">
                         <p>{user.name}<button onClick={() => setEditingField("name")}>Edit</button></p>
                         {editingField === "name" && (
                             <>
                                 <input value={name} onChange={(e) => setName(e.target.value)} required/>
-                                <button onClick={() => updateProfile("name", name)}>
+                                <button onClick={() => handleUpdate("name", name)}>
                                     Update Name
                                 </button>
-                                {error && (<p className="error-text">{error}</p>)}
                             </>
                         )}
                     </div>
-                </div>
-                <div className="profile-row">
+                </section>
+                <section className="profile-row">
                     <label>Email</label>
                     <div className="edit-controls">
                         <p>{user.email}<button onClick={() => setEditingField("email")}>Edit</button></p>
                         {editingField === "email" && (
                             <>
                                 <input value={email} onChange={(e) => setEmail(e.target.value)} required/>
-                                <button onClick={() => updateProfile("email", email)}>
+                                <button onClick={() => handleUpdate("email", email)}>
                                     Update Email
                                 </button>
-                                {error && (<p className="error-text">{error}</p>)}
                             </>
                         )}
                     </div>
-                </div>
-                <div className="profile-row">
+                </section>
+                <section className="profile-row">
                     <label>Phone</label>
                     <div className="edit-controls">
                         <p>{user.phone}<button onClick={() => setEditingField("phone")}>Edit</button></p>
                         {editingField === "phone" && (
                             <>
                                 <input value={phone} onChange={handlePhoneChange} required/>
-                                <button onClick={() => updateProfile("phone", phone)}>
+                                <button onClick={() => handleUpdate("phone", phone)}>
                                     Update Phone
                                 </button>
-                                {error && (<p className="error-text">{error}</p>)}
                             </>
                         )}
                     </div>
-                </div>
-            </div>
+                </section>
+                {error && (<p className="error-text">{error}</p>)}
+            </article>
         </>
-    )
-
+    );
 }
-
-export default Profile;

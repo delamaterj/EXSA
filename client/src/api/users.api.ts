@@ -2,7 +2,9 @@ import {apiClient} from "./client";
 import type {LoginRequest, 
 LoginResponse,
 SignupRequest,
-SignupResponse} from "../types/users";
+SignupResponse,
+UpdateUserRequest,
+UpdateUserResponse} from "../types/users";
 
 export async function signupUser(
     request: SignupRequest
@@ -12,7 +14,7 @@ export async function signupUser(
         "/users/signup",
         {
             method: "POST",
-            body: JSON.stringify(request),
+            body: JSON.stringify(request)
         }
     );
 }
@@ -25,7 +27,20 @@ export async function loginUser(
         "/users/login",
         {
             method: "POST",
-            body: JSON.stringify(request),
+            body: JSON.stringify(request)
         }
     );
+}
+
+export async function updateUser(
+    request: UpdateUserRequest
+): Promise<UpdateUserResponse> {
+
+    return apiClient<UpdateUserResponse>(
+        "/users/update",
+        {
+            method: "PUT",
+            body: JSON.stringify(request)
+        }
+    )
 }

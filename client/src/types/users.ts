@@ -30,3 +30,19 @@ export interface SignupResponse {
     phone: string;
     role: string;
 }
+
+export interface Credential {
+    type: string;
+    value: string;
+}
+
+export interface UpdateUserRequest {
+    userId: string;
+    credential: Credential;
+}
+
+export interface UpdateUserResponse {
+    name?: string;
+    email?: string;
+    phone?: string;
+}
