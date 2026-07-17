@@ -8,7 +8,7 @@ import { hasUpcomingDates } from "../utils/datetime";
 import type {Event} from "../types/events";
 
 export default function Home() {
-
+    
     const [upcomingEvents, setUpcomingEvents] = useState<Event[]>([]);
     const [pastEvents, setPastEvents] = useState<Event[]>([]);
 
