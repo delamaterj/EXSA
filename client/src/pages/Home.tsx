@@ -71,12 +71,8 @@ export default function Home() {
                 </section>
             </FadeInSection>
 
-            {(upcomingEvents.length > 0 && pastEvents.length > 0) && 
-                <>
-                    <Carousel title="Upcoming Events" events={upcomingEvents}/>
-                    <Carousel title="Past Events" events={pastEvents}/>
-                </>
-            }
+            {(upcomingEvents.length > 0) && <Carousel title="Upcoming Events" events={upcomingEvents}/>}
+            {(pastEvents.length > 0) && <Carousel title="Past Events" events={pastEvents}/>}
         </>
     );
 }
