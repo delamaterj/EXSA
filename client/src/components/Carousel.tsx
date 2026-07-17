@@ -1,50 +1,48 @@
-import { useRef } from "react";
+import FadeInSection from './FadeInSection';
+import type {Event} from '../types/events';
+import {Link} from 'react-router-dom';
 
 type Props = {
   title: string;
-  events: any[];
+  events: Event[];
 };
 
 export default function Carousel({ title, events }: Props) {
-  const containerRef = useRef<HTMLDivElement>(null);
 
   const MAX_ITEMS = 4;
 
   // 1. filter + sort + limit
-  const visibleEvents = events
-    .filter((event) => event.flyer)
-    .sort(
-      (a, b) =>
-        new Date(b.created_at ?? 0).getTime() -
-        new Date(a.created_at ?? 0).getTime()
-    )
-    .slice(0, MAX_ITEMS);
+  const visibleEvents = events.filter((event) => event.flyer_url).slice(0, MAX_ITEMS);
 
   return (
+    <>
+    <FadeInSection>
     <div className="carousel-wrapper">
       <h2>{title}</h2>
 
       <div className="carousel-controls">
-        {/* buttons later */}
       </div>
 
       <div
-        ref={containerRef}
         className={`carousel-container ${
           visibleEvents.length === 1 ? "single" : ""
         }`}
       >
         {visibleEvents.map((event) => (
           <div key={event.id} className="carousel-card">
+            <Link to={`/events/${event.id}`}>
             <img
-              src={`/${event.flyer}`}
+              src={`/${event.flyer_url}`}
               alt={event.title}
               className="carousel-image"
             />
+            </Link>
             <h3>{event.title}</h3>
           </div>
         ))}
       </div>
     </div>
+    </FadeInSection>
+    </>
   );
 }
