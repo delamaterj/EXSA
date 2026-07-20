@@ -32,12 +32,7 @@ password: string) {
 
     }
     catch(err) {
-        if (err instanceof Error) {
-            throw err;
-        }
-        else {
-            throw Error("Could not signup user. Please try again later");
-        }
+        throw Error("Could not signup user. Please try again later");
     }
     finally {
         client.release();
@@ -96,12 +91,7 @@ password: string) {
 
     }
     catch(err){
-        if (err instanceof Error) {
-            throw err;
-        }
-        else {
-            throw Error("Could not login user. Try again later");
-        }
+        throw Error("Could not login user. Please try again later");
     }
     finally {
         client.release();
@@ -157,12 +147,7 @@ export async function updateUserService(userId: string, credential : Credential)
         }
     }
     catch (err) {
-        if (err instanceof Error) {
-            throw err;
-        }
-        else {
-            throw Error("Could not update user credentials. Try again later");
-        }
+        throw Error("Could not update user credentials. Please Try again later");
     }
     finally {
         client.release();
