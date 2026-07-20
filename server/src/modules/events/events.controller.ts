@@ -19,7 +19,7 @@ export async function createEvent(req: Request, res: Response) {
     }
 
     catch (err) {
-        return res.status(500).json({message: err instanceof Error ? err.message : "Failed to create event"});
+        return res.status(500).json({message: err instanceof Error ? err.message : "Failed to create event. Please try again later"});
     }
 
 }
@@ -49,30 +49,3 @@ export async function getEventsInfo(req: Request, res: Response) {
         return res.status(500).json({message: err instanceof Error ? err.message : "Failed to get events"});
     }
 }
-
-/*
-export async function getEventFeed(req: Request, res: Response) {
-
-    try {
-        let page = Number(req.query.page);
-        let limit = Number(req.query.limit);
-        const DEFAULT_LIMIT = 25;
-        const MAX_LIMIT = 100;
-
-        page = Number.isInteger(page) && page > 0 ? page : 1;
-        limit = Number.isInteger(limit) && limit > 0 ? Math.min(limit, MAX_LIMIT) : DEFAULT_LIMIT;
-
-        const userId = req.user?.userId;
-        if (!userId) {
-            return res.status(401).json({message: "Unauthorized"});
-        }
-
-        const result = await getEventFeedService(userId, page, limit);
-        return res.status(200).json(result);
-    }
-
-    catch (err) {
-        return res.status(500).json({message: err instanceof Error ? err.message : "Failed to get event feed"});
-    }
-}
-*/

@@ -65,12 +65,7 @@ flyer_url?: string,
 
     catch (err) {
         await client.query("ROLLBACK");
-        if (err instanceof Error) {
-            throw err;
-        }
-        else {
-            throw Error("Could not create event. Please try again later");
-        }
+        throw Error("Could not create event. Please try again later");
     }
 
     finally {
@@ -106,12 +101,7 @@ export async function getEventInfoIdService(eventId: string) {
     return result.rows;
 
     } catch(err) {
-        if (err instanceof Error) {
-            throw err;
-        }
-        else {
-            throw Error("Error retrieving event info by id. Please try again later");
-        }
+        throw Error("Error retrieving event info by id. Please try again later");
     }
     finally {
         client.release();
@@ -142,12 +132,7 @@ export async function getEventsInfoService() {
     return result.rows;
     }
     catch(err) {
-        if (err instanceof Error) {
-            throw err;
-        }
-        else {
-            throw Error("Error retrieving events info. Please Try again later");
-        }
+        throw Error("Error retrieving events info. Please Try again later");
     }
     finally {
         client.release();

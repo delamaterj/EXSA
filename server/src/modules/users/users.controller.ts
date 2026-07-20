@@ -12,7 +12,7 @@ export async function register(req: Request, res: Response) {
         return res.status(201).json(user);
     } catch (err) {
         console.log(err);
-        return res.status(500).json({message: err instanceof Error ? err.message : "Could not sign up user. Try again later"});
+        return res.status(500).json({message: err instanceof Error ? err.message : "Could not sign up user. Please try again later"});
     }
 }
 
@@ -21,7 +21,7 @@ export async function login(req: Request, res: Response) {
         const result = await loginUserService(req.body.email, req.body.password);
         return res.status(201).json(result);
     } catch (err) {
-        return res.status(500).json({message: err instanceof Error ? err.message : "Could not login user. Try again later"});
+        return res.status(500).json({message: err instanceof Error ? err.message : "Could not login user. Please try again later"});
     }
 }
 
@@ -34,6 +34,6 @@ export async function update(req: Request, res: Response) {
         const result = await updateUserService(userId, req.body.credential);
         return res.status(201).json(result);
     } catch (err) {
-        return res.status(500).json({message: err instanceof Error ? err.message : "Could not update credentials. Try again later"});
+        return res.status(500).json({message: err instanceof Error ? err.message : "Could not update credentials. Please try again later"});
     }
 }
