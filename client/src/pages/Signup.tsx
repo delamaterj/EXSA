@@ -3,7 +3,7 @@ import {formatPhone, isValidPhone} from '../utils/phone';
 import {isValidEmail} from '../utils/email';
 import {signupUser} from '../api/users.api';
 import type {SignupRequest, SignupResponse} from '../types/users';
-import {isValidPassword} from '../utils/password';
+import {isValidPassword, passwordRules} from '../utils/password';
 
 export default function Signup() {
   const [name, setName] = useState("");
@@ -13,6 +13,15 @@ export default function Signup() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const [passwordMatch, setPasswordMatch] = useState("");
+
+  const validation = {
+    minLength: passwordRules.minLength(password),
+    lowercase: passwordRules.lowercase(password),
+    uppercase: passwordRules.uppercase(password),
+    number: passwordRules.number(password),
+    special: passwordRules.special(password),
+    noSpaces: passwordRules.noSpaces(password),
+  };
 
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPhone(formatPhone(e.target.value));
@@ -112,6 +121,14 @@ export default function Signup() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required/>
+          <ul>
+            {!validation.minLength && <li>At least 8 characters</li>}
+            {!validation.lowercase && <li>At least one lowercase letter</li>}
+            {!validation.uppercase && <li>At least one uppercase letter</li>}
+            {!validation.number && <li>At least one number</li>}
+            {!validation.special && <li>At least one special character</li>}
+            {!validation.noSpaces && <li>No spaces</li>}
+          </ul>
 
           <label>Confirm Password<b className="error-text"> *</b></label>
           <input type="password"
