@@ -3,6 +3,7 @@ import {formatPhone, isValidPhone} from '../utils/phone';
 import {isValidEmail} from '../utils/email';
 import {signupUser} from '../api/users.api';
 import type {SignupRequest, SignupResponse} from '../types/users';
+import {isValidPassword} from '../utils/password';
 
 export default function Signup() {
   const [name, setName] = useState("");
@@ -26,6 +27,11 @@ export default function Signup() {
   const handleSignup = async (e: React.FormEvent) => {
 
     e.preventDefault();
+
+    if (!isValidPassword(password)) {
+      setError("Please enter a valid password");
+      return;
+    }
 
     if (!isValidPhone(phone)) {
       setError("Please enter a valid phone number.");
