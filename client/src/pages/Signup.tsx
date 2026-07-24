@@ -10,7 +10,9 @@ export default function Signup() {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
+  const [passwordMatch, setPasswordMatch] = useState("");
 
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPhone(formatPhone(e.target.value));
@@ -21,15 +23,30 @@ export default function Signup() {
     setEmail("");
     setPhone("");
     setPassword("");
+    setConfirmPassword("");
+    setPasswordMatch("");
     setError("");
   };
+
+  const handleConfirmPassword = (value: string) => {
+
+    setConfirmPassword(value);
+
+    if (value !== password) {
+      setPasswordMatch("Invalid Match")
+    }
+    else {
+      setPasswordMatch("");
+    }
+
+  }
 
   const handleSignup = async (e: React.FormEvent) => {
 
     e.preventDefault();
 
-    if (!isValidPassword(password)) {
-      setError("Please enter a valid password");
+    if (!isValidEmail(email)) {
+      setError("Please enter a valid email.");
       return;
     }
 
@@ -38,8 +55,13 @@ export default function Signup() {
       return;
     }
 
-    if (!isValidEmail(email)) {
-      setError("Please enter a valid email.");
+    if (!isValidPassword(password)) {
+      setError("Please enter a valid password");
+      return;
+    }
+
+    if(password !== confirmPassword) {
+      setError("Please confirm password")
       return;
     }
 
@@ -91,11 +113,14 @@ export default function Signup() {
           onChange={(e) => setPassword(e.target.value)}
           required/>
 
-          {error && (
-            <>
-              <p className="error-text">{error}</p>
-            </>
-          )}
+          <label>Confirm Password<b className="error-text"> *</b></label>
+          <input type="password"
+          value={confirmPassword}
+          onChange={(e) => handleConfirmPassword(e.target.value)}
+          required/>
+          {passwordMatch && (<p className="error-text">{passwordMatch}</p>)}
+
+          {error && (<p className="error-text">{error}</p>)}
 
           <button type="submit">Create Account</button>
           
