@@ -28,8 +28,8 @@ export default function Signup() {
 
     e.preventDefault();
 
-    if (!isValidPassword(password)) {
-      setError("Please enter a valid password");
+    if (!isValidEmail(email)) {
+      setError("Please enter a valid email.");
       return;
     }
 
@@ -38,8 +38,8 @@ export default function Signup() {
       return;
     }
 
-    if (!isValidEmail(email)) {
-      setError("Please enter a valid email.");
+    if (!isValidPassword(password)) {
+      setError("Please enter a valid password");
       return;
     }
 
