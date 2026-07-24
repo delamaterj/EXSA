@@ -29,22 +29,11 @@ export async function createRSVP(req: Request, res: Response) {
             results.push(result);
         }
 
-
-        return res.status(201).json({
-            message: "RSVP successful",
-            rsvps: results
-        });
+        return res.status(201).json({message: "RSVP successful", rsvps: results});
 
     }
 
     catch (err) {
-
-        return res.status(500).json({
-            message:
-            err instanceof Error
-            ? err.message
-            : "Failed to create RSVP"
-        });
-
+        return res.status(500).json({message: err instanceof Error ? err.message : "Failed to create RSVP"});
     }
 }

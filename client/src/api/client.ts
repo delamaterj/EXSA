@@ -26,7 +26,7 @@ export async function apiClient<T>(
     const data = await response.json();
 
     if (!response.ok) {
-        throw new Error(data.error instanceof Error ? data.error.message : "An unexpected error occurred.");
+        throw new Error(data.message ?? "An unexpected error occurred.");
     }
 
     return data;

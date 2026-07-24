@@ -78,12 +78,7 @@ export async function createRSVPService(
 
     } catch (err) {
         await client.query("ROLLBACK");
-        if (err instanceof Error) {
-            throw err;
-        }
-        else {
-            throw Error("Could not submit RSVP. Please try again later");
-        }
+        throw Error("Could not submit RSVP. Please try again later");
     } finally {
         client.release();
     }
