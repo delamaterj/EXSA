@@ -4,10 +4,11 @@ import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import {getEvents} from '../api/events.api';
 import {groupEvents, buildCalendarMap} from '../utils/event';
+import type { EventsByDate } from "../types/events";
 
 export default function EventsCalendar() {
 
-  const [eventsByDate, setEventsByDate] = useState<{ [key: string]: any[] }>({});
+  const [eventsByDate, setEventsByDate] = useState<EventsByDate>({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 

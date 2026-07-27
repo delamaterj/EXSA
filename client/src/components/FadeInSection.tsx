@@ -13,7 +13,6 @@ export default function FadeInSection({ children, delay = 0 }: Props) {
   const location = useLocation();
 
   useEffect(() => {
-    setIsVisible(false);
     const element = ref.current;
     if (!element) return;
     const observer = new IntersectionObserver(
