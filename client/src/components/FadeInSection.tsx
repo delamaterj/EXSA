@@ -38,23 +38,3 @@ export default function FadeInSection({ children, delay = 0 }: Props) {
     </div>
   );
 }
-
-/*
-
-import type { ReactNode } from "react";
-interface Props {
-  children: ReactNode;
-  delay?: number;
-}
-
-export default function FadeInSection({ children, delay = 0 }: Props) {
-
-  const children2 = children;
-  const delay2 = delay;
-  
-  return (
-    <>
-    </>
-  );
-
-}*/
