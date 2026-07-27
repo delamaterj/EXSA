@@ -13,7 +13,6 @@ export default function FadeInSection({ children, delay = 0 }: Props) {
   const location = useLocation();
 
   useEffect(() => {
-    setIsVisible(false);
     const element = ref.current;
     if (!element) return;
     const observer = new IntersectionObserver(
@@ -39,3 +38,23 @@ export default function FadeInSection({ children, delay = 0 }: Props) {
     </div>
   );
 }
+
+/*
+
+import type { ReactNode } from "react";
+interface Props {
+  children: ReactNode;
+  delay?: number;
+}
+
+export default function FadeInSection({ children, delay = 0 }: Props) {
+
+  const children2 = children;
+  const delay2 = delay;
+  
+  return (
+    <>
+    </>
+  );
+
+}*/
