@@ -14,9 +14,9 @@ on:
 
 jobs:
 
-  docker-build:
+  docker-test:
 
-    name: Build Docker Containers
+    name: Docker Compose Test
 
     runs-on: ubuntu-latest
 
@@ -29,3 +29,19 @@ jobs:
 
       - name: Build containers
         run: docker compose build
+
+
+      - name: Start containers
+        run: docker compose up -d
+
+
+      - name: Wait for services
+        run: sleep 10
+
+
+      - name: Test backend health
+        run: curl http://localhost:5000/health
+
+
+      - name: Stop containers
+        run: docker compose down
