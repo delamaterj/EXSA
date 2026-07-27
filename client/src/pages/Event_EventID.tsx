@@ -23,7 +23,7 @@ export default function EventID() {
     setPhone(formatPhone(e.target.value));
   };
 
-  const resetForm = () => {
+  function resetForm() {
     setName("");
     setEmail("");
     setPhone("");
@@ -62,7 +62,7 @@ export default function EventID() {
       });
     
       alert(`Rsvp ${data.id} successful!`);
-      resetForm;
+      resetForm();
       window.location.reload();
     }
     catch(err) {

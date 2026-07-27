@@ -42,7 +42,10 @@ export default function Home() {
     }
 
     useEffect(() => {
-        loadEvents();
+        async function fetchEvents() {
+            await loadEvents();
+        }
+        fetchEvents();
     }, []);
 
     

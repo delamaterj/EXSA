@@ -48,7 +48,7 @@ export default function Events() {
         dates: utcDates
       });
       alert("Event created!");
-      resetForm;
+      resetForm();
       window.location.reload();
     }
     catch (err) {

@@ -1,5 +1,5 @@
 import FadeInSection from '../components/FadeInSection';
-import {useState, useRef, useEffect} from 'react';
+import {useState, useRef} from 'react';
 import {Link} from 'react-router-dom';
 
 type Activity = {
@@ -105,12 +105,8 @@ const seniorActivities = activities.filter(a => a.category === "seniors");
 
 export default function ActivitiesPage() {
 
-  const [selected, setSelected] = useState<any>(null);
+  const [selected, setSelected] = useState<Activity | null>(null);
   const detailRef = useRef<HTMLDivElement | null>(null);
-
-  useEffect(() => {
-    setSelected(null);
-  }, [location.pathname]);
 
   return (
     <>
