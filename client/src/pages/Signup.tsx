@@ -4,6 +4,10 @@ import {isValidEmail} from '../utils/email';
 import {signupUser} from '../api/users.api';
 import type {SignupRequest, SignupResponse} from '../types/users';
 import {isValidPassword, passwordRules} from '../utils/password';
+import {loginUser} from '../api/users.api';
+import type {LoginRequest, LoginResponse} from '../types/users';
+import {saveToken, saveUser} from '../utils/storage';
+import {useNavigate} from 'react-router-dom';
 
 export default function Signup() {
   const [name, setName] = useState("");
@@ -13,6 +17,7 @@ export default function Signup() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const [passwordMatch, setPasswordMatch] = useState("");
+  const navigate = useNavigate();
 
   const validation = {
     minLength: passwordRules.minLength(password),
@@ -82,10 +87,23 @@ export default function Signup() {
     };
 
     try {
+
       const data : SignupResponse = await signupUser(request);
       alert("Signup successful!");
       console.log(`signup ${data.id} successful`);
+
+      const logReq : LoginRequest = {
+        email,
+        password
+      }
+      const autoLogin : LoginResponse = await loginUser(logReq)
+      saveToken(autoLogin.token);
+      saveUser(autoLogin.user);
       resetForm();
+      navigate("/", { replace: true } );
+
+      resetForm();
+
     } catch (err) {
       console.error(err);
       setError(err instanceof Error ? err.message : "Error trying to sign up. Please try again later.");
