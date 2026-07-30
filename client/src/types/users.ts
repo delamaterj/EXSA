@@ -46,3 +46,7 @@ export interface UpdateUserResponse {
     email?: string;
     phone?: string;
 }
+
+export interface DeleteUserResponse {
+    message: string;
+}

@@ -1,8 +1,9 @@
 import {useState} from 'react';
-import {getUser, updateCredential} from '../utils/storage';
-import {updateUser} from '../api/users.api';
-import type {UpdateUserRequest, UpdateUserResponse} from '../types/users';
+import {getUser, updateCredential, clearSession} from '../utils/storage';
+import {updateUser, deleteUser} from '../api/users.api';
+import type {UpdateUserRequest, UpdateUserResponse, DeleteUserResponse} from '../types/users';
 import {formatPhone} from '../utils/phone';
+import {useNavigate} from 'react-router-dom';
 
 export default function Profile() {
     
@@ -12,10 +13,30 @@ export default function Profile() {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [phone, setPhone] = useState("");
+    const navigate = useNavigate();
 
     if (!user) {
         return;
     }
+
+    async function handleDeleteUser() {
+        try {
+            const result : DeleteUserResponse = await deleteUser();
+            alert(result.message);
+            clearSession();
+            navigate("/", { replace: true } );
+        } catch(err) {
+            alert("Could not delete account. Please try again later");
+        }
+    }
+
+    const deleteUserWindow = () => {
+        const isOk = window.confirm("Delete account? This action cannot be undone");
+
+        if (isOk) {
+            handleDeleteUser();
+        }
+    };
 
     const handleUpdate = async (type: string, value: string) => {
         const credential = {
@@ -90,6 +111,9 @@ export default function Profile() {
                     </div>
                 </section>
                 {error && (<p className="error-text">{error}</p>)}
+                <button onClick={deleteUserWindow}>
+                    Delete Item
+                </button>
             </article>
         </>
     );
