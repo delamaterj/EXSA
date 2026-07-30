@@ -19,9 +19,25 @@ password: string) {
 
     try {
 
+        const dupeEmail = await client.query(
+            `SELECT id FROM users
+            WHERE email = $1`,
+            [email]
+        );
+
+        const dupePhone = await client.query(
+            `SELECT id FROM users
+            WHERE phone = $1`,
+            [phone]
+        );
+
+        if (dupeEmail.rows.length > 0 || dupePhone.rows.length > 0) {
+            throw Error("Email or phone is taken");
+        }
+
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        const result = await pool.query(
+        const result = await client.query(
             `INSERT INTO users (name, email, phone, password_hash)
             VALUES ($1, $2, $3, $4)
             RETURNING id, name, email, phone, role`,
@@ -46,7 +62,7 @@ password: string) {
     const client = await pool.connect();
 
     try {
-        const result = await pool.query(
+        const result = await client.query(
             `SELECT * FROM users WHERE email = $1`,
             [email]
         );
@@ -121,7 +137,7 @@ export async function updateUserService(userId: string, credential : Credential)
                 [credential.value, userId]
             );
             if (dupeEmail.rows.length > 0) {
-                throw Error("Email already exists");
+                throw Error("Email already taken");
             }
             const updateEmail = await client.query(
                 `UPDATE users
@@ -133,6 +149,15 @@ export async function updateUserService(userId: string, credential : Credential)
             return updateEmail.rows[0];
         }
         else if (credential.type === 'phone') {
+             const dupePhone = await client.query(
+                `SELECT phone FROM users
+                WHERE phone = $1
+                AND id <> $2`,
+                [credential.value, userId]
+            );
+            if (dupePhone.rows.length > 0) {
+                throw Error("Email already taken");
+            }
             const updatePhone = await client.query(
                 `UPDATE users
                 SET phone = $1
