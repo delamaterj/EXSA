@@ -26,7 +26,7 @@ export default function Profile() {
             clearSession();
             navigate("/", { replace: true } );
         } catch(err) {
-            alert("Could not delete account. Please try again later");
+            alert(err instanceof Error ? err.message : "Could not delete account. Please try again later");
         }
     }
 
