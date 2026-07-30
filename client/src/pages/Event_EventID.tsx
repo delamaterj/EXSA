@@ -11,13 +11,15 @@ import {formatEventDate, getUpcomingDates} from '../utils/datetime';
 
 export default function EventID() {
 
+  const storedUser = getUser();
+
   const {eventId} = useParams();
   const [event, setEvent] = useState<Event>();
-  const [name, setName] = useState(getUser()?.name || "");
-  const [email, setEmail] = useState(getUser()?.email || "");
-  const [phone, setPhone] = useState(getUser()?.phone || "");
+  const [name, setName] = useState(storedUser?.name || "");
+  const [email, setEmail] = useState(storedUser?.email || "");
+  const [phone, setPhone] = useState(storedUser?.phone || "");
   const [selectedDates, setSelectedDates] = useState<string[]>([]);
-  const [message, setMessage] = useState("");
+  const [error, setError] = useState("");
   
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPhone(formatPhone(e.target.value));
@@ -27,25 +29,26 @@ export default function EventID() {
     setName("");
     setEmail("");
     setPhone("");
-    setSelectedDates([""]);
-    setMessage("");
+    setSelectedDates([]);
+    setError("");
   };
 
-  async function handleRsvp() {
+  async function handleRsvp(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
     try {
 
       if (selectedDates.length === 0) {
-        setMessage("Please select at least one date to RSVP for.");
+        setError("Please select at least one date to RSVP for.");
         return;
       }
 
       if (!isValidPhone(phone)) {
-        setMessage("Please enter a valid phone number.");
+        setError("Please enter a valid phone number.");
         return;
       }
 
       if (!isValidEmail(email)) {
-        setMessage("Please enter a valid email.");
+        setError("Please enter a valid email.");
         return;
       }
 
@@ -54,20 +57,20 @@ export default function EventID() {
       }
 
       const data = await createRsvp({
-        event_date_ids: selectedDates,
+        user_id: getUser()?.id,
         name: name,
         email: email,
         phone: phone,
-        user_id: getUser()?.id,
+        event_date_ids: selectedDates
       });
     
-      alert(`Rsvp ${data.id} successful!`);
+      alert(`${data.message}`);
       resetForm();
       window.location.reload();
     }
     catch(err) {
       console.error(err instanceof Error ? err.message : "Could not rsvp for event");
-      setMessage("Could not rsvp for event");
+      setError("Could not rsvp for event");
     }
   }
 
@@ -142,7 +145,7 @@ export default function EventID() {
 
                 <button type="submit">RSVP</button>
 
-                {message && <p>{message}</p>}
+                {error && <p className="error-text">{error}</p>}
                 <div className="qr-code">
                   <h3>Payments are accepted via. Venmo or Zelle. Submit your payment to fully RSVP for an event!</h3>
                   <img src="/exsa-venmo.jpeg" alt="Venmo QR Code" />

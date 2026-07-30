@@ -6,24 +6,24 @@ export async function createRSVP(req: Request, res: Response) {
     try {
 
         const {
-            eventDateIds,
+            event_date_ids,
             name,
             email,
             phone,
-            userId
+            user_id
         } = req.body;
 
 
         const results = [];
 
-        for (const eventDateId of eventDateIds) {
+        for (const eventDateId of event_date_ids) {
 
             const result = await createRSVPService(
                 eventDateId,
                 name,
                 email,
                 phone,
-                userId
+                user_id
             );
 
             results.push(result);
