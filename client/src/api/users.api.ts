@@ -4,7 +4,8 @@ LoginResponse,
 SignupRequest,
 SignupResponse,
 UpdateUserRequest,
-UpdateUserResponse} from "../types/users";
+UpdateUserResponse,
+DeleteUserResponse} from "../types/users";
 
 export async function signupUser(
     request: SignupRequest
@@ -41,6 +42,17 @@ export async function updateUser(
         {
             method: "PUT",
             body: JSON.stringify(request)
+        }
+    )
+}
+
+export async function deleteUser(): 
+Promise<DeleteUserResponse> {
+
+    return apiClient<DeleteUserResponse>(
+        "/users/delete",
+        {
+            method: "DELETE",
         }
     )
 }
