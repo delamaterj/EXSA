@@ -178,3 +178,35 @@ export async function updateUserService(userId: string, credential : Credential)
         client.release();
     }
 }
+
+export async function deleteUserService(userId: string) {
+
+    const client = await pool.connect();
+
+    try {
+
+        const userExists = await client.query(
+            `SELECT id FROM users
+            WHERE id = $1`,
+            [userId]
+        );
+
+        if (userExists.rows.length === 0) {
+            throw Error("User does not exist");
+        }
+
+        await client.query(
+            `DELETE FROM users
+            WHERE id = $1`,
+            [userId]
+        );
+        return {message: "Account has been successfully removed."}
+    }
+    catch (err) {
+        throw Error("Could not delete account. Please Try again later");
+    }
+    finally {
+        client.release();
+    }
+
+}
