@@ -4,6 +4,7 @@ import {updateUser, deleteUser} from '../api/users.api';
 import type {UpdateUserRequest, UpdateUserResponse, DeleteUserResponse} from '../types/users';
 import {formatPhone} from '../utils/phone';
 import {useNavigate} from 'react-router-dom';
+import { ApiError } from '../types/ApiError';
 
 export default function Profile() {
     
@@ -26,7 +27,11 @@ export default function Profile() {
             clearSession();
             navigate("/", { replace: true } );
         } catch(err) {
-            alert(err instanceof Error ? err.message : "Could not delete account. Please try again later");
+            if (err instanceof ApiError) {
+                alert(err.message);
+            } else {
+                alert("An unexpected error occurred.");
+            }
         }
     }
 
@@ -56,8 +61,11 @@ export default function Profile() {
             window.location.reload();
         }
         catch(err) {
-            console.error(err);
-            setError(err instanceof Error ? err.message : "Could not update credentials. Please try again later");
+            if (err instanceof ApiError) {
+                setError(err.message);
+            } else {
+                setError("An unexpected error occurred.");
+            }
         }
     }
 
