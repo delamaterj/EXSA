@@ -1,6 +1,8 @@
 import bcrypt from "bcrypt";
 import pool from "../../config/db";
 import jwt from "jsonwebtoken";
+import { AppError } from "../../errors/AppError";
+import { ErrorCode } from "../../errors/ErrorCodes";
 
 interface Credential {
     type : string,
@@ -32,7 +34,11 @@ password: string) {
         );
 
         if (dupeEmail.rows.length > 0 || dupePhone.rows.length > 0) {
-            throw Error("Email or phone is taken");
+            throw new AppError(
+                "Email or phone is already taken",
+                409,
+                ErrorCode.USER_EMAIL_OR_PHONE_EXISTS
+            )
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
@@ -48,7 +54,18 @@ password: string) {
 
     }
     catch(err) {
-        throw Error("Could not signup user. Please try again later");
+        
+        if(err instanceof AppError){
+            throw err;
+        }
+        
+        console.error(err);
+        
+        throw new AppError(
+            "Could not signup user. Please try again later",
+            500,
+            ErrorCode.USER_SIGNUP_FAILED
+        );
     }
     finally {
         client.release();
@@ -70,7 +87,11 @@ password: string) {
     const user = result.rows[0];
 
     if (!user) {
-        throw new Error("Incorrect email and/or password");
+        throw new AppError(
+                "Invalid email and/or password",
+                409,
+                ErrorCode.INVALID_EMAIL_OR_PASSWORD
+            )
     }
 
     const isMatch = await bcrypt.compare(
@@ -79,7 +100,11 @@ password: string) {
     );
 
     if (!isMatch) {
-        throw new Error("Incorrect email and/or password");
+        throw new AppError(
+                "Invalid email and/or password",
+                409,
+                ErrorCode.INVALID_EMAIL_OR_PASSWORD
+            )
     }
 
     const token = jwt.sign(
@@ -107,7 +132,18 @@ password: string) {
 
     }
     catch(err){
-        throw Error("Could not login user. Please try again later");
+        
+        if(err instanceof AppError){
+            throw err;
+        }
+        
+        console.error(err);
+        
+        throw new AppError(
+            "Could not login user. Please try again later",
+            500,
+            ErrorCode.USER_LOGIN_FAILED
+        );
     }
     finally {
         client.release();
@@ -137,7 +173,11 @@ export async function updateUserService(userId: string, credential : Credential)
                 [credential.value, userId]
             );
             if (dupeEmail.rows.length > 0) {
-                throw Error("Email already taken");
+                throw new AppError(
+                "Email is already taken",
+                409,
+                ErrorCode.USER_EMAIL_OR_PHONE_EXISTS
+            )
             }
             const updateEmail = await client.query(
                 `UPDATE users
@@ -156,7 +196,11 @@ export async function updateUserService(userId: string, credential : Credential)
                 [credential.value, userId]
             );
             if (dupePhone.rows.length > 0) {
-                throw Error("Email already taken");
+                throw new AppError(
+                "Phone is already taken",
+                409,
+                ErrorCode.USER_EMAIL_OR_PHONE_EXISTS
+            )
             }
             const updatePhone = await client.query(
                 `UPDATE users
@@ -168,11 +212,26 @@ export async function updateUserService(userId: string, credential : Credential)
             return updatePhone.rows[0];
         }
         else {
-            throw Error("Invalid credential type");
+            throw new AppError(
+                "Invalid credentials",
+                404,
+                ErrorCode.INVALID_EMAIL_OR_PASSWORD
+            )
         }
     }
     catch (err) {
-        throw Error("Could not update user credentials. Please Try again later");
+        
+        if(err instanceof AppError){
+            throw err;
+        }
+        
+        console.error(err);
+        
+        throw new AppError(
+            "Could not update user credentials. Please try again later",
+            500,
+            ErrorCode.UPDATE_USER_FAILED
+        );
     }
     finally {
         client.release();
@@ -192,7 +251,11 @@ export async function deleteUserService(userId: string) {
         );
 
         if (userExists.rows.length === 0) {
-            throw Error("User does not exist");
+            throw new AppError(
+            "User does not exist",
+            404,
+            ErrorCode.NONEXISTENT_USER
+        );
         }
 
         await client.query(
@@ -203,7 +266,18 @@ export async function deleteUserService(userId: string) {
         return {message: "Account has been successfully removed."}
     }
     catch (err) {
-        throw Error("Could not delete account. Please Try again later");
+
+        if(err instanceof AppError){
+            throw err;
+        }
+        
+        console.error(err);
+
+        throw new AppError(
+            "Could not delete account. Please try again later",
+            500,
+            ErrorCode.DELETE_USER_FAILED
+        );
     }
     finally {
         client.release();
