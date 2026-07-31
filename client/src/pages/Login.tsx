@@ -4,6 +4,7 @@ import {loginUser} from '../api/users.api';
 import {isValidEmail} from '../utils/email';
 import type {LoginRequest, LoginResponse} from '../types/users';
 import {saveToken, saveUser} from '../utils/storage';
+import {ApiError} from '../types/ApiError';
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -38,8 +39,11 @@ export default function Login() {
         window.location.reload();
 
     } catch (err) {
-      console.error(err);
-      setError(err instanceof Error ? err.message : "An error occurred while logging in. Please try again later.");
+        if (err instanceof ApiError) {
+          setError(err.message);
+        } else {
+          setError("An unexpected error occurred.");
+        }
     }
   };
 

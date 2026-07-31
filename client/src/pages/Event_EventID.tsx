@@ -8,6 +8,7 @@ import {isValidEmail} from '../utils/email';
 import {createRsvp} from '../api/rsvps.api';
 import {getUser} from '../utils/storage';
 import {formatEventDate, getUpcomingDates} from '../utils/datetime';
+import { ApiError } from '../types/ApiError';
 
 export default function EventID() {
 
@@ -69,8 +70,11 @@ export default function EventID() {
       window.location.reload();
     }
     catch(err) {
-      console.error(err instanceof Error ? err.message : "Could not rsvp for event");
-      setError("Could not rsvp for event");
+      if (err instanceof ApiError) {
+        setError(err.message);
+      } else {
+        setError("An unexpected error occurred.");
+      }
     }
   }
 

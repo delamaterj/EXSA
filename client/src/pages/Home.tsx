@@ -4,8 +4,8 @@ import Carousel from "../components/Carousel";
 import { getEvents } from "../api/events.api";
 import { groupEventsHome } from "../utils/event";
 import { hasUpcomingDates } from "../utils/datetime";
-
 import type {Event} from "../types/events";
+import { ApiError } from "../types/ApiError";
 
 export default function Home() {
     
@@ -37,7 +37,11 @@ export default function Home() {
             setPastEvents(past);
 
         } catch (err) {
-            console.error(err);
+            if (err instanceof ApiError) {
+                console.error(err.message);
+            } else {
+                console.error("An unexpected error occurred.");
+            }
         } 
     }
 

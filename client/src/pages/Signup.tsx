@@ -8,6 +8,7 @@ import {loginUser} from '../api/users.api';
 import type {LoginRequest, LoginResponse} from '../types/users';
 import {saveToken, saveUser} from '../utils/storage';
 import {useNavigate} from 'react-router-dom';
+import { ApiError } from '../types/ApiError';
 
 export default function Signup() {
   const [name, setName] = useState("");
@@ -105,8 +106,11 @@ export default function Signup() {
       resetForm();
 
     } catch (err) {
-      console.error(err);
-      setError(err instanceof Error ? err.message : "Error trying to sign up. Please try again later.");
+      if (err instanceof ApiError) {
+        setError(err.message);
+    } else {
+        setError("An unexpected error occurred.");
+    }
     }
   };
 

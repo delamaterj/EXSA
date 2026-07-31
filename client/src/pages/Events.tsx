@@ -4,6 +4,7 @@ import {createEvent} from '../api/events.api';
 import {toUTC} from '../utils/datetime';
 import {getUser} from '../utils/storage';
 import {isValidImg} from '../utils/img';
+import { ApiError } from '../types/ApiError';
 
 export default function Events() {
 
@@ -52,8 +53,11 @@ export default function Events() {
       window.location.reload();
     }
     catch (err) {
-      console.error(err instanceof Error ? err.message : err);
-      setError("Could not submit event. Please try again later");
+      if (err instanceof ApiError) {
+        setError(err.message);
+      } else {
+        setError("An unexpected error occurred.");
+      }
     }
   };
 

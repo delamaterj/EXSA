@@ -1,7 +1,7 @@
-import {Request, Response} from "express";
+import {Request, Response, NextFunction} from "express";
 import {createRSVPService} from "./rsvps.service";
 
-export async function createRSVP(req: Request, res: Response) {
+export async function createRSVP(req: Request, res: Response, next: NextFunction) {
 
     try {
 
@@ -34,6 +34,6 @@ export async function createRSVP(req: Request, res: Response) {
     }
 
     catch (err) {
-        return res.status(500).json({message: err instanceof Error ? err.message : "Failed to create RSVP"});
+        next(err);
     }
 }
