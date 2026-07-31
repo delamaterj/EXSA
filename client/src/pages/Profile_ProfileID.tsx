@@ -1,8 +1,10 @@
 import {useState} from 'react';
-import {getUser, updateCredential} from '../utils/storage';
-import {updateUser} from '../api/users.api';
-import type {UpdateUserRequest, UpdateUserResponse} from '../types/users';
+import {getUser, updateCredential, clearSession} from '../utils/storage';
+import {updateUser, deleteUser} from '../api/users.api';
+import type {UpdateUserRequest, UpdateUserResponse, DeleteUserResponse} from '../types/users';
 import {formatPhone} from '../utils/phone';
+import {useNavigate} from 'react-router-dom';
+import { ApiError } from '../types/ApiError';
 
 export default function Profile() {
     
@@ -12,10 +14,34 @@ export default function Profile() {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [phone, setPhone] = useState("");
+    const navigate = useNavigate();
 
     if (!user) {
         return;
     }
+
+    async function handleDeleteUser() {
+        try {
+            const result : DeleteUserResponse = await deleteUser();
+            alert(result.message);
+            clearSession();
+            navigate("/", { replace: true } );
+        } catch(err) {
+            if (err instanceof ApiError) {
+                alert(err.message);
+            } else {
+                alert("An unexpected error occurred.");
+            }
+        }
+    }
+
+    const deleteUserWindow = () => {
+        const isOk = window.confirm("Delete account? This action cannot be undone");
+
+        if (isOk) {
+            handleDeleteUser();
+        }
+    };
 
     const handleUpdate = async (type: string, value: string) => {
         const credential = {
@@ -35,8 +61,11 @@ export default function Profile() {
             window.location.reload();
         }
         catch(err) {
-            console.error(err);
-            setError(err instanceof Error ? err.message : "Could not update credentials. Please try again later");
+            if (err instanceof ApiError) {
+                setError(err.message);
+            } else {
+                setError("An unexpected error occurred.");
+            }
         }
     }
 
@@ -90,6 +119,9 @@ export default function Profile() {
                     </div>
                 </section>
                 {error && (<p className="error-text">{error}</p>)}
+                <button onClick={deleteUserWindow}>
+                    Delete Item
+                </button>
             </article>
         </>
     );

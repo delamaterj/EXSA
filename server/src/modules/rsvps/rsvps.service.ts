@@ -1,4 +1,6 @@
 import pool from "../../config/db";
+import { AppError } from "../../errors/AppError";
+import { ErrorCode } from "../../errors/ErrorCodes";
 
 //Creates RSVP with user information for event_date
 export async function createRSVPService(
@@ -78,7 +80,18 @@ export async function createRSVPService(
 
     } catch (err) {
         await client.query("ROLLBACK");
-        throw Error("Could not submit RSVP. Please try again later");
+        
+        if(err instanceof AppError){
+            throw err;
+        }
+                
+        console.error(err);
+                
+        throw new AppError(
+            "Could not create rsvp(s). Please try again later",
+            500,
+            ErrorCode.CREATE_RSVP_FAILED
+        );
     } finally {
         client.release();
     }

@@ -1,7 +1,10 @@
-import { Request, Response } from "express";
-import { userSignupService, loginUserService, updateUserService } from "./users.service";
+import { NextFunction, Request, Response } from "express";
+import { userSignupService, 
+loginUserService, 
+updateUserService,
+deleteUserService } from "./users.service";
 
-export async function register(req: Request, res: Response) {
+export async function register(req: Request, res: Response, next: NextFunction) {
     try {
         const user = await userSignupService(
             req.body.name,
@@ -11,21 +14,20 @@ export async function register(req: Request, res: Response) {
         );
         return res.status(201).json(user);
     } catch (err) {
-        console.log(err);
-        return res.status(500).json({message: err instanceof Error ? err.message : "Could not sign up user. Please try again later"});
+         next(err);
     }
 }
 
-export async function login(req: Request, res: Response) {
+export async function login(req: Request, res: Response, next: NextFunction) {
     try {
         const result = await loginUserService(req.body.email, req.body.password);
         return res.status(201).json(result);
     } catch (err) {
-        return res.status(500).json({message: err instanceof Error ? err.message : "Could not login user. Please try again later"});
+         next(err);
     }
 }
 
-export async function update(req: Request, res: Response) {
+export async function update(req: Request, res: Response, next: NextFunction) {
     try {
         const userId = req.user?.userId;
         if (!userId) {
@@ -34,6 +36,19 @@ export async function update(req: Request, res: Response) {
         const result = await updateUserService(userId, req.body.credential);
         return res.status(201).json(result);
     } catch (err) {
-        return res.status(500).json({message: err instanceof Error ? err.message : "Could not update credentials. Please try again later"});
+        next(err);
+    }
+}
+
+export async function deleteUser(req: Request, res: Response, next: NextFunction) {
+    try {
+        const userId = req.user?.userId;
+        if (!userId) {
+            return res.status(401).json({message: "Authentication required"});
+        }
+        const result = await deleteUserService(userId);
+        return res.status(200).json(result);
+    } catch(err) {
+        next(err);
     }
 }

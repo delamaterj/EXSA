@@ -1,29 +1,29 @@
-import {Request, Response} from "express";
+import {Request, Response, NextFunction} from "express";
 import {createRSVPService} from "./rsvps.service";
 
-export async function createRSVP(req: Request, res: Response) {
+export async function createRSVP(req: Request, res: Response, next: NextFunction) {
 
     try {
 
         const {
-            eventDateIds,
+            event_date_ids,
             name,
             email,
             phone,
-            userId
+            user_id
         } = req.body;
 
 
         const results = [];
 
-        for (const eventDateId of eventDateIds) {
+        for (const eventDateId of event_date_ids) {
 
             const result = await createRSVPService(
                 eventDateId,
                 name,
                 email,
                 phone,
-                userId
+                user_id
             );
 
             results.push(result);
@@ -34,6 +34,6 @@ export async function createRSVP(req: Request, res: Response) {
     }
 
     catch (err) {
-        return res.status(500).json({message: err instanceof Error ? err.message : "Failed to create RSVP"});
+        next(err);
     }
 }

@@ -1,0 +1,47 @@
+name: Docker Build
+
+on:
+  pull_request:
+    branches:
+      - development
+      - main
+
+  push:
+    branches:
+      - development
+      - main
+
+
+jobs:
+
+  docker-test:
+
+    name: Docker Compose Test
+
+    runs-on: ubuntu-latest
+
+
+    steps:
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+
+      - name: Build containers
+        run: docker compose -f docker-compose.yml -f docker-compose.prod.yml build
+
+
+      - name: Start containers
+        run: docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+
+
+      - name: Wait for services
+        run: sleep 10
+
+
+      - name: Test backend health
+        run: curl http://localhost:5000/health
+
+
+      - name: Stop containers
+        run: docker compose -f docker-compose.yml -f docker-compose.prod.yml down

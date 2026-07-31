@@ -1,6 +1,8 @@
 import bcrypt from "bcrypt";
 import pool from "../../config/db";
 import jwt from "jsonwebtoken";
+import { AppError } from "../../errors/AppError";
+import { ErrorCode } from "../../errors/ErrorCodes";
 
 interface Credential {
     type : string,
@@ -19,9 +21,29 @@ password: string) {
 
     try {
 
+        const dupeEmail = await client.query(
+            `SELECT id FROM users
+            WHERE email = $1`,
+            [email]
+        );
+
+        const dupePhone = await client.query(
+            `SELECT id FROM users
+            WHERE phone = $1`,
+            [phone]
+        );
+
+        if (dupeEmail.rows.length > 0 || dupePhone.rows.length > 0) {
+            throw new AppError(
+                "Email or phone is already taken",
+                409,
+                ErrorCode.USER_EMAIL_OR_PHONE_EXISTS
+            )
+        }
+
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        const result = await pool.query(
+        const result = await client.query(
             `INSERT INTO users (name, email, phone, password_hash)
             VALUES ($1, $2, $3, $4)
             RETURNING id, name, email, phone, role`,
@@ -32,7 +54,18 @@ password: string) {
 
     }
     catch(err) {
-        throw Error("Could not signup user. Please try again later");
+        
+        if(err instanceof AppError){
+            throw err;
+        }
+        
+        console.error(err);
+        
+        throw new AppError(
+            "Could not signup user. Please try again later",
+            500,
+            ErrorCode.USER_SIGNUP_FAILED
+        );
     }
     finally {
         client.release();
@@ -46,7 +79,7 @@ password: string) {
     const client = await pool.connect();
 
     try {
-        const result = await pool.query(
+        const result = await client.query(
             `SELECT * FROM users WHERE email = $1`,
             [email]
         );
@@ -54,7 +87,11 @@ password: string) {
     const user = result.rows[0];
 
     if (!user) {
-        throw new Error("Incorrect email and/or password");
+        throw new AppError(
+                "Invalid email and/or password",
+                409,
+                ErrorCode.INVALID_EMAIL_OR_PASSWORD
+            )
     }
 
     const isMatch = await bcrypt.compare(
@@ -63,7 +100,11 @@ password: string) {
     );
 
     if (!isMatch) {
-        throw new Error("Incorrect email and/or password");
+        throw new AppError(
+                "Invalid email and/or password",
+                409,
+                ErrorCode.INVALID_EMAIL_OR_PASSWORD
+            )
     }
 
     const token = jwt.sign(
@@ -91,7 +132,18 @@ password: string) {
 
     }
     catch(err){
-        throw Error("Could not login user. Please try again later");
+        
+        if(err instanceof AppError){
+            throw err;
+        }
+        
+        console.error(err);
+        
+        throw new AppError(
+            "Could not login user. Please try again later",
+            500,
+            ErrorCode.USER_LOGIN_FAILED
+        );
     }
     finally {
         client.release();
@@ -121,7 +173,11 @@ export async function updateUserService(userId: string, credential : Credential)
                 [credential.value, userId]
             );
             if (dupeEmail.rows.length > 0) {
-                throw Error("Email already exists");
+                throw new AppError(
+                "Email is already taken",
+                409,
+                ErrorCode.USER_EMAIL_OR_PHONE_EXISTS
+            )
             }
             const updateEmail = await client.query(
                 `UPDATE users
@@ -133,6 +189,19 @@ export async function updateUserService(userId: string, credential : Credential)
             return updateEmail.rows[0];
         }
         else if (credential.type === 'phone') {
+             const dupePhone = await client.query(
+                `SELECT phone FROM users
+                WHERE phone = $1
+                AND id <> $2`,
+                [credential.value, userId]
+            );
+            if (dupePhone.rows.length > 0) {
+                throw new AppError(
+                "Phone is already taken",
+                409,
+                ErrorCode.USER_EMAIL_OR_PHONE_EXISTS
+            )
+            }
             const updatePhone = await client.query(
                 `UPDATE users
                 SET phone = $1
@@ -143,13 +212,75 @@ export async function updateUserService(userId: string, credential : Credential)
             return updatePhone.rows[0];
         }
         else {
-            throw Error("Invalid credential type");
+            throw new AppError(
+                "Invalid credentials",
+                404,
+                ErrorCode.INVALID_EMAIL_OR_PASSWORD
+            )
         }
     }
     catch (err) {
-        throw Error("Could not update user credentials. Please Try again later");
+        
+        if(err instanceof AppError){
+            throw err;
+        }
+        
+        console.error(err);
+        
+        throw new AppError(
+            "Could not update user credentials. Please try again later",
+            500,
+            ErrorCode.UPDATE_USER_FAILED
+        );
     }
     finally {
         client.release();
     }
+}
+
+export async function deleteUserService(userId: string) {
+
+    const client = await pool.connect();
+
+    try {
+
+        const userExists = await client.query(
+            `SELECT id FROM users
+            WHERE id = $1`,
+            [userId]
+        );
+
+        if (userExists.rows.length === 0) {
+            throw new AppError(
+            "User does not exist",
+            404,
+            ErrorCode.NONEXISTENT_USER
+        );
+        }
+
+        await client.query(
+            `DELETE FROM users
+            WHERE id = $1`,
+            [userId]
+        );
+        return {message: "Account has been successfully removed."}
+    }
+    catch (err) {
+
+        if(err instanceof AppError){
+            throw err;
+        }
+        
+        console.error(err);
+
+        throw new AppError(
+            "Could not delete account. Please try again later",
+            500,
+            ErrorCode.DELETE_USER_FAILED
+        );
+    }
+    finally {
+        client.release();
+    }
+
 }

@@ -9,12 +9,13 @@ export interface Rsvp {
 
 export interface CreateRsvpRequest {
     user_id?: string;
-    name?: string;
-    email?: string;
-    phone?: string;
+    name: string;
+    email: string;
+    phone: string;
     event_date_ids: string[];
 }
 
 export interface CreateRsvpResponse {
-    id: string;
+    message: string;
+    rsvps: string[];
 }

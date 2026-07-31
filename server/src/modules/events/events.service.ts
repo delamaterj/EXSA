@@ -1,4 +1,6 @@
 import pool from "../../config/db";
+import { AppError } from "../../errors/AppError";
+import { ErrorCode } from "../../errors/ErrorCodes";
 
 //Create new event + event dates
 export async function createEventService(title: string,
@@ -64,9 +66,21 @@ flyer_url?: string,
     }
 
     catch (err) {
+
         await client.query("ROLLBACK");
-        throw Error("Could not create event. Please try again later");
-    }
+
+        if(err instanceof AppError){
+            throw err;
+        }
+                
+        console.error(err);
+                
+        throw new AppError(
+            "Could not signup user. Please try again later",
+            500,
+            ErrorCode.CREATE_EVENT_FAILED
+        );
+    } 
 
     finally {
         client.release();
@@ -101,7 +115,20 @@ export async function getEventInfoIdService(eventId: string) {
     return result.rows;
 
     } catch(err) {
-        throw Error("Error retrieving event info by id. Please try again later");
+        
+        await client.query("ROLLBACK");
+
+        if(err instanceof AppError){
+            throw err;
+        }
+                
+        console.error(err);
+                
+        throw new AppError(
+            "Could not get event. Please try again later",
+            500,
+            ErrorCode.GET_EVENT_FAILED
+        );
     }
     finally {
         client.release();
@@ -132,7 +159,18 @@ export async function getEventsInfoService() {
     return result.rows;
     }
     catch(err) {
-        throw Error("Error retrieving events info. Please Try again later");
+        
+        if(err instanceof AppError){
+            throw err;
+        }
+                
+        console.error(err);
+                
+        throw new AppError(
+            "Could not get events. Please try again later",
+            500,
+            ErrorCode.GET_EVENTS_FAILED
+        );
     }
     finally {
         client.release();
