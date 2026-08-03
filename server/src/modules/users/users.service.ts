@@ -3,12 +3,17 @@ import pool from "../../config/db";
 import jwt from "jsonwebtoken";
 import { AppError } from "../../errors/AppError";
 import { ErrorCode } from "../../errors/ErrorCodes";
+import {
+    validateSignupInput,
+    normalizeEmail,
+    normalizePhone,
+    validateLoginInput
+} from "../../utils/user_validation";
 
 interface Credential {
     type : string,
     value : string
 }
-
 
 //Create new user (name, email, phone, password)
 export async function userSignupService(
@@ -21,24 +26,28 @@ password: string) {
 
     try {
 
-        const dupeEmail = await client.query(
+        validateSignupInput({
+        name,
+        email,
+        phone,
+        password
+        });
+
+        const normalizedEmail = normalizeEmail(email);
+        const normalizedPhone = normalizePhone(phone);
+
+        const existingUser = await client.query(
             `SELECT id FROM users
-            WHERE email = $1`,
-            [email]
+            WHERE email = $1 OR phone = $2`,
+            [normalizedEmail, normalizedPhone]
         );
 
-        const dupePhone = await client.query(
-            `SELECT id FROM users
-            WHERE phone = $1`,
-            [phone]
-        );
-
-        if (dupeEmail.rows.length > 0 || dupePhone.rows.length > 0) {
+        if(existingUser.rows.length > 0){
             throw new AppError(
                 "Email or phone is already taken",
                 409,
                 ErrorCode.USER_EMAIL_OR_PHONE_EXISTS
-            )
+            );
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
@@ -79,9 +88,17 @@ password: string) {
     const client = await pool.connect();
 
     try {
+
+        validateLoginInput({
+        email,
+        password
+        });
+
+        const normalizedEmail = normalizeEmail(email);
+        
         const result = await client.query(
             `SELECT * FROM users WHERE email = $1`,
-            [email]
+            [normalizedEmail]
         );
 
     const user = result.rows[0];
@@ -89,7 +106,7 @@ password: string) {
     if (!user) {
         throw new AppError(
                 "Invalid email and/or password",
-                409,
+                401,
                 ErrorCode.INVALID_EMAIL_OR_PASSWORD
             )
     }
@@ -102,7 +119,7 @@ password: string) {
     if (!isMatch) {
         throw new AppError(
                 "Invalid email and/or password",
-                409,
+                401,
                 ErrorCode.INVALID_EMAIL_OR_PASSWORD
             )
     }
