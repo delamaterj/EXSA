@@ -1,8 +1,9 @@
 import crypto from "crypto";
-import client from "../../config/db";
+import { PoolClient } from "pg";
 
 export async function createEmailVerificationToken(
-    userId: string
+    userId: string,
+    client: PoolClient
 ): Promise<string> {
 
     const rawToken = crypto.randomBytes(32).toString("hex");
