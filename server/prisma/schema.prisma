@@ -29,6 +29,10 @@ model User {
 
   rsvps RSVP[]
 
+  emailVerified Boolean @default(false) @map("email_verified")
+
+  emailVerificationTokens EmailVerificationToken[]
+
   @@map("users")
 }
 
@@ -82,4 +86,16 @@ model RSVP {
   @@index([userId])
 
   @@map("rsvps")
+}
+
+model EmailVerificationTokens {
+
+  id          String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  token_hash  String @unique
+  expires_at  DateTime @db.Timestamptz(3)
+  createdAt   DateTime @default(now()) @db.Timestamptz(3)
+  user_id     String
+
+  user        User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
 }
