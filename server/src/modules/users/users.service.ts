@@ -9,6 +9,7 @@ import {
     normalizePhone,
     validateLoginInput
 } from "../../utils/user_validation";
+import { createEmailVerificationToken } from "../emailVerification/emailVerification.service";
 
 interface Credential {
     type : string,
@@ -25,6 +26,8 @@ password: string) {
     const client = await pool.connect();
 
     try {
+
+        await client.query("BEGIN");
 
         validateSignupInput({
         name,
@@ -59,10 +62,18 @@ password: string) {
             [name, email, phone, hashedPassword]
         );
 
+        const token = await createEmailVerificationToken(
+            result.rows[0].id,
+            client
+        )
+        
+        await client.query("COMMIT");
         return result.rows[0];
 
     }
     catch(err) {
+
+        await client.query("ROLLBACK");
         
         if(err instanceof AppError){
             throw err;
