@@ -10,6 +10,7 @@ import {
     validateLoginInput
 } from "../../utils/user_validation";
 import { createEmailVerificationToken } from "../emailVerification/emailVerification.service";
+import { sendVerificationEmail } from "../email/email.service";
 
 interface Credential {
     type : string,
@@ -68,6 +69,12 @@ password: string) {
         )
         
         await client.query("COMMIT");
+
+        await sendVerificationEmail(
+        email,
+        token
+        );
+
         return result.rows[0];
 
     }
