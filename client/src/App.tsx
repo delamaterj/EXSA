@@ -10,6 +10,7 @@ import About from './pages/About';
 import Profile from './pages/Profile_ProfileID';
 import ContactMD from './pages/Contact_MD';
 import Home from './pages/Home';
+import VerifyEmail from "./pages/VerifyEmail";
 
 function AnimatedRoutes() {
 
@@ -116,6 +117,10 @@ function AnimatedRoutes() {
         </main>
       </Layout>
       }
+      />
+      <Route
+      path="/verify-email"
+      element={<VerifyEmail />}
       />
     </Routes>
   );

@@ -11,7 +11,7 @@ export const passwordRules = {
 };
 
 export function isStrongPassword(password: string) {
-  Object.values(passwordRules).every(rule => rule(password));
+  return Object.values(passwordRules).every(rule => rule(password));
 }
 
 export function isValidPassword(password: string): boolean {

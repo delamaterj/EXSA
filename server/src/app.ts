@@ -5,6 +5,7 @@ import eventsRoutes from "./modules/events/events.routes";
 import rsvpsRoutes from "./modules/rsvps/rsvps.routes";
 import healthRoute from "./modules/health/health.route";
 import { errorHandler } from "./middleware/errorHandler";
+import emailVerificationRoutes from "./modules/emailVerification/emailVerification.routes";
 
 const app = express();
 
@@ -21,6 +22,8 @@ app.use( "/users",usersRoutes);
 app.use("/events", eventsRoutes);
 app.use("/rsvps", rsvpsRoutes);
 app.use("/health", healthRoute);
+app.use("/api", emailVerificationRoutes);
+
 app.use(errorHandler);
 
 app.listen(PORT, () => {

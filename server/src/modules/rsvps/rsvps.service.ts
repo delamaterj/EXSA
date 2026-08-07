@@ -1,6 +1,9 @@
 import pool from "../../config/db";
 import { AppError } from "../../errors/AppError";
 import { ErrorCode } from "../../errors/ErrorCodes";
+import { validateRSVPInput, 
+normalizeEmail, 
+normalizePhone } from "../../utils/rsvp_validation";
 
 //Creates RSVP with user information for event_date
 export async function createRSVPService(
@@ -14,7 +17,16 @@ export async function createRSVPService(
 
     try {
 
+        validateRSVPInput({
+        name,
+        email,
+        phone
+        });
+
         await client.query( "BEGIN");
+
+        const normalizedEmail = normalizeEmail(email);
+        const normalizedPhone = normalizePhone(phone);
 
         //Identify user/guest
         if (userId) {
@@ -27,7 +39,11 @@ export async function createRSVPService(
                 [userId]
             );
             if (existingUser.rowCount === 0) {
-                throw new Error("User not found");
+                throw new AppError(
+                    "Invalid user",
+                    401,
+                    ErrorCode.NONEXISTENT_USER
+                );
             }
         }
 
@@ -44,7 +60,11 @@ export async function createRSVPService(
         );
 
         if (result.rowCount === 0) {
-            throw new Error("Event date not found");
+            throw new AppError(
+                    "Event does not exist",
+                    404,
+                    ErrorCode.GET_EVENT_FAILED
+                );
         }
 
          const insert = await client.query(
@@ -66,8 +86,8 @@ export async function createRSVPService(
             [
                 userId ? userId : null,
                 name,
-                email,
-                phone,
+                normalizedEmail,
+                normalizedPhone,
                 eventDateId,
             ]
         );
