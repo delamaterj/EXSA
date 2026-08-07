@@ -1,41 +1,32 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { apiClient } from "../api/client";
 
 export default function VerifyEmail() {
     const [searchParams] = useSearchParams();
+    const token = searchParams.get("token");
+
+    const verificationStarted = useRef(false);
 
     const [status, setStatus] = useState<
         "loading" | "success" | "error"
     >("loading");
 
     const [message, setMessage] = useState("");
-    const verificationStarted = useRef(false);
 
     useEffect(() => {
-
-         if (verificationStarted.current) {
+        if (!token || verificationStarted.current) {
             return;
         }
 
         verificationStarted.current = true;
 
-        const token = searchParams.get("token");
-
-        if (!token) {
-            setStatus("error");
-            setMessage("Verification token is missing.");
-            return;
-        }
-
-        const verifiedToken = token;
-
         async function verifyEmail() {
             try {
                 await apiClient(
-                    `/api/verify-email?token=${encodeURIComponent(verifiedToken)}`,
-                    {
-                    method: "GET"
+                    `/api/verify-email?token=${encodeURIComponent(token!)}`,
+                    { 
+                        method: 'GET'
                     }
                 );
 
@@ -53,7 +44,16 @@ export default function VerifyEmail() {
         }
 
         verifyEmail();
-    }, [searchParams]);
+    }, [token]);
+
+    if (!token) {
+        return (
+            <div>
+                <h1>Verification Failed</h1>
+                <p>Verification token is missing.</p>
+            </div>
+        );
+    }
 
     if (status === "loading") {
         return (
