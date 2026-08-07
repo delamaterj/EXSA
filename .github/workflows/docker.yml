@@ -34,14 +34,28 @@ jobs:
       - name: Start containers
         run: docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
 
+      - name: Check container status
+        run: docker compose -f docker-compose.yml -f docker-compose.prod.yml ps
 
-      - name: Wait for services
-        run: sleep 10
+      - name: Check backend logs
+        run: docker compose -f docker-compose.yml -f docker-compose.prod.yml logs backend
 
 
       - name: Test backend health
-        run: curl http://localhost:5000/health
+        run: |
+          for i in {1..30}; do
+            if curl --fail http://localhost:5000/health; then
+              exit 0
+            fi
+
+            echo "Backend not ready, retrying..."
+            sleep 2
+          done
+
+          echo "Backend failed to become healthy"
+          exit 1
 
 
       - name: Stop containers
+        if: always()
         run: docker compose -f docker-compose.yml -f docker-compose.prod.yml down
