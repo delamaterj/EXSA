@@ -6,6 +6,7 @@ import rsvpsRoutes from "./modules/rsvps/rsvps.routes";
 import healthRoute from "./modules/health/health.route";
 import { errorHandler } from "./middleware/errorHandler";
 import emailVerificationRoutes from "./modules/emailVerification/emailVerification.routes";
+import { initializeVerificationTokenCleanup } from "./jobs/cleanupVerificationTokens";
 
 const app = express();
 
@@ -25,6 +26,8 @@ app.use("/health", healthRoute);
 app.use("/api", emailVerificationRoutes);
 
 app.use(errorHandler);
+
+initializeVerificationTokenCleanup();
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
