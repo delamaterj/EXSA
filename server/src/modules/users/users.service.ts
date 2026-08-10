@@ -66,7 +66,7 @@ password: string) {
         const token = await createEmailVerificationToken(
             result.rows[0].id,
             client
-        )
+        );
         
         await client.query("COMMIT");
 
@@ -75,7 +75,10 @@ password: string) {
         token
         );
 
-        return result.rows[0];
+        return {
+            message: "Please verify your email before logging in",
+            data: result.rows[0]
+        }
 
     }
     catch(err) {
