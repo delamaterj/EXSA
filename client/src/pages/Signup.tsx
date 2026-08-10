@@ -4,9 +4,6 @@ import {isValidEmail} from '../utils/email';
 import {signupUser} from '../api/users.api';
 import type {SignupRequest, SignupResponse} from '../types/users';
 import {isValidPassword, passwordRules} from '../utils/password';
-import {loginUser} from '../api/users.api';
-import type {LoginRequest, LoginResponse} from '../types/users';
-import {saveToken, saveUser} from '../utils/storage';
 import {useNavigate} from 'react-router-dom';
 import { ApiError } from '../types/ApiError';
 
@@ -90,20 +87,9 @@ export default function Signup() {
     try {
 
       const data : SignupResponse = await signupUser(request);
-      alert("Signup successful!");
-      console.log(`signup ${data.id} successful`);
-
-      const logReq : LoginRequest = {
-        email,
-        password
-      }
-      const autoLogin : LoginResponse = await loginUser(logReq)
-      saveToken(autoLogin.token);
-      saveUser(autoLogin.user);
+      alert(data.message);
       resetForm();
-      navigate("/", { replace: true } );
-
-      resetForm();
+      navigate("/login", { replace: true } );
 
     } catch (err) {
       if (err instanceof ApiError) {

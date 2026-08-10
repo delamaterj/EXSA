@@ -24,6 +24,7 @@ export interface LoginResponse {
 }
 
 export interface SignupResponse {
+    message: string;
     id: string;
     name: string;
     email: string;

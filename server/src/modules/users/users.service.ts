@@ -66,7 +66,7 @@ password: string) {
         const token = await createEmailVerificationToken(
             result.rows[0].id,
             client
-        )
+        );
         
         await client.query("COMMIT");
 
@@ -75,7 +75,10 @@ password: string) {
         token
         );
 
-        return result.rows[0];
+        return {
+            message: "Please verify your email before logging in",
+            data: result.rows[0]
+        }
 
     }
     catch(err) {
@@ -139,6 +142,21 @@ password: string) {
                 "Invalid email and/or password",
                 401,
                 ErrorCode.INVALID_EMAIL_OR_PASSWORD
+            )
+    }
+
+    const isVerified = await client.query(
+        `SELECT email_verified
+        FROM users
+        WHERE email = $1`,
+        [email]
+    );
+    
+    if (!isVerified.rows[0].email_verified) {
+        throw new AppError(
+                "Please verify your email before logging in",
+                403,
+                ErrorCode.USER_LOGIN_FAILED
             )
     }
 
