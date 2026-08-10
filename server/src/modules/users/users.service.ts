@@ -142,6 +142,21 @@ password: string) {
             )
     }
 
+    const isVerified = await client.query(
+        `SELECT email_verified
+        FROM users
+        WHERE email = $1`,
+        [email]
+    );
+
+    if (!isVerified.rows[0]) {
+        throw new AppError(
+                "Please verify your email before logging in",
+                403,
+                ErrorCode.USER_LOGIN_FAILED
+            )
+    }
+
     const token = jwt.sign(
         {
             userId: user.id,
