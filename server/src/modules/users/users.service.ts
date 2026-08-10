@@ -151,8 +151,8 @@ password: string) {
         WHERE email = $1`,
         [email]
     );
-
-    if (!isVerified.rows[0]) {
+    
+    if (!isVerified.rows[0].email_verified) {
         throw new AppError(
                 "Please verify your email before logging in",
                 403,
