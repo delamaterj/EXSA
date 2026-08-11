@@ -43,3 +43,25 @@ export const deleteUserLimiter = rateLimit({
         message: "Too many deletions. Please try again in 1 hour."
     }
 });
+
+export const createEventLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 5,
+    standardHeaders: true,
+    legacyHeaders: false,
+
+    message: {
+        message: "Too many event uploads. Please try again in 15 minutes."
+    }
+});
+
+export const createRSVPLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 20,
+    standardHeaders: true,
+    legacyHeaders: false,
+
+    message: {
+        message: "Too many rsvps. Please try again in 15 minutes."
+    }
+});
