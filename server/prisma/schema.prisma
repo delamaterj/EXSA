@@ -33,6 +33,8 @@ model User {
 
   emailVerificationTokens EmailVerificationToken[]
 
+  passwordResetTokens PasswordResetToken[]
+
   @@map("users")
 }
 
@@ -98,4 +100,16 @@ model EmailVerificationToken {
   user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("email_verification_tokens")
+}
+
+model PasswordResetToken {
+  id         String   @id @default(uuid()) @db.Uuid
+  user_id    String   @db.Uuid
+  token_hash String   @unique
+  expires_at DateTime @db.Timestamptz(6)
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+
+  user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@map("password_reset_tokens")
 }
