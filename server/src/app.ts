@@ -7,6 +7,7 @@ import healthRoute from "./modules/health/health.route";
 import { errorHandler } from "./middleware/errorHandler";
 import emailVerificationRoutes from "./modules/emailVerification/emailVerification.routes";
 import { initializeVerificationTokenCleanup } from "./jobs/cleanupVerificationTokens";
+import passwordResetRoutes from "./modules/passwordReset/passwordReset.routes";
 
 const app = express();
 
@@ -24,6 +25,7 @@ app.use("/events", eventsRoutes);
 app.use("/rsvps", rsvpsRoutes);
 app.use("/health", healthRoute);
 app.use("/api", emailVerificationRoutes);
+app.use("/api", passwordResetRoutes);
 
 app.use(errorHandler);
 
