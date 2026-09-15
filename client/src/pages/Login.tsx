@@ -70,8 +70,9 @@ export default function Login() {
 
           <button type="submit">Login</button>
         </form>
-
-        <Link to="/signup">Don't have an account? Become a Member</Link>
+        <Link to="/forgot-password">Forgot Password?</Link>
+        <br />
+        <p>Don't have an account? <Link to="/signup"> Become a Member</Link></p>
 
       </article>
     </>
