@@ -12,7 +12,7 @@ interface LayoutProps {
 export default function Layout({ children, pageTitle, heroText }: LayoutProps) {
     
     return (
-        <>
+        <div className="layout">
             <PageTitle title={pageTitle} />
 
             <Navbar />
@@ -22,11 +22,10 @@ export default function Layout({ children, pageTitle, heroText }: LayoutProps) {
                     <h1>{heroText}</h1>
                 </header>
             )}
-
-            {children} 
+            <main>{children}</main>
 
             <Footer />
             
-        </>
+        </div>
     ); 
 }
