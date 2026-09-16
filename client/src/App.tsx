@@ -122,7 +122,13 @@ function AnimatedRoutes() {
       />
       <Route
       path="/verify-email"
-      element={<VerifyEmail />}
+      element={
+      <Layout pageTitle ="Email Verification" heroText="Email Verification">
+        <main>
+          <VerifyEmail />
+        </main>
+      </Layout>
+      }
       />
       <Route 
       path="/forgot-password" 
