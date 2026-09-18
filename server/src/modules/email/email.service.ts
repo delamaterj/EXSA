@@ -44,3 +44,42 @@ export async function sendVerificationEmail(
 
     return data;
 }
+
+export async function sendPasswordResetEmail(
+    email: string,
+    rawToken: string
+): Promise<void> {
+    const resetUrl = `${process.env.FRONTEND_URL}/reset-password?token=${encodeURIComponent(rawToken)}`;
+
+    const { error } = await resend.emails.send({
+        from: "onboarding@resend.dev",
+        to: email,
+        subject: "Reset your EXSA850 password",
+        html: `
+            <h2>Password Reset Request</h2>
+
+            <p>We received a request to reset your EXSA850 password.</p>
+
+            <p>
+                Click the link below to reset your password:
+            </p>
+
+            <p>
+                <a href="${resetUrl}">
+                    Reset Password
+                </a>
+            </p>
+
+            <p>This link will expire in 30 minutes.</p>
+
+            <p>
+                If you did not request a password reset, you can safely ignore
+                this email.
+            </p>
+        `,
+    });
+
+    if (error) {
+        throw new Error(`Failed to send password reset email: ${error.message}`);
+    }
+}

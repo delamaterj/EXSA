@@ -11,6 +11,8 @@ import Profile from './pages/Profile_ProfileID';
 import ContactMD from './pages/Contact_MD';
 import Home from './pages/Home';
 import VerifyEmail from "./pages/VerifyEmail";
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
 
 function AnimatedRoutes() {
 
@@ -120,7 +122,33 @@ function AnimatedRoutes() {
       />
       <Route
       path="/verify-email"
-      element={<VerifyEmail />}
+      element={
+      <Layout pageTitle ="Email Verification" heroText="Email Verification">
+        <main>
+          <VerifyEmail />
+        </main>
+      </Layout>
+      }
+      />
+      <Route 
+      path="/forgot-password" 
+      element={
+        <Layout pageTitle ="Forgot Password" heroText="Forgot Password">
+          <main>
+            <ForgotPassword />
+          </main>
+        </Layout>
+      } 
+      />
+      <Route
+      path="/reset-password"
+      element={
+        <Layout pageTitle ="Reset Password" heroText="Reset Password">
+          <main>
+            <ResetPassword />
+          </main>
+        </Layout>
+    }
       />
     </Routes>
   );
