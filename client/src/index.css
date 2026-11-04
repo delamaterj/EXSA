@@ -259,8 +259,7 @@ footer {
 
 .member-image img {
   width: 250px;
-  height: 250px;
-  object-fit: cover;
+  height: 300px;
   border-radius: 8px;
 }
 
@@ -780,6 +779,7 @@ footer {
     width: 70%;
     max-width: 220px;
     height: auto;
+    object-fit: contain;
   }
   .member-info {
     width: 100%;
